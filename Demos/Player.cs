@@ -3,17 +3,27 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
+
+    Animator animator;
+
     //travel 2.5 grid squares per second
     float speed = 2.5f;
+    // character animations states
+    const int STATE_IDLE = 0;
+    const int STATE_WALK = 1;
+    const int STATE_2PUNCH = 2;
+
+    int currentAnimationState = STATE_IDLE;
 
     // Use this for initialization
     void Start()
     {
-
+        // define animator attached to character
+        animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
     }
@@ -23,15 +33,56 @@ public class Player : MonoBehaviour
     void Move()
     {
         if (Input.GetKey("up"))
+        {
+            changeState(STATE_WALK);
             transform.Translate(0, speed * Time.deltaTime, 0);
-        if (Input.GetKey("down"))
+        }
+        else if (Input.GetKey("down"))
+        {
+            changeState(STATE_WALK);
             transform.Translate(0, -speed * Time.deltaTime, 0);
-        if (Input.GetKey("left"))
+        }
+        else if (Input.GetKey("left"))
+        {
+            changeState(STATE_WALK);
             transform.Translate(-speed * Time.deltaTime, 0, 0);
-        if (Input.GetKey("right"))
+        }
+        else if (Input.GetKey("right"))
+        {
+            changeState(STATE_WALK);
             transform.Translate(speed * Time.deltaTime, 0, 0);
+        }
+        else if (Input.GetKey("space"))
+        {
+            changeState(STATE_2PUNCH);
+        }
+        else
+        {
+            changeState(STATE_IDLE);
+        }
     }
- 
+
+    void changeState(int state)
+    {
+        if (currentAnimationState == state)
+            return;
+        if (state == STATE_IDLE)
+        {
+            animator.SetInteger("state", STATE_IDLE);
+        }
+        else if (state == STATE_WALK)
+        {
+            animator.SetInteger("state", STATE_WALK);
+        }
+        else if (state == STATE_2PUNCH)
+        {
+            animator.SetInteger("state", STATE_2PUNCH);
+        }
+
+
+        currentAnimationState = state;
+    }
+
     //Moves both player and main camera into adjacent room
     void ShiftRoom(string dir)
     {
