@@ -29,32 +29,38 @@ public class Player : MonoBehaviour
     }
 
     //Player movement, taken currently from arrow keys
-    //May change to wsad later
     void Move()
     {
-        if (Input.GetKey("up"))
+        if (Input.GetKey("w"))
         {
             changeState(STATE_WALK);
             transform.Translate(0, speed * Time.deltaTime, 0);
         }
-        else if (Input.GetKey("down"))
+        else if (Input.GetKey("s"))
         {
             changeState(STATE_WALK);
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
-        else if (Input.GetKey("left"))
+        else if (Input.GetKey("a"))
         {
             changeState(STATE_WALK);
             transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
-        else if (Input.GetKey("right"))
+        else if (Input.GetKey("d"))
         {
             changeState(STATE_WALK);
             transform.Translate(speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("space"))
         {
+            // player will punch
+            // if a weapon is equipped, player will attack with that weapon
             changeState(STATE_2PUNCH);
+        }
+        else if (Input.GetKey("e"))
+        {
+            // player will use currently equipped item
+            useItem();
         }
         else
         {
@@ -81,6 +87,11 @@ public class Player : MonoBehaviour
 
 
         currentAnimationState = state;
+    }
+
+    void useItem()
+    {
+
     }
 
     //Moves both player and main camera into adjacent room

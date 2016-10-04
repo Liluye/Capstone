@@ -9,11 +9,16 @@ public class Player : MonoBehaviour
     //travel 2.5 grid squares per second
     float speed = 2.5f;
     // character animations states
+    // note: states added within unity and tied to animation
     const int STATE_IDLE = 0;
     const int STATE_WALK = 1;
     const int STATE_2PUNCH = 2;
-
+    // character starts out in idle state
     int currentAnimationState = STATE_IDLE;
+    // weapon and item could be two seperate objects
+    // 0 = no item or weapon equipped
+    int currentItem = 0;
+    int currentWeapon = 0;
 
     // Use this for initialization
     void Start()
@@ -23,38 +28,45 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
+    // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
     void FixedUpdate()
     {
         Move();
     }
 
     //Player movement, taken currently from arrow keys
-    //May change to wsad later
     void Move()
     {
-        if (Input.GetKey("up"))
+        if (Input.GetKey("w"))
         {
             changeState(STATE_WALK);
             transform.Translate(0, speed * Time.deltaTime, 0);
         }
-        else if (Input.GetKey("down"))
+        else if (Input.GetKey("s"))
         {
             changeState(STATE_WALK);
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
-        else if (Input.GetKey("left"))
+        else if (Input.GetKey("a"))
         {
             changeState(STATE_WALK);
             transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
-        else if (Input.GetKey("right"))
+        else if (Input.GetKey("d"))
         {
             changeState(STATE_WALK);
             transform.Translate(speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("space"))
         {
+            // player will punch
+            // if a weapon is equipped, player will attack with that weapon
             changeState(STATE_2PUNCH);
+        }
+        else if (Input.GetKey("e"))
+        {
+            // player will use currently equipped item
+            useItem(currentItem);
         }
         else
         {
@@ -64,9 +76,10 @@ public class Player : MonoBehaviour
 
     void changeState(int state)
     {
+        // note: Has Exit Time must not be checked or animation will not loop
         if (currentAnimationState == state)
             return;
-        if(state == STATE_IDLE)
+        if (state == STATE_IDLE)
         {
             animator.SetInteger("state", STATE_IDLE);
         }
@@ -79,10 +92,14 @@ public class Player : MonoBehaviour
             animator.SetInteger("state", STATE_2PUNCH);
         }
 
-
         currentAnimationState = state;
     }
- 
+
+    void useItem(int item)
+    {
+
+    }
+
     //Moves both player and main camera into adjacent room
     void ShiftRoom(string dir)
     {
@@ -111,6 +128,8 @@ public class Player : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D coll)
     {
+        // note: freeze Z rotation must be checked within Unity
+
         if (coll.gameObject.tag == "northDoor")
             ShiftRoom("north");
         if (coll.gameObject.tag == "eastDoor")
