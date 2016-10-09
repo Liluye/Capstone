@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
             } else if (currentAnimationState == STATE_WALKR)
             {
                 changeState(STATE_IDLER);
-            } else 
+            } else if (currentAnimationState == STATE_WALKL)
             {
                 changeState(STATE_IDLEL);
             }
