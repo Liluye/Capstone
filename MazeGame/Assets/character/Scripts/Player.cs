@@ -10,11 +10,17 @@ public class Player : MonoBehaviour
     float speed = 2.5f;
     // character animations states
     // note: states added within unity and tied to animation
-    const int STATE_IDLE = 0;
-    const int STATE_WALK = 1;
-    const int STATE_2PUNCH = 2;
+    const int STATE_IDLED = 0;
+    const int STATE_IDLEU = 1;
+    const int STATE_IDLER = 2;
+    const int STATE_IDLEL = 3;
+    const int STATE_WALKD = 4;
+    const int STATE_WALKU = 5;
+    const int STATE_WALKR = 6;
+    const int STATE_WALKL = 7;
+
     // character starts out in idle state
-    int currentAnimationState = STATE_IDLE;
+    int currentAnimationState = STATE_IDLED;
     // weapon and item could be two seperate objects
     // 0 = no item or weapon equipped
     int currentItem = 0;
@@ -39,29 +45,29 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey("w"))
         {
-            changeState(STATE_WALK);
+            changeState(STATE_WALKU);
             transform.Translate(0, speed * Time.deltaTime, 0);
         }
         else if (Input.GetKey("s"))
         {
-            changeState(STATE_WALK);
+            changeState(STATE_WALKD);
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
         else if (Input.GetKey("a"))
         {
-            changeState(STATE_WALK);
+            changeState(STATE_WALKL);
             transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("d"))
         {
-            changeState(STATE_WALK);
+            changeState(STATE_WALKR);
             transform.Translate(speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("space"))
         {
             // player will punch
             // if a weapon is equipped, player will attack with that weapon
-            changeState(STATE_2PUNCH);
+
         }
         else if (Input.GetKey("e"))
         {
@@ -70,7 +76,19 @@ public class Player : MonoBehaviour
         }
         else
         {
-            changeState(STATE_IDLE);
+            if(currentAnimationState == STATE_WALKD)
+            {
+                changeState(STATE_IDLED);
+            } else if (currentAnimationState == STATE_WALKU)
+            {
+                changeState(STATE_IDLEU);
+            } else if (currentAnimationState == STATE_WALKR)
+            {
+                changeState(STATE_IDLER);
+            } else 
+            {
+                changeState(STATE_IDLEL);
+            }
         }
     }
 
@@ -79,19 +97,34 @@ public class Player : MonoBehaviour
         // note: Has Exit Time must not be checked or animation will not loop
         if (currentAnimationState == state)
             return;
-        if (state == STATE_IDLE)
-        {
-            animator.SetInteger("state", STATE_IDLE);
-        }
-        else if (state == STATE_WALK)
-        {
-            animator.SetInteger("state", STATE_WALK);
-        }
-        else if (state == STATE_2PUNCH)
-        {
-            animator.SetInteger("state", STATE_2PUNCH);
-        }
 
+        switch (state)
+        {
+            case STATE_IDLED:
+                animator.SetInteger("state", STATE_IDLED);
+                break;
+            case STATE_IDLEU:
+                animator.SetInteger("state", STATE_IDLEU);
+                break;
+            case STATE_IDLER:
+                animator.SetInteger("state", STATE_IDLER);
+                break;
+            case STATE_IDLEL:
+                animator.SetInteger("state", STATE_IDLEL);
+                break;
+            case STATE_WALKD:
+                animator.SetInteger("state", STATE_WALKD);
+                break;
+            case STATE_WALKU:
+                animator.SetInteger("state", STATE_WALKU);
+                break;
+            case STATE_WALKR:
+                animator.SetInteger("state", STATE_WALKR);
+                break;
+            case STATE_WALKL:
+                animator.SetInteger("state", STATE_WALKL);
+                break;
+        }
         currentAnimationState = state;
     }
 
