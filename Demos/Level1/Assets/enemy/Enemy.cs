@@ -39,8 +39,8 @@ public class Enemy : MonoBehaviour
     void Move()
     {
        
-        changeState(STATE_WALKR);
-        transform.Translate(speed * Time.deltaTime, 0, 0);
+       // changeState(STATE_WALKR);
+        //transform.Translate(speed * Time.deltaTime, 0, 0);
        
     }
 
