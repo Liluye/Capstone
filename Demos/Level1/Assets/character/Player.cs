@@ -6,9 +6,12 @@ public class Player : MonoBehaviour
 
     Animator animator;
 
-    //travel 2.5 grid squares per second
+    // travel 2.5 grid squares per second
     float speed = 2.5f;
 
+	// start position
+	private Vector2 init;	
+	
     // character animations states
     // note: states added within unity and tied to animation
     const int STATE_IDLED = 0;
@@ -30,8 +33,13 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        // define animator attached to character
+        
+		// game start position for reset
+		init = transform.position;
+		
+		// define animator attached to character
         animator = this.GetComponent<Animator>();
+		
     }
 
     // Update is called once per frame
@@ -75,7 +83,12 @@ public class Player : MonoBehaviour
             // player will use currently equipped item
             useItem(currentItem);
         }
-        else
+        else if (Input.GetKey("r"))
+		{
+			// return player to start position in room
+			Reset();
+		}
+		else
         {
             if(currentAnimationState == STATE_WALKD)
             {
@@ -134,7 +147,8 @@ public class Player : MonoBehaviour
 
     }
 
-    //Moves both player and main camera into adjacent room
+    // Moves both player and main camera into adjacent room
+	// Sets new reset position
     void ShiftRoom(string dir)
     {
         if (dir.Equals("north"))
@@ -157,8 +171,13 @@ public class Player : MonoBehaviour
             this.transform.Translate(0, -2, 0);
             Camera.main.transform.Translate(0, -8, 0);
         }
-
+		init = this.transform.position;
     }
+	
+	void Reset() {
+		transform.position = init;
+		
+	}
 
     void OnCollisionStay2D(Collision2D coll)
     {

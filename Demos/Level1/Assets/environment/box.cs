@@ -4,6 +4,7 @@ using System.Collections;
 public class box : MonoBehaviour {
 	private int pushTime = 0;
 	private Vector2 init;
+	
 	// Use this for initialization
 	void Start () {
 		init = transform.position;
