@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     //travel 2.5 grid squares per second
     float speed = 2.5f;
+	int pushTime = 0;
     // character animations states
     // note: states added within unity and tied to animation
     const int STATE_IDLED = 0;
@@ -162,7 +163,25 @@ public class Player : MonoBehaviour
     void OnCollisionStay2D(Collision2D coll)
     {
         // note: freeze Z rotation must be checked within Unity
-
+		if (coll.gameObject.tag == "box") {
+			if (pushTime > 30) {
+				if (currentAnimationState == STATE_WALKU) {
+					coll.gameObject.transform.Translate(0, speed * Time.deltaTime, 0);
+				}
+				if (currentAnimationState == STATE_WALKR) {
+					coll.gameObject.transform.Translate(speed * Time.deltaTime, 0, 0);
+				}
+				if (currentAnimationState == STATE_WALKL) {
+					coll.gameObject.transform.Translate(-speed * Time.deltaTime, 0, 0);
+				}
+				if (currentAnimationState == STATE_WALKD) {
+					coll.gameObject.transform.Translate(0, -speed * Time.deltaTime, 0);
+				}
+			} 
+			else {
+				pushTime++;
+			}
+		}
         if (coll.gameObject.tag == "northDoor")
             ShiftRoom("north");
         if (coll.gameObject.tag == "eastDoor")
@@ -172,4 +191,9 @@ public class Player : MonoBehaviour
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
     }
+	
+	void OnCollisionExit2D() 
+	{
+		pushTime = 0;
+	}
 }
