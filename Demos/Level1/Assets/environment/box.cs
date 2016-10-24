@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class box : MonoBehaviour {
-	private int pushLength;
+	private int pushTime;
 	float speed = 2.5f;
 	// Use this for initialization
 	void Start () {
@@ -17,25 +17,20 @@ public class box : MonoBehaviour {
 	void OnCollisionStay2D(Collision2D coll)
 	{
 		// note: freeze Z rotation must be checked within Unity
-		if (pushLength > 30) {
-			if (coll.gameObject.tag == "Player") {
-				if (Input.GetKey ("w")) {
-					transform.Translate (0, speed * Time.deltaTime, 0);
-				} else if (Input.GetKey ("s")) {
-					transform.Translate (0, -speed * Time.deltaTime, 0);
-				} else if (Input.GetKey ("a")) {
-					transform.Translate (-speed * Time.deltaTime, 0, 0);
-				} else if (Input.GetKey ("d")) {
-					transform.Translate (speed * Time.deltaTime, 0, 0);
-				}
+		if (coll.gameObject.tag == "Player") {
+			if (pushTime > 30) {
+				GetComponent<Rigidbody2D>().isKinematic = false;
+			} 
+			else {
+				pushTime++;
 			}
-		} else
-			pushLength++;	
+		}
 			
 	}
 
 	void OnCollisionExit2D() 
 	{
-		pushLength = 0;
+		GetComponent<Rigidbody2D>().isKinematic = true;
+		pushTime = 0;
 	}
 }
