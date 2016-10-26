@@ -38,10 +38,35 @@ public class Enemy : MonoBehaviour
 
     void Move()
     {
-       
-       // changeState(STATE_WALKR);
-        //transform.Translate(speed * Time.deltaTime, 0, 0);
-       
+
+        if (Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
+        {
+            System.Random rnd = new System.Random();
+            int randomMove = rnd.Next(0, 4);
+            if(randomMove == 0)
+            {
+                changeState(STATE_WALKU);
+                transform.Translate(0, speed * Time.deltaTime, 0);
+                changeState(STATE_IDLEU);
+            } else if(randomMove == 1)
+            {
+                changeState(STATE_WALKD);
+                transform.Translate(0, -speed * Time.deltaTime, 0);
+                changeState(STATE_IDLED);
+            } else if(randomMove == 2)
+            {
+                changeState(STATE_WALKL);
+                transform.Translate(-speed * Time.deltaTime, 0, 0);
+                changeState(STATE_IDLEL);
+            } else if(randomMove == 3)
+            {
+                changeState(STATE_WALKR);
+                transform.Translate(speed * Time.deltaTime, 0, 0);
+                changeState(STATE_IDLER);
+            }
+           
+        }
+
     }
 
     void changeState(int state)
