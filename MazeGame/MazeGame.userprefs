@@ -1,12 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\inventory\Script\ItemDatabase.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\inventory\StreamingAssets\Items.json">
     <Files>
-      <File FileName="Assets\character\ReadMe.txt" Line="1" Column="1" />
-      <File FileName="Assets\levels\ReadMe.txt" Line="1" Column="1" />
-      <File FileName="Assets\character\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\DarkRift\DarkRift\Plugins\DarkRiftReceiver.cs" Line="1" Column="1" />
-      <File FileName="Assets\inventory\Script\ItemDatabase.cs" Line="13" Column="113" />
+      <File FileName="Assets\inventory\Script\ItemDatabase.cs" Line="15" Column="36" />
+      <File FileName="Assets\inventory\StreamingAssets\Items.json" Line="1" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

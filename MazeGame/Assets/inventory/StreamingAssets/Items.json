@@ -1,0 +1,14 @@
+[
+	{
+		"id": 0,
+		"title": "Healing Potion",
+		"description": "Use this to restore health",
+		"stackable": true
+	},
+	{
+		"id": 1,
+		"title": "Steel Gloves",
+		"description": "Use these to move heavy items",
+		"stackable": false
+	}
+]
