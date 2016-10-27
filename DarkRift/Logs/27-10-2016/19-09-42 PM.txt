@@ -1,0 +1,16 @@
+27/10/2016 19:09:42 PM	[Trace]	#### Server boot ####
+27/10/2016 19:09:42 PM	[Trace]	#### Server boot ####
+27/10/2016 19:09:43 PM	[Log]	Server mounted, listening on port 4296
+27/10/2016 19:09:43 PM	[Trace]	Found plugin: C:\Users\Tohru\Documents\git\Capstone\DarkRift\Plugins\ClientConnector.dll, type of ClientConnector.ClientConnector
+27/10/2016 19:09:44 PM	[Error]	Plugin C:\Users\Tohru\Documents\git\Capstone\DarkRift\Plugins\MySQLConnector.dll failed to load: 
+System.IO.FileLoadException: Could not load file or assembly 'file:///C:\Users\Tohru\Documents\git\Capstone\DarkRift\Plugins\MySQLConnector.dll' or one of its dependencies. Operation is not supported. (Exception from HRESULT: 0x80131515)
+File name: 'file:///C:\Users\Tohru\Documents\git\Capstone\DarkRift\Plugins\MySQLConnector.dll' ---> System.NotSupportedException: An attempt was made to load an assembly from a network location which would have caused the assembly to be sandboxed in previous versions of the .NET Framework. This release of the .NET Framework does not enable CAS policy by default, so this load may be dangerous. If this load is not intended to sandbox the assembly, please enable the loadFromRemoteSources switch. See http://go.microsoft.com/fwlink/?LinkId=155569 for more information.
+   at System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   at System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   at System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   at System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   at DarkRift.PluginManager.LoadPluginsFromFolder()
+
+
+27/10/2016 19:09:44 PM	[Trace]	Found a total of 1 plugins.
+27/10/2016 19:09:44 PM	[Log]	Loaded plugin: ClientConnector plugin Version: 0.1

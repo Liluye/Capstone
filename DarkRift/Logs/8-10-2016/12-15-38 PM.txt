@@ -1,6 +1,0 @@
-8/10/2016 12:15:38 PM	[Trace]	#### Server boot ####
-8/10/2016 12:15:38 PM	[Trace]	#### Server boot ####
-8/10/2016 12:15:38 PM	[Log]	Server mounted, listening on port 4296
-8/10/2016 12:15:38 PM	[Trace]	Found plugin: C:\Users\Tohru\Desktop\DarkRift\Plugins\MySQLConnector.dll, type of MySQLConnector.Connector
-8/10/2016 12:15:38 PM	[Trace]	Found a total of 1 plugins.
-8/10/2016 12:15:38 PM	[Log]	Loaded database connector: MySQLConnector Version: 1.0
