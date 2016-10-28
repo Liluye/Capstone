@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 
     //travel 2.5 grid squares per second
     float speed = 2.5f;
+
     // character animations states
     // note: states added within unity and tied to animation
     const int STATE_IDLED = 0;
@@ -26,14 +27,19 @@ public class Enemy : MonoBehaviour
     private Vector2 init;
 
     private GameObject play;
+    private Transform target;
+    private Animation playerAnim;
 
     // Use this for initialization
     void Start()
     {
         // define animator attached to character
         animator = this.GetComponent<Animator>();
+
         // define the player
         play = GameObject.FindGameObjectWithTag("Player");
+        target = play.transform;
+
         // game start position for reset
         init = transform.position;
     }
@@ -42,32 +48,47 @@ public class Enemy : MonoBehaviour
     // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
     void FixedUpdate()
     {
-        Move();
+        Vector2 p = target.position;
+        // check if the player is in the room
+        // currently fixed points for the specific enemy
+        // need to find a way to get the enemy to stop moving
+        // when the player is no longer in the same room
+        if (p.y > 4 || p.y < -4)
+        {
+            Reset();
+        }
+        else
+        {
+            Move();
+        }
     }
 
     void Move()
     {
+        // initial position of the enemy
+        Vector2 initPos = transform.position;
+        // move the enemy toward the player
+        transform.position += (target.position - transform.position).normalized * speed/3 * Time.deltaTime;
+        // new position of the enemy
+        Vector2 newPos = transform.position;
 
-        if (Input.GetKey("w"))
+        // turn in the correct general direction of the enemy movement
+        if (initPos.y < newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
         {
             changeState(STATE_WALKU);
-            transform.Translate(0, speed * Time.deltaTime, 0);
 
         }
-        else if (Input.GetKey("s"))
+        else if (initPos.y > newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
         {
             changeState(STATE_WALKD);
-            transform.Translate(0, -speed * Time.deltaTime, 0);
         }
-        else if (Input.GetKey("a"))
+        else if (initPos.x > newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
         {
             changeState(STATE_WALKL);
-            transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
-        else if (Input.GetKey("d"))
+        else if (initPos.x < newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
         {
             changeState(STATE_WALKR);
-            transform.Translate(speed * Time.deltaTime, 0, 0);
         }
         else
         {
@@ -129,18 +150,15 @@ public class Enemy : MonoBehaviour
     void Reset()
     {
         transform.position = init;
-
     }
 
     void OnCollisionStay2D(Collision2D coll)
     {
         // if the enemy tries to leave the room, reset their position
-        // if the enemy and player collide, reset position
         if (coll.gameObject.tag == "northDoor" ||
             coll.gameObject.tag == "southDoor" ||
             coll.gameObject.tag == "westDoor" ||
-            coll.gameObject.tag == "eastDoor" ||
-            coll.gameObject.tag == "Player")
+            coll.gameObject.tag == "eastDoor")
         {
             Reset();
         } 
