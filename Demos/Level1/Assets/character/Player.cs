@@ -11,9 +11,14 @@ public class Player : MonoBehaviour
 
 	// start position
 	private Vector2 init;
+	
+	// camera start
+	private Vector3 camInit;
 
 	// border position
 	private GameObject[] borders;
+	private Vector2 leftInit;
+	private Vector2 rightInit;
 	
     // character animations states
     // note: states added within unity and tied to animation
@@ -39,12 +44,15 @@ public class Player : MonoBehaviour
         
 		// game start position for reset
 		init = transform.position;
+		camInit = Camera.main.transform.position;
 		
 		// define animator attached to character
         animator = this.GetComponent<Animator>();
 		
 		// get borders so they can be moved
 		borders = GameObject.FindGameObjectsWithTag("border");
+		leftInit = borders[0].transform.position;
+		rightInit = borders[1].transform.position;
     }
 
     // Update is called once per frame
@@ -185,12 +193,14 @@ public class Player : MonoBehaviour
 			borders[0].transform.Translate(0, -8, 0);
 			borders[1].transform.Translate(0, -8, 0);
         }
-		init = this.transform.position;
+		//init = this.transform.position;
     }
 	
 	void Reset() {
 		transform.position = init;
-		
+		Camera.main.transform.position = camInit;
+		borders[0].transform.position = leftInit;
+		borders[1].transform.position = rightInit;
 	}
 
     void OnCollisionStay2D(Collision2D coll)
