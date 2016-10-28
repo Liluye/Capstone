@@ -22,11 +22,20 @@ public class Enemy : MonoBehaviour
     // character starts out in idle state
     int currentAnimationState = STATE_IDLED;
 
+    // start position
+    private Vector2 init;
+
+    private GameObject play;
+
     // Use this for initialization
     void Start()
     {
         // define animator attached to character
         animator = this.GetComponent<Animator>();
+        // define the player
+        play = GameObject.FindGameObjectWithTag("Player");
+        // game start position for reset
+        init = transform.position;
     }
 
     // Update is called once per frame
@@ -39,34 +48,46 @@ public class Enemy : MonoBehaviour
     void Move()
     {
 
-        if (Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
+        if (Input.GetKey("w"))
         {
-            System.Random rnd = new System.Random();
-            int randomMove = rnd.Next(0, 4);
-            if(randomMove == 0)
+            changeState(STATE_WALKU);
+            transform.Translate(0, speed * Time.deltaTime, 0);
+
+        }
+        else if (Input.GetKey("s"))
+        {
+            changeState(STATE_WALKD);
+            transform.Translate(0, -speed * Time.deltaTime, 0);
+        }
+        else if (Input.GetKey("a"))
+        {
+            changeState(STATE_WALKL);
+            transform.Translate(-speed * Time.deltaTime, 0, 0);
+        }
+        else if (Input.GetKey("d"))
+        {
+            changeState(STATE_WALKR);
+            transform.Translate(speed * Time.deltaTime, 0, 0);
+        }
+        else
+        {
+            if (currentAnimationState == STATE_WALKD)
             {
-                changeState(STATE_WALKU);
-                transform.Translate(0, speed * Time.deltaTime, 0);
-                changeState(STATE_IDLEU);
-            } else if(randomMove == 1)
-            {
-                changeState(STATE_WALKD);
-                transform.Translate(0, -speed * Time.deltaTime, 0);
                 changeState(STATE_IDLED);
-            } else if(randomMove == 2)
+            }
+            else if (currentAnimationState == STATE_WALKU)
             {
-                changeState(STATE_WALKL);
-                transform.Translate(-speed * Time.deltaTime, 0, 0);
-                changeState(STATE_IDLEL);
-            } else if(randomMove == 3)
+                changeState(STATE_IDLEU);
+            }
+            else if (currentAnimationState == STATE_WALKR)
             {
-                changeState(STATE_WALKR);
-                transform.Translate(speed * Time.deltaTime, 0, 0);
                 changeState(STATE_IDLER);
             }
-           
+            else if (currentAnimationState == STATE_WALKL)
+            {
+                changeState(STATE_IDLEL);
+            }
         }
-
     }
 
     void changeState(int state)
@@ -103,5 +124,25 @@ public class Enemy : MonoBehaviour
                 break;
         }
         currentAnimationState = state;
+    }
+
+    void Reset()
+    {
+        transform.position = init;
+
+    }
+
+    void OnCollisionStay2D(Collision2D coll)
+    {
+        // if the enemy tries to leave the room, reset their position
+        // if the enemy and player collide, reset position
+        if (coll.gameObject.tag == "northDoor" ||
+            coll.gameObject.tag == "southDoor" ||
+            coll.gameObject.tag == "westDoor" ||
+            coll.gameObject.tag == "eastDoor" ||
+            coll.gameObject.tag == "Player")
+        {
+            Reset();
+        } 
     }
 }
