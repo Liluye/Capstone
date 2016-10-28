@@ -204,6 +204,9 @@ public class Player : MonoBehaviour
             ShiftRoom("west");
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
+        // reset the player's position if they collide with enemy
+        if (coll.gameObject.tag == "enemy")
+            Reset();
     }
 	
 	void OnCollisionExit2D() 
