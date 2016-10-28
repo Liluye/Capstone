@@ -10,7 +10,10 @@ public class Player : MonoBehaviour
     float speed = 2.5f;
 
 	// start position
-	private Vector2 init;	
+	private Vector2 init;
+
+	// border position
+	private GameObject[] borders;
 	
     // character animations states
     // note: states added within unity and tied to animation
@@ -40,6 +43,8 @@ public class Player : MonoBehaviour
 		// define animator attached to character
         animator = this.GetComponent<Animator>();
 		
+		// get borders so they can be moved
+		borders = GameObject.FindGameObjectsWithTag("border");
     }
 
     // Update is called once per frame
@@ -56,6 +61,7 @@ public class Player : MonoBehaviour
         {
             changeState(STATE_WALKU);
             transform.Translate(0, speed * Time.deltaTime, 0);
+			
         }
         else if (Input.GetKey("s"))
         {
@@ -151,25 +157,33 @@ public class Player : MonoBehaviour
 	// Sets new reset position
     void ShiftRoom(string dir)
     {
-        if (dir.Equals("north"))
+		if (dir.Equals("north"))
         {
             this.transform.Translate(0, 2, 0);
             Camera.main.transform.Translate(0, 8, 0);
+			borders[0].transform.Translate(0, 8, 0);
+			borders[1].transform.Translate(0, 8, 0);
         }
         if (dir.Equals("east"))
         {
             transform.Translate(2, 0, 0);
             Camera.main.transform.Translate(8, 0, 0);
+			borders[0].transform.Translate(8, 0, 0);
+			borders[1].transform.Translate(8, 0, 0);	
         }
         if (dir.Equals("west"))
         {
             transform.Translate(-2, 0, 0);
             Camera.main.transform.Translate(-8, 0, 0);
+			borders[0].transform.Translate(-8, 0, 0);
+			borders[1].transform.Translate(-8, 0, 0);
         }
         if (dir.Equals("south"))
         {
             this.transform.Translate(0, -2, 0);
             Camera.main.transform.Translate(0, -8, 0);
+			borders[0].transform.Translate(0, -8, 0);
+			borders[1].transform.Translate(0, -8, 0);
         }
 		init = this.transform.position;
     }
