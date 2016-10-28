@@ -22,6 +22,12 @@ public class box : MonoBehaviour {
 		
 	}
 
+	void OnTriggerStay2D(Collider2D coll) {
+		if (this.name == "green" && coll.gameObject.tag == "box"){
+			GameObject des = GameObject.Find("disappear1");
+			Destroy(des);		
+		}
+	}
 	void OnCollisionStay2D(Collision2D coll)
 	{
 		// note: freeze Z rotation must be checked within Unity
