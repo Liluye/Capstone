@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class boomerangAction : MonoBehaviour {
-    private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Vector3 startLoc = new Vector3(0, 0, 0);
     private Vector3 destinationLoc;
@@ -10,14 +9,15 @@ public class boomerangAction : MonoBehaviour {
     public float framesPerSecond;
     public float speed;
     private bool returning = false;
+    private float initializedAt;
 
     // Use this for initialization
     void Start()
     {
-        animator = this.GetComponent<Animator>();
         spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
         this.startLoc = transform.position;
         setInitialDestination(2);
+        initializedAt = Time.timeSinceLevelLoad;
     }
 
     void Start(Vector3 startLoc, int direction)
@@ -27,10 +27,10 @@ public class boomerangAction : MonoBehaviour {
         setInitialDestination(direction);
     }
 
-
     // Update is called once per frame
     void Update()
     {
+        float timeSinceInitialized = Time.timeSinceLevelLoad - initializedAt;
         Vector3 currentPosition = transform.position;
 
         if (Vector3.SqrMagnitude(currentPosition - destinationLoc) < 0.2)
@@ -41,14 +41,13 @@ public class boomerangAction : MonoBehaviour {
                 boomerangReturn();
         }
 
-        int nextSprite = (int)(Time.timeSinceLevelLoad * framesPerSecond);
+        int nextSprite = (int)(timeSinceInitialized * framesPerSecond);
         nextSprite %= sprites.Length;
         spriteRenderer.sprite = sprites[nextSprite];
 
         Vector3 target = destinationLoc;
 
         transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime);
-        //Debug.Log(Time.deltaTime);
     }
 
     void OnCollisionStay2D(Collision2D col)
