@@ -27,6 +27,10 @@ public class box : MonoBehaviour {
 			GameObject des = GameObject.Find("disappear1");
 			Destroy(des);		
 		}
+		if (this.name == "bSwitch" && coll.gameObject.tag == "Boomerang") {
+			GameObject des = GameObject.Find("disappear2");
+			Destroy(des);
+		}
 	}
 	void OnCollisionStay2D(Collision2D coll)
 	{
