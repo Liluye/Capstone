@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
 
     // character starts out in idle state
     int currentAnimationState = STATE_IDLED;
+    public GameObject chest;
 
     // Use this for initialization
     void Start()
@@ -109,6 +110,7 @@ public class Enemy : MonoBehaviour
     {
         if (coll.gameObject.tag == "Boomerang")
         {
+            GameObject spawnedChest = Instantiate(chest, new Vector3(-5.5f,-4.5f,0), new Quaternion()) as GameObject;
             Destroy(gameObject);
         }
     }

@@ -12,8 +12,8 @@ public class bombAction : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        //GetComponent<BoxCollider2D>().enabled = false;
         spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
-        GetComponent<BoxCollider2D>().enabled = false;
         initializedAt = Time.timeSinceLevelLoad;
     }
 
@@ -39,16 +39,10 @@ public class bombAction : MonoBehaviour {
         StartCoroutine(DestroyDelay());       
     }
 
-    void OnCollisionStay2D(Collision2D col)
-    {
-        Debug.Log("collided");
-    }
-
     IEnumerator DestroyDelay()
     {
         //A slight delay is required to allow colliders to take affect
         yield return new WaitForSeconds(0.04f);
         Destroy(gameObject);
     }
-
 }

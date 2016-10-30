@@ -61,7 +61,6 @@ public class boomerangAction : MonoBehaviour {
 
     void OnCollisionStay2D(Collision2D col)
     {
-        Debug.Log("SPOOKY SKELETON" + col.gameObject.tag);
         //Boomerang has returned to player, destroy it
         if (col.gameObject.tag == "Player")
         {

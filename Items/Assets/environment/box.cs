@@ -24,8 +24,10 @@ public class box : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D coll)
 	{
-		// note: freeze Z rotation must be checked within Unity
-		if (coll.gameObject.tag == "Player") {
+        if (coll.gameObject.tag == "Bomb")
+            Destroy(gameObject);
+        // note: freeze Z rotation must be checked within Unity
+        if (coll.gameObject.tag == "Player") {
 			if (pushTime > 30) {
 				GetComponent<Rigidbody2D>().isKinematic = false;
 			} 
@@ -35,9 +37,10 @@ public class box : MonoBehaviour {
 		}
 		if (coll.gameObject.tag == "reset")
 			Reset();
-	}
+    }
 
-	void OnCollisionExit2D(Collision2D coll) 
+
+    void OnCollisionExit2D(Collision2D coll) 
 	{
 		if (coll.gameObject.tag == "Player") {
 			GetComponent<Rigidbody2D>().isKinematic = true;
