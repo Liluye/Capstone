@@ -33,10 +33,18 @@ public class Player : MonoBehaviour
 
     // character starts out in idle state
     int currentAnimationState = STATE_IDLED;
-    // weapon and item could be two seperate objects
+    
+	// weapon and item could be two seperate objects
     // 0 = no item or weapon equipped
     int currentItem = 0;
     int currentWeapon = 0;
+	
+    //0 down, 1 left, 2 up, 3 right
+    int facingDirection = 0;
+    
+	public GameObject boomerang, bomb;
+    public GameObject itemNorth, itemWest, itemSouth, itemEast;
+    private GameObject activeWeapon;
 
     // Use this for initialization
     void Start()
@@ -61,29 +69,39 @@ public class Player : MonoBehaviour
     {
         Move();
     }
+	
+	void Update() 
+	{
+		//Communicate with boomerang object to update your position
+        UpdateBoomerang();
+	}
 
     //Player movement, taken currently from arrow keys
     void Move()
     {
         if (Input.GetKey("w"))
         {
-            changeState(STATE_WALKU);
+            facingDirection = 2;
+			changeState(STATE_WALKU);
             transform.Translate(0, speed * Time.deltaTime, 0);
 			
         }
         else if (Input.GetKey("s"))
         {
-            changeState(STATE_WALKD);
+			facingDirection = 0;
+			changeState(STATE_WALKD);
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
         else if (Input.GetKey("a"))
         {
-            changeState(STATE_WALKL);
+            facingDirection = 1;
+			changeState(STATE_WALKL);
             transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("d"))
         {
-            changeState(STATE_WALKR);
+            facingDirection = 3;
+			changeState(STATE_WALKR);
             transform.Translate(speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("space"))
@@ -96,6 +114,21 @@ public class Player : MonoBehaviour
         {
             // player will use currently equipped item
             useItem(currentItem);
+        }
+		//Hardcoded bomb drop key for now
+        else if (Input.GetKeyUp("b"))
+        {
+            // player will use currently equipped item
+            if (currentItem == 0)
+            {
+                currentItem = 1;
+                Debug.Log("Item set to bomb");
+            }
+            else if (currentItem == 1)
+            {
+                currentItem = 0;
+                Debug.Log("Item set to boomerang");
+            }
         }
         else if (Input.GetKey("r"))
 		{
@@ -158,7 +191,19 @@ public class Player : MonoBehaviour
 
     void useItem(int item)
     {
-
+        if (!activeWeapon)
+        {
+            if (item == 0)
+            {
+                //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                activeWeapon = Instantiate(boomerang, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                activeWeapon.SendMessage("InitialDirection", facingDirection);
+            }
+            if (item == 1)
+            {
+                activeWeapon = Instantiate(bomb, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+            }
+        }
     }
 
     // Moves both player and main camera into adjacent room
@@ -223,4 +268,31 @@ public class Player : MonoBehaviour
 	{
 
 	}
+	
+	private void UpdateBoomerang()
+    {
+        if (activeWeapon != null && activeWeapon.gameObject.tag == "Boomerang")
+        {
+                activeWeapon.SendMessage("UpdateLocation", transform.position);
+         
+        }
+    }
+
+    private Vector3 SpawnItemLocation(int direction)
+    {
+        switch (direction)
+        {
+            case 0:
+                return itemSouth.transform.position;
+            case 1:
+                return itemWest.transform.position;
+            case 2:
+                return itemNorth.transform.position;
+            case 3:
+                return itemEast.transform.position;
+            default:
+                //something went wrong, do nothing
+                return new Vector3(0,0,0);
+        }
+    }
 }
