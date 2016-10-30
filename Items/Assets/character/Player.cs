@@ -29,6 +29,12 @@ public class Player : MonoBehaviour
     // 0 = no item or weapon equipped
     int currentItem = 0;
     int currentWeapon = 0;
+    //0 down, 1 left, 2 up, 3 right
+    int facingDirection = 0;
+    public GameObject boomerang;
+    public GameObject itemNorth, itemWest, itemSouth, itemEast;
+    private GameObject activeWeapon;
+    
 
     // Use this for initialization
     void Start()
@@ -47,6 +53,8 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        //Communicate with boomerang object to update your position
+        UpdateBoomerang();
     }
 
     //Player movement, taken currently from arrow keys
@@ -54,21 +62,25 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey("w"))
         {
+            facingDirection = 2;
             changeState(STATE_WALKU);
             transform.Translate(0, speed * Time.deltaTime, 0);
         }
         else if (Input.GetKey("s"))
         {
+            facingDirection = 0;
             changeState(STATE_WALKD);
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
         else if (Input.GetKey("a"))
         {
+            facingDirection = 1;
             changeState(STATE_WALKL);
             transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("d"))
         {
+            facingDirection = 3;
             changeState(STATE_WALKR);
             transform.Translate(speed * Time.deltaTime, 0, 0);
         }
@@ -144,9 +156,32 @@ public class Player : MonoBehaviour
 
     void useItem(int item)
     {
-        if (item == 0)
+        if (!activeWeapon)
         {
-            //GetComponent<boomerangAction>;
+            if (item == 0)
+            {
+                //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                switch (facingDirection)
+                {
+                    case 0:
+                        activeWeapon = Instantiate(boomerang, itemSouth.transform.position, new Quaternion()) as GameObject;
+                        break;
+                    case 1:
+                        activeWeapon = Instantiate(boomerang, itemWest.transform.position, new Quaternion()) as GameObject;
+                        break;
+                    case 2:
+                        activeWeapon = Instantiate(boomerang, itemNorth.transform.position, new Quaternion()) as GameObject;
+                        break;
+                    case 3:
+                        activeWeapon = Instantiate(boomerang, itemEast.transform.position, new Quaternion()) as GameObject;
+                        break;
+                    default:
+                        //something went wrong, do nothing
+                        break;
+                }
+
+                activeWeapon.SendMessage("InitialDirection", facingDirection);
+            }
         }
     }
 
@@ -199,4 +234,13 @@ public class Player : MonoBehaviour
 	{
 
 	}
+
+    private void UpdateBoomerang()
+    {
+        if (activeWeapon != null && currentItem == 0)
+        {
+                activeWeapon.SendMessage("UpdateLocation", transform.position);
+         
+        }
+    }
 }

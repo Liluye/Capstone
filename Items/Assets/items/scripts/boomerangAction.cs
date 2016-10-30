@@ -15,16 +15,23 @@ public class boomerangAction : MonoBehaviour {
     void Start()
     {
         spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
-        this.startLoc = transform.position;
-        setInitialDestination(2);
+        startLoc = transform.position;
         initializedAt = Time.timeSinceLevelLoad;
     }
 
-    void Start(Vector3 startLoc, int direction)
+    //Function that allows the player object to set an initial direction
+    public void InitialDirection(int dir)
     {
-        this.Start();
-        this.startLoc = startLoc;
-        setInitialDestination(direction);
+        setInitialDestination(dir);
+    }
+
+    //unction that allows the player object to set a return location
+    public void UpdateLocation(Vector3 loc)
+    {
+        if (returning)
+        {
+            destinationLoc = loc;
+        }
     }
 
     // Update is called once per frame
@@ -33,46 +40,55 @@ public class boomerangAction : MonoBehaviour {
         float timeSinceInitialized = Time.timeSinceLevelLoad - initializedAt;
         Vector3 currentPosition = transform.position;
 
+        //When boomerang reaches its destination
         if (Vector3.SqrMagnitude(currentPosition - destinationLoc) < 0.2)
         {
+            //If object hits its return location destroy it
             if (returning)
                 Destroy(gameObject);
             else
+                //Have it to return to player
                 boomerangReturn();
         }
 
+        //Update sprite image
         int nextSprite = (int)(timeSinceInitialized * framesPerSecond);
         nextSprite %= sprites.Length;
         spriteRenderer.sprite = sprites[nextSprite];
-
-        Vector3 target = destinationLoc;
-
-        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime);
+        //Linear interpolate between current position and destination
+        transform.position = Vector3.Lerp(transform.position, destinationLoc, Time.deltaTime);
     }
 
     void OnCollisionStay2D(Collision2D col)
     {
+        Debug.Log("SPOOKY SKELETON" + col.gameObject.tag);
+        //Boomerang has returned to player, destroy it
+        if (col.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+        }
+        //Booomerang has collided with something else, have it return to player
         boomerangReturn();
     }
 
     private void setInitialDestination(int direction)
     {
-        destinationLoc.x = startLoc.x;
-        destinationLoc.y = startLoc.y;
+        destinationLoc.x = transform.position.x;
+        destinationLoc.y = transform.position.y;
         //0 down, 1 left, 2 up, 3 right
         switch (direction)
         {
             case 0:
-                destinationLoc.y = startLoc.y - 4;
+                destinationLoc.y = transform.position.y - 4;
                 break;
             case 1:
-                destinationLoc.x = startLoc.x - 4;
+                destinationLoc.x = transform.position.x - 4;
                 break;
             case 2:
-                destinationLoc.y = startLoc.y + 4;
+                destinationLoc.y = transform.position.y + 4;
                 break;
             case 3:
-                destinationLoc.x = startLoc.x + 4;
+                destinationLoc.x = transform.position.x + 4;
                 break;
             default:
                 //something went wrong, do nothing!

@@ -104,4 +104,12 @@ public class Enemy : MonoBehaviour
         }
         currentAnimationState = state;
     }
+
+    void OnCollisionStay2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Boomerang")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
