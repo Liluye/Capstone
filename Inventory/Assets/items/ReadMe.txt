@@ -1,0 +1,1 @@
+This is where you put all scripts and assets related to items.
