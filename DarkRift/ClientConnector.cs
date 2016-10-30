@@ -45,28 +45,8 @@ namespace ClientConnector{
 			Interface.Log("Received data from " + msg.senderID.ToString ());
 			msg.DecodeData ();
 			Interface.Log ("Data: " + msg.data);
-		}
+			con.SendReply (msg.tag, msg.subject, "Hi Client, you are connected!");
 
-		void DeserialiseData(object data)
-		{
-			//Here we decode the stream, the data will arrive as a DarkRiftReader so we need to cast to it
-			//and then read the data off in EXACTLY the same order we wrote it.
-			if( data is DarkRiftReader )
-			{
-				//Cast in a using statement because we are using streams and therefore it 
-				//is important that the memory is deallocated afterwards, you wont be able
-				//to use this more than once though.
-				using(DarkRiftReader reader = (DarkRiftReader)data)
-				{
-					Interface.Log ("Item num: " + reader.ReadInt16());
-					Interface.Log ("X position: " + reader.ReadSingle());
-					Interface.Log ("Y position: " + reader.ReadSingle ());
-				}
-			}
-			else
-			{
-				Interface.Log("Should have recieved a DarkRiftReciever but didn't! (Got: " + data.GetType() + ")");
-			}
 		}
 	}
 }

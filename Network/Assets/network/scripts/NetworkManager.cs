@@ -14,18 +14,18 @@ public class NetworkManager : MonoBehaviour
 	void Start(){
 		DarkRiftAPI.Connect(IP);
 
-		DarkRiftAPI.onDataDetailed += ReceiveData;
+		DarkRiftAPI.onData += ReceiveData;
 
 		if (DarkRiftAPI.isConnected){
-			SerialiseData ("Hi Server!");
+			//SerialiseData ("Hi Server!");
+			DarkRiftAPI.SendMessageToServer(0, (ushort)clientID, "HI Server");
 		} else {
 			Debug.Log ("Failed to connect to DarkRift Server!");
 		}
 	}
-
-	//will control data with serialization
-	void ReceiveData (ushort senderID, byte tag, ushort subject, object data){
-
+		
+	void ReceiveData (byte tag, ushort subject, object data){
+		Debug.Log ("Message: " + data.ToString ());
 
 	}
 
