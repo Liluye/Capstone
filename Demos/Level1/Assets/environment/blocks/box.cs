@@ -35,13 +35,16 @@ public class box : MonoBehaviour {
 	void OnCollisionStay2D(Collision2D coll)
 	{
 		// note: freeze Z rotation must be checked within Unity
-		if (coll.gameObject.tag == "Player") {
+		if (this.tag == "box" && coll.gameObject.tag == "Player") {
 			if (pushTime > 30) {
 				GetComponent<Rigidbody2D>().isKinematic = false;
 			} 
 			else {
 				pushTime++;
 			}
+		}
+		if (this.tag == "bombWall" && coll.gameObject.tag == "Bomb") {
+			Destroy(gameObject);
 		}
 		if (coll.gameObject.tag == "reset")
 			Reset();

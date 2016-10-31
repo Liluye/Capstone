@@ -212,28 +212,28 @@ public class Player : MonoBehaviour
     {
 		if (dir.Equals("north"))
         {
-            this.transform.Translate(0, 2, 0);
+            this.transform.Translate(0, 1.75f, 0);
             Camera.main.transform.Translate(0, 8, 0);
 			borders[0].transform.Translate(0, 8, 0);
 			borders[1].transform.Translate(0, 8, 0);
         }
         if (dir.Equals("east"))
         {
-            transform.Translate(2, 0, 0);
+            transform.Translate(1.75f, 0, 0);
             Camera.main.transform.Translate(8, 0, 0);
 			borders[0].transform.Translate(8, 0, 0);
 			borders[1].transform.Translate(8, 0, 0);	
         }
         if (dir.Equals("west"))
         {
-            transform.Translate(-2, 0, 0);
+            transform.Translate(-1.75f, 0, 0);
             Camera.main.transform.Translate(-8, 0, 0);
 			borders[0].transform.Translate(-8, 0, 0);
 			borders[1].transform.Translate(-8, 0, 0);
         }
         if (dir.Equals("south"))
         {
-            this.transform.Translate(0, -2, 0);
+            this.transform.Translate(0, -1.75f, 0);
             Camera.main.transform.Translate(0, -8, 0);
 			borders[0].transform.Translate(0, -8, 0);
 			borders[1].transform.Translate(0, -8, 0);
