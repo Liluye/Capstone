@@ -31,9 +31,11 @@ public class Player : MonoBehaviour
     int currentWeapon = 0;
     //0 down, 1 left, 2 up, 3 right
     int facingDirection = 0;
-    public GameObject boomerang, bomb;
+    public GameObject boomerang, bomb, grapplingHook;
     public GameObject itemNorth, itemWest, itemSouth, itemEast;
     private GameObject activeWeapon;
+    private Vector3 grappleLoc;
+    private bool grappling;
     
 
     // Use this for initialization
@@ -54,13 +56,17 @@ public class Player : MonoBehaviour
     {
         Move();
         //Communicate with boomerang object to update your position
-        UpdateBoomerang();
+        UpdateWeapons();
     }
 
     //Player movement, taken currently from arrow keys
     void Move()
     {
-        if (Input.GetKey("w"))
+        if (grappling)
+        {
+            Grapple();
+        }
+        else if (Input.GetKey("w"))
         {
             facingDirection = 2;
             changeState(STATE_WALKU);
@@ -105,6 +111,11 @@ public class Player : MonoBehaviour
                 Debug.Log("Item set to bomb");
             }
             else if (currentItem == 1)
+            {
+                currentItem = 2;
+                Debug.Log("Item set to grappling hook");
+            }
+            else if (currentItem == 2)
             {
                 currentItem = 0;
                 Debug.Log("Item set to boomerang");
@@ -183,6 +194,13 @@ public class Player : MonoBehaviour
             {
                 activeWeapon = Instantiate(bomb, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
             }
+
+            if (item == 2)
+            {
+                //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                activeWeapon = Instantiate(grapplingHook, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                activeWeapon.SendMessage("InitialDirection", facingDirection);
+            }
         }
     }
 
@@ -215,11 +233,18 @@ public class Player : MonoBehaviour
 	
 	void Reset() {
 		transform.position = init;
-		
 	}
 
     void OnCollisionStay2D(Collision2D coll)
     {
+        if (grappling)
+        {
+            if (activeWeapon != null)
+            {
+                activeWeapon.SendMessage("BreakGrapple");
+                grappling = false;
+            }
+        }
         // note: freeze Z rotation must be checked within Unity
         if (coll.gameObject.tag == "northDoor")
             ShiftRoom("north");
@@ -236,12 +261,39 @@ public class Player : MonoBehaviour
 
 	}
 
-    private void UpdateBoomerang()
+    private void UpdateWeapons()
     {
-        if (activeWeapon != null && activeWeapon.gameObject.tag == "Boomerang")
+        if (activeWeapon != null)
         {
+            if (activeWeapon.gameObject.tag == "Boomerang")
+            {
                 activeWeapon.SendMessage("UpdateLocation", transform.position);
-         
+            }
+
+            if (activeWeapon.gameObject.tag == "GrapplingHook")
+            {
+                grapplingHookAction gha = activeWeapon.GetComponent<grapplingHookAction>();
+                if (gha.getGrapple())
+                {
+                    if (!grappling)
+                    {
+                        grappleLoc = gha.getGrappleLocation();
+                    }
+                    grappling = true;
+
+                }
+            }
+        }
+    }
+    
+    private void Grapple()
+    {
+        if (activeWeapon != null)
+            activeWeapon.SendMessage("playerLocation", transform.position);
+        transform.position = Vector2.Lerp(transform.position, grappleLoc, Time.deltaTime);
+        if (Vector3.SqrMagnitude(transform.position - grappleLoc) < 0.2)
+        {
+            grappling = false;
         }
     }
 

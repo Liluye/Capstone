@@ -22,7 +22,28 @@ public class boomerangAction : MonoBehaviour {
     //Function that allows the player object to set an initial direction
     public void InitialDirection(int dir)
     {
-        setInitialDestination(dir);
+        destinationLoc.x = transform.position.x;
+        destinationLoc.y = transform.position.y;
+        //0 down, 1 left, 2 up, 3 right
+        switch (dir)
+        {
+            case 0:
+                destinationLoc.y = transform.position.y - 4;
+                break;
+            case 1:
+                destinationLoc.x = transform.position.x - 4;
+                break;
+            case 2:
+                destinationLoc.y = transform.position.y + 4;
+                break;
+            case 3:
+                destinationLoc.x = transform.position.x + 4;
+                break;
+            default:
+                //something went wrong, do nothing!
+                break;
+        }
+    
     }
 
     //unction that allows the player object to set a return location
@@ -69,31 +90,7 @@ public class boomerangAction : MonoBehaviour {
         //Booomerang has collided with something else, have it return to player
         boomerangReturn();
     }
-
-    private void setInitialDestination(int direction)
-    {
-        destinationLoc.x = transform.position.x;
-        destinationLoc.y = transform.position.y;
-        //0 down, 1 left, 2 up, 3 right
-        switch (direction)
-        {
-            case 0:
-                destinationLoc.y = transform.position.y - 4;
-                break;
-            case 1:
-                destinationLoc.x = transform.position.x - 4;
-                break;
-            case 2:
-                destinationLoc.y = transform.position.y + 4;
-                break;
-            case 3:
-                destinationLoc.x = transform.position.x + 4;
-                break;
-            default:
-                //something went wrong, do nothing!
-                break;
-        }
-    }
+        
 
     private void boomerangReturn()
     {
