@@ -50,10 +50,9 @@ public class Enemy : MonoBehaviour
     {
         Vector2 p = target.position;
         // check if the player is in the room
-        // currently fixed points for the specific enemy
-        // need to find a way to get the enemy to stop moving
-        // when the player is no longer in the same room
-        if (p.y > 4 || p.y < -4)
+        // currently fixed to distance enemy and player are apart
+        // NEED TO CHANGE
+        if (Vector2.Distance(p, transform.position) > 4)
         {
             Reset();
         }
