@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
     // start position
     private Vector2 init;
 
+    private GameObject enemy;
+
     private GameObject play;
     private Transform target;
     private Animation playerAnim;
@@ -35,6 +37,8 @@ public class Enemy : MonoBehaviour
     {
         // define animator attached to character
         animator = this.GetComponent<Animator>();
+
+        enemy = this.gameObject;
 
         // define the player
         play = GameObject.FindGameObjectWithTag("Player");
@@ -60,48 +64,57 @@ public class Enemy : MonoBehaviour
 
     void Move()
     {
-        // initial position of the enemy
-        Vector2 initPos = transform.position;
-        // move the enemy toward the player
-        transform.position += (target.position - transform.position).normalized * speed/3 * Time.deltaTime;
-        // new position of the enemy
-        Vector2 newPos = transform.position;
-
-        // turn in the correct general direction of the enemy movement
-        if (initPos.y < newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
+        // if enemy is a skeleton
+        if (enemy == GameObject.Find("enemy1"))
         {
-            changeState(STATE_WALKU);
 
         }
-        else if (initPos.y > newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
+        // if enemy is a zombie
+        else if (enemy == GameObject.Find("enemy2"))
         {
-            changeState(STATE_WALKD);
-        }
-        else if (initPos.x > newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
-        {
-            changeState(STATE_WALKL);
-        }
-        else if (initPos.x < newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
-        {
-            changeState(STATE_WALKR);
-        }
-        else
-        {
-            if (currentAnimationState == STATE_WALKD)
+            // initial position of the enemy
+            Vector2 initPos = transform.position;
+            // move the enemy toward the player
+            transform.position += (target.position - transform.position).normalized * speed / 3 * Time.deltaTime;
+            // new position of the enemy
+            Vector2 newPos = transform.position;
+
+            // turn in the correct general direction of the enemy movement
+            if (initPos.y < newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
             {
-                changeState(STATE_IDLED);
+                changeState(STATE_WALKU);
+
             }
-            else if (currentAnimationState == STATE_WALKU)
+            else if (initPos.y > newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
             {
-                changeState(STATE_IDLEU);
+                changeState(STATE_WALKD);
             }
-            else if (currentAnimationState == STATE_WALKR)
+            else if (initPos.x > newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
             {
-                changeState(STATE_IDLER);
+                changeState(STATE_WALKL);
             }
-            else if (currentAnimationState == STATE_WALKL)
+            else if (initPos.x < newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
             {
-                changeState(STATE_IDLEL);
+                changeState(STATE_WALKR);
+            }
+            else
+            {
+                if (currentAnimationState == STATE_WALKD)
+                {
+                    changeState(STATE_IDLED);
+                }
+                else if (currentAnimationState == STATE_WALKU)
+                {
+                    changeState(STATE_IDLEU);
+                }
+                else if (currentAnimationState == STATE_WALKR)
+                {
+                    changeState(STATE_IDLER);
+                }
+                else if (currentAnimationState == STATE_WALKL)
+                {
+                    changeState(STATE_IDLEL);
+                }
             }
         }
     }
