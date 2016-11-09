@@ -251,6 +251,13 @@ public class Player : MonoBehaviour
 			borders[0].transform.Translate(0, -8, 0);
 			borders[1].transform.Translate(0, -8, 0);
         }
+
+        // resets enemy position when player moves to a different room
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            enemy.SendMessage("Reset");
+        }
 		//init = this.transform.position;
     }
 	

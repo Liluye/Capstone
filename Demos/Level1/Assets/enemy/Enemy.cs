@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
 
         // define the player
         play = GameObject.FindGameObjectWithTag("Player");
+        // get player position
         target = play.transform;
 
         // game start position for reset
@@ -48,18 +49,13 @@ public class Enemy : MonoBehaviour
     // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
     void FixedUpdate()
     {
-        Vector2 p = target.position;
-        // check if the player is in the room
-        // currently fixed to distance enemy and player are apart
-        // NEED TO CHANGE
-        if (Vector2.Distance(p, transform.position) > 4)
-        {
-            Reset();
-        }
-        else
-        {
-            Move();
-        }
+        // determine what enemy type the enemy is
+        // different enemies will have different functionality
+        // zombie: chases player and gives damage when it hits
+        // skeleton: stationary, shoots arrows at player
+        // rat: moves in pre-set pattern
+
+        Move();
     }
 
     void Move()
