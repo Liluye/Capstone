@@ -11,14 +11,14 @@ public class Player : MonoBehaviour
 
 	// start position
 	private Vector2 init;
-	
+
 	// camera start
 	private Vector3 camInit;
 
 	// border position
 	private GameObject[] borders;
 	private Vector2 leftInit;
-	private Vector2 rightInit;
+	private Vector2 rightInit;	
 	
     // character animations states
     // note: states added within unity and tied to animation
@@ -33,25 +33,22 @@ public class Player : MonoBehaviour
 
     // character starts out in idle state
     int currentAnimationState = STATE_IDLED;
-    
-	// weapon and item could be two seperate objects
+    // weapon and item could be two seperate objects
     // 0 = no item or weapon equipped
     int currentItem = 0;
     int currentWeapon = 0;
-	
     //0 down, 1 left, 2 up, 3 right
     int facingDirection = 0;
-    
-	public GameObject boomerang, bomb, grapplingHook;
+    public GameObject boomerang, bomb, grapplingHook;
     public GameObject itemNorth, itemWest, itemSouth, itemEast;
     private GameObject activeWeapon;
-	private Vector3 grappleLoc;
+    private Vector3 grappleLoc;
     private bool grappling;
+    
 
     // Use this for initialization
     void Start()
     {
-        
 		// game start position for reset
 		init = transform.position;
 		camInit = Camera.main.transform.position;
@@ -63,14 +60,15 @@ public class Player : MonoBehaviour
 		borders = GameObject.FindGameObjectsWithTag("border");
 		leftInit = borders[0].transform.position;
 		rightInit = borders[1].transform.position;
-    }
+	}
 
     // Update is called once per frame
     // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
     void FixedUpdate()
     {
         Move();
-		UpdateWeapons();
+        //Communicate with boomerang object to update your position
+        UpdateWeapons();
     }
 
     //Player movement, taken currently from arrow keys
@@ -80,29 +78,28 @@ public class Player : MonoBehaviour
         {
             Grapple();
         }
-		else if (Input.GetKey("w"))
+        else if (Input.GetKey("w"))
         {
             facingDirection = 2;
-			changeState(STATE_WALKU);
+            changeState(STATE_WALKU);
             transform.Translate(0, speed * Time.deltaTime, 0);
-			
         }
         else if (Input.GetKey("s"))
         {
-			facingDirection = 0;
-			changeState(STATE_WALKD);
+            facingDirection = 0;
+            changeState(STATE_WALKD);
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
         else if (Input.GetKey("a"))
         {
             facingDirection = 1;
-			changeState(STATE_WALKL);
+            changeState(STATE_WALKL);
             transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("d"))
         {
             facingDirection = 3;
-			changeState(STATE_WALKR);
+            changeState(STATE_WALKR);
             transform.Translate(speed * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey("space"))
@@ -116,7 +113,7 @@ public class Player : MonoBehaviour
             // player will use currently equipped item
             useItem(currentItem);
         }
-		//Hardcoded bomb drop key for now
+        //Hardcoded bomb drop key for now
         else if (Input.GetKeyUp("b"))
         {
             // player will use currently equipped item
@@ -251,7 +248,7 @@ public class Player : MonoBehaviour
 			borders[0].transform.Translate(0, -8, 0);
 			borders[1].transform.Translate(0, -8, 0);
         }
-		//init = this.transform.position;
+
     }
 	
 	void Reset() {
@@ -271,7 +268,7 @@ public class Player : MonoBehaviour
                 grappling = false;
             }
         }
-		// note: freeze Z rotation must be checked within Unity
+        // note: freeze Z rotation must be checked within Unity
         if (coll.gameObject.tag == "northDoor")
             ShiftRoom("north");
         if (coll.gameObject.tag == "eastDoor")
@@ -280,16 +277,16 @@ public class Player : MonoBehaviour
             ShiftRoom("west");
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
-        // reset the player's position if they collide with enemy
+		// reset the player's position if they collide with enemy
         if (coll.gameObject.tag == "enemy")
             Reset();
     }
 	
-	void OnCollisionExit2D() 
+	void OnCollisionExit2D(Collision2D coll) 
 	{
 
 	}
-	
+
     private void UpdateWeapons()
     {
         if (activeWeapon != null)
@@ -314,7 +311,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-	
+    
     private void Grapple()
     {
         if (activeWeapon != null)
@@ -325,7 +322,7 @@ public class Player : MonoBehaviour
             grappling = false;
         }
     }
-	
+
     private Vector3 SpawnItemLocation(int direction)
     {
         switch (direction)
