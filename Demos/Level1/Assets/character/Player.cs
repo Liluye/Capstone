@@ -33,7 +33,10 @@ public class Player : MonoBehaviour
 
     // character starts out in idle state
     int currentAnimationState = STATE_IDLED;
-    
+
+    // player health
+    int health;
+
 	// weapon and item could be two seperate objects
     // 0 = no item or weapon equipped
     int currentItem = 0;
@@ -51,7 +54,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
 		// game start position for reset
 		init = transform.position;
 		camInit = Camera.main.transform.position;
@@ -63,6 +65,9 @@ public class Player : MonoBehaviour
 		borders = GameObject.FindGameObjectsWithTag("border");
 		leftInit = borders[0].transform.position;
 		rightInit = borders[1].transform.position;
+
+        // set player's health
+        health = 3;
     }
 
     // Update is called once per frame
@@ -263,6 +268,7 @@ public class Player : MonoBehaviour
 	
 	void Reset() {
 		transform.position = init;
+        health = 3;
 		Camera.main.transform.position = camInit;
 		borders[0].transform.position = leftInit;
 		borders[1].transform.position = rightInit;
@@ -289,7 +295,13 @@ public class Player : MonoBehaviour
             ShiftRoom("south");
         // reset the player's position if they collide with enemy
         if (coll.gameObject.tag == "enemy")
-            Reset();
+        {
+            health--;
+            if(health == 0)
+            {
+                Reset();
+            }
+        }
     }
 	
 	void OnCollisionExit2D() 
