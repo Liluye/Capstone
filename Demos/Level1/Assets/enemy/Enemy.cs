@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
     private Vector2 init;
 
     private GameObject enemy;
-
+    private int rndmMove = 0;
     private GameObject play;
     private Transform target;
     private Animation playerAnim;
@@ -65,17 +65,34 @@ public class Enemy : MonoBehaviour
     void Move()
     {
         // if enemy is a skeleton
+        // move to face in the direction of the player
         if (enemy == GameObject.Find("enemy1"))
         {
-
+            if(target.position.x >= transform.position.x && target.position.y < transform.position.y + 1 && target.position.y > transform.position.y - 1)
+            {
+                changeState(STATE_IDLER);
+            }
+            else if(target.position.y < transform.position.y && target.position.x < transform.position.x + 1 && target.position.x > transform.position.x - 1)
+            {
+                changeState(STATE_IDLED);
+            }
+            else if (target.position.y >= transform.position.y && target.position.x < transform.position.x + 1 && target.position.x > transform.position.x - 1)
+            {
+                changeState(STATE_IDLEU);
+            }
+            else if (target.position.x < transform.position.x && target.position.y < transform.position.y + 1 && target.position.y > transform.position.y - 1)
+            {
+                changeState(STATE_IDLEL);
+            }
         }
         // if enemy is a zombie
+        // chase the player
         else if (enemy == GameObject.Find("enemy2"))
         {
             // initial position of the enemy
             Vector2 initPos = transform.position;
             // move the enemy toward the player
-            transform.position += (target.position - transform.position).normalized * speed / 3 * Time.deltaTime;
+            transform.position += (target.position - transform.position).normalized * speed / 4 * Time.deltaTime;
             // new position of the enemy
             Vector2 newPos = transform.position;
 
@@ -115,6 +132,54 @@ public class Enemy : MonoBehaviour
                 {
                     changeState(STATE_IDLEL);
                 }
+            }
+        }
+        // if enemy is a rat
+        // move in a randomly created direction/movement
+        else if (enemy == GameObject.Find("enemy3"))
+        {
+            int movement = Random.Range(4, 8);
+            if (rndmMove > 40)
+            {
+                switch (movement)
+                {
+                    case STATE_WALKD:
+                        changeState(STATE_WALKD);
+                        transform.Translate(0, -speed * Time.deltaTime, 0);
+                        break;
+                    case STATE_WALKU:
+                        changeState(STATE_WALKU);
+                        transform.Translate(0, speed * Time.deltaTime, 0);
+                        break;
+                    case STATE_WALKR:
+                        changeState(STATE_WALKR);
+                        transform.Translate(speed * Time.deltaTime, 0, 0);
+                        break;
+                    case STATE_WALKL:
+                        changeState(STATE_WALKL);
+                        transform.Translate(-speed * Time.deltaTime, 0, 0);
+                        break;
+                }
+                rndmMove = 0;
+            }
+            else
+            {
+                switch(currentAnimationState)
+                {
+                    case STATE_WALKD:
+                        transform.Translate(0, -speed * Time.deltaTime, 0);
+                        break;
+                    case STATE_WALKU:
+                        transform.Translate(0, speed * Time.deltaTime, 0);
+                        break;
+                    case STATE_WALKR:
+                        transform.Translate(speed * Time.deltaTime, 0, 0);
+                        break;
+                    case STATE_WALKL:
+                        transform.Translate(-speed * Time.deltaTime, 0, 0);
+                        break;
+                }
+                rndmMove++;
             }
         }
     }
