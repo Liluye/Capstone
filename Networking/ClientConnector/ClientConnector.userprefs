@@ -1,0 +1,12 @@
+﻿<Properties StartupItem="ClientConnector\ClientConnector.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClientConnector\ClientConnector.cs">
+    <Files>
+      <File FileName="ClientConnector\ClientConnector.cs" Line="48" Column="45" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
