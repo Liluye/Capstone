@@ -1,34 +1,46 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 using DarkRift;
-using DataPacket;
+using DataPacketLib;
 
 public class NetworkManager : MonoBehaviour
 {
 	//Using local network for now.
 	public string IP = "127.0.0.1";
-
 	public int clientID;
+
 	List<DataPacket> dataReceived = new List<DataPacket>();
 
 	void Start(){
 		DarkRiftAPI.Connect(IP);
 
-		DarkRiftAPI.onData += ReceiveData;
+		DarkRiftAPI.onData += onDataReceived;
 
 		if (DarkRiftAPI.isConnected){
+			Debug.Log ("Sending data request.");
 			DarkRiftAPI.SendMessageToServer(0, (ushort)clientID, "RequestData");
 		} else {
 			Debug.Log ("Failed to connect to DarkRift Server!");
 		}
 	}
 		
-	void ReceiveData (byte tag, ushort subject, object data){
-		Debug.Log ("Message: " + data.ToString ());
-		DataPacket datapacket = (DataPacket) data;
-		dataReceived.Add (datapacket);
+	void onDataReceived (byte tag, ushort subject, object data){
+		Debug.Log ("Data Received!!!");
+		Debug.Log ("data: " + data.ToString());
+
+		if (data.GetType ().Equals (typeof(DataPacket))) {
+			DataPacket datapacket = (DataPacket) data;
+			if (datapacket.isItem == 0) {
+				Debug.Log ("Message " + tag + ": " + datapacket.itemNum);
+			} else {
+				Debug.Log ("Message " + tag + ": " + datapacket.note);
+			}
+
+			dataReceived.Add (datapacket);
+		}
 	}
 
 	void spawnData (){
@@ -70,12 +82,7 @@ public class NetworkManager : MonoBehaviour
 			//to use this more than once though.
 			using(DarkRiftReader reader = (DarkRiftReader)data)
 			{
-				//Then read!
-				transform.position = new Vector3(
-					reader.ReadSingle(),
-					reader.ReadSingle(),
-					0
-				);
+				
 			}
 		}
 		else
@@ -85,3 +92,4 @@ public class NetworkManager : MonoBehaviour
 		}
 	}
 }
+

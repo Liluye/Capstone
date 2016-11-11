@@ -32,10 +32,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="DarkRift">
-      <HintPath>..\..\..\..\Desktop\DarkRift\Lib\DarkRift.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Desktop\DarkRift\Lib\DarkRift.dll</HintPath>
     </Reference>
     <Reference Include="Transmission">
-      <HintPath>..\..\..\..\Desktop\DarkRift\Lib\Transmission.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Desktop\DarkRift\Lib\Transmission.dll</HintPath>
     </Reference>
     <Reference Include="DataPacket">
       <HintPath>..\..\DataPacket\DataPacket\bin\Debug\DataPacket.dll</HintPath>

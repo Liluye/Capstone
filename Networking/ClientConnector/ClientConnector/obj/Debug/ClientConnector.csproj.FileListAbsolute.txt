@@ -12,3 +12,13 @@ C:\Users\Tohru\Documents\Projects\ClientConnector\ClientConnector\bin\Debug\norm
 C:\Users\Tohru\Documents\Projects\ClientConnector\ClientConnector\bin\Debug\normnfkd.nlp
 C:\Users\Tohru\Documents\Projects\ClientConnector\ClientConnector\obj\Debug\ClientConnector.dll
 C:\Users\Tohru\Documents\Projects\ClientConnector\ClientConnector\obj\Debug\ClientConnector.pdb
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\obj\Debug\ClientConnector.csprojResolveAssemblyReference.cache
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\obj\Debug\ClientConnector.dll
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\ClientConnector.dll
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\ClientConnector.pdb
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\DarkRift.dll
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\Transmission.dll
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\DarkRift.xml
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\obj\Debug\ClientConnector.pdb
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\DataPacket.dll
+C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\DataPacket.pdb
