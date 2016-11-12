@@ -101,7 +101,10 @@ public class grapplingHookAction : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D col)
     {
-        //Grappling Hook has attached to a point
+        if (col.gameObject.tag == "water") {
+			Physics2D.IgnoreCollision(col.collider, this.GetComponent<BoxCollider2D>());
+		}
+		//Grappling Hook has attached to a point
         if (col.gameObject.tag == "post")
         {
             grapple = true;

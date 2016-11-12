@@ -74,9 +74,8 @@ public class Player : MonoBehaviour
     // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
     void FixedUpdate()
     {
-		Move();
+        Move();
 		UpdateWeapons();
-		
     }
 
     //Player movement, taken currently from arrow keys
@@ -274,19 +273,10 @@ public class Player : MonoBehaviour
 		borders[0].transform.position = leftInit;
 		borders[1].transform.position = rightInit;
 	}
-	
-	void OnCollisionEnter2D(Collision2D coll)
-	{
-		if (coll.gameObject.tag == "water" && grappling) {
-			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<BoxCollider2D>());
-			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<CircleCollider2D>());
-		
-		}
-	}
-	
+
     void OnCollisionStay2D(Collision2D coll)
     {
-		if (grappling)
+        if (grappling)
         {
             if (activeWeapon != null)
             {
