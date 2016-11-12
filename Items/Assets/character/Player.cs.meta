@@ -1,12 +1,11 @@
 fileFormatVersion: 2
 guid: 2810cfdb8adf3314396b8cb5c8a83f05
-timeCreated: 1477868691
+timeCreated: 1477869198
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - boomerang: {fileID: 1000011270118224, guid: 1a52f039343c359478fe758b73b90a4e,
-      type: 2}
+  - boomerang: {instanceID: 0}
   - bomb: {instanceID: 0}
   - itemNorth: {instanceID: 0}
   - itemWest: {instanceID: 0}
