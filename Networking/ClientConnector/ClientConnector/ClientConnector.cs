@@ -89,6 +89,8 @@ namespace ClientConnector{
 						con.SendReply (msg.tag, msg.subject, packet);
 					}
 				}
+
+				con.SendReply (msg.tag, msg.subject, "Done");
 			}
 
 			//if the msg is a dataPacket from client put it into the database

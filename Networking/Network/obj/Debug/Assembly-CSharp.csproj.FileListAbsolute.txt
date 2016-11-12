@@ -24,3 +24,4 @@ C:\Users\Tohru\Documents\git\Capstone\Networking\Network\Temp\bin\Debug\UnityEng
 C:\Users\Tohru\Documents\git\Capstone\Networking\Network\Temp\bin\Debug\DarkRiftAPI.xml
 C:\Users\Tohru\Documents\git\Capstone\Networking\Network\obj\Debug\Assembly-CSharp.dll
 C:\Users\Tohru\Documents\git\Capstone\Networking\Network\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Tohru\Documents\git\Capstone\Networking\Network\Temp\bin\Debug\DataPacket.dll

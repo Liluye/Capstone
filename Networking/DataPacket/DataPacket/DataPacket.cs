@@ -17,7 +17,6 @@ namespace DataPacketLib{
 			this.itemNum = itemNum;
 			this.x = x;
 			this.y = y;	
-			this.note = "";
 		}
 
 		//Constructor for Note DataPacket
@@ -26,7 +25,6 @@ namespace DataPacketLib{
 			this.note = note;
 			this.x = x;
 			this.y = y;
-			this.itemNum = 0;
 		}
 	}
 }

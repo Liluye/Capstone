@@ -20,5 +20,3 @@ C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector
 C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\Transmission.dll
 C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\DarkRift.xml
 C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\obj\Debug\ClientConnector.pdb
-C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\DataPacket.dll
-C:\Users\Tohru\Documents\git\Capstone\Networking\ClientConnector\ClientConnector\bin\Debug\DataPacket.pdb
