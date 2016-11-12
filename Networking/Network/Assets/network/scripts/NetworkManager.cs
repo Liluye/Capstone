@@ -11,8 +11,12 @@ public class NetworkManager : MonoBehaviour
 	//Using local network for now.
 	public string IP = "127.0.0.1";
 	public int clientID;
+	public int itemNum;
+	public Vector2 location;
+	public string note;
 
-	List<DataPacket> dataReceived = new List<DataPacket>();
+	private List<DataPacket> itemData = new List<DataPacket> ();
+	private List<DataPacket> noteData = new List<DataPacket> ();
 
 	void Start(){
 		DarkRiftAPI.Connect(IP);
@@ -31,21 +35,28 @@ public class NetworkManager : MonoBehaviour
 		Debug.Log ("Data Received!!!");
 		Debug.Log ("data: " + data.ToString());
 
+		//if the data recieved is a DataPacket, add to list
 		if (data.GetType ().Equals (typeof(DataPacket))) {
-			DataPacket datapacket = (DataPacket) data;
-			if (datapacket.isItem == 0) {
-				Debug.Log ("Message " + tag + ": " + datapacket.itemNum);
+			DataPacket packet = (DataPacket) data;
+			if (packet.isItem == 1) {
+				Debug.Log ("Message " + tag + ": " + packet.itemNum);
+				itemData.Add (packet);
 			} else {
-				Debug.Log ("Message " + tag + ": " + datapacket.note);
+				Debug.Log ("Message " + tag + ": " + packet.note);
+				noteData.Add (packet);
 			}
+		}
 
-			dataReceived.Add (datapacket);
+		//if the data recieved is the msg "Done", then spawn the items/notes
+		if (data.ToString ().Equals ("Done")) {
+			foreach (DataPacket packet in itemData) {
+				itemNum = packet.itemNum;
+				location = new Vector2 (packet.x, packet.y);
+				GameObject.Find ("spawner").GetComponent<SpawnItem> ().spawning ();
+			}
 		}
 	}
 
-	void spawnData (){
-		
-	}
 
 	//For now disconnect on app close, but want it to disconnect after data transfer.
 	void OnApplicationQuit()
@@ -55,41 +66,6 @@ public class NetworkManager : MonoBehaviour
 
 
 
-	void SerialiseData(string msg)
-	{
-		//Here is where we actually serialise things manually. To do this we need to add
-		//any data we want to send to a DarkRiftWriter. and then send this as we would normally.
-		//The advantage of custom serialisation is that you have a much smaller overhead than when
-		//the default BinaryFormatter is used, typically about 50 bytes.
-		using(DarkRiftWriter writer = new DarkRiftWriter())
-		{
-			//Next we write any data to the writer, as we never change the z pos there's no need to 
-			//send it.
-			writer.Write(msg);
 
-			DarkRiftAPI.SendMessageToServer(0, (ushort)clientID, writer);
-		}
-	}
-
-	void DeserialiseData(object data)
-	{
-		//Here we decode the stream, the data will arrive as a DarkRiftReader so we need to cast to it
-		//and then read the data off in EXACTLY the same order we wrote it.
-		if( data is DarkRiftReader )
-		{
-			//Cast in a using statement because we are using streams and therefore it 
-			//is important that the memory is deallocated afterwards, you wont be able
-			//to use this more than once though.
-			using(DarkRiftReader reader = (DarkRiftReader)data)
-			{
-				
-			}
-		}
-		else
-		{
-			Debug.LogError("Should have recieved a DarkRiftReciever but didn't! (Got: " + data.GetType() + ")");
-			transform.position = transform.position;
-		}
-	}
 }
 

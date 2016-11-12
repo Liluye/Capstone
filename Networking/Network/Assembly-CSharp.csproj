@@ -46,12 +46,21 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\character\Player.cs" />
+     <Compile Include="Assets\character\playerAnimation.cs" />
      <Compile Include="Assets\enemy\Enemy.cs" />
-     <Compile Include="Assets\environment\box.cs" />
+     <Compile Include="Assets\environment\blocks\box.cs" />
+     <Compile Include="Assets\inventory\Script\Inventory.cs" />
+     <Compile Include="Assets\inventory\Script\ItemData.cs" />
+     <Compile Include="Assets\inventory\Script\ItemDatabase.cs" />
+     <Compile Include="Assets\items\scripts\bombAction.cs" />
+     <Compile Include="Assets\items\scripts\boomerangAction.cs" />
+     <Compile Include="Assets\items\scripts\grapplingHookAction.cs" />
      <Compile Include="Assets\network\DarkRift\Plugins\DarkRiftReceiver.cs" />
      <Compile Include="Assets\network\scripts\NetworkManager.cs" />
+     <Compile Include="Assets\network\scripts\SpawnItem.cs" />
      <None Include="Assets\network\ChangeLog.txt" />
      <None Include="Assets\network\DarkRift\Plugins\Readme.txt" />
+     <None Include="Assets\items\ReadMe.txt" />
      <None Include="Assets\network\DarkRift\Plugins\DarkRiftAPI.xml" />
      <None Include="Assets\network\Readme.txt" />
  <Reference Include="UnityEngine.UI">
@@ -62,6 +71,9 @@
  </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="LitJson">
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Networking/Network/Assets/inventory/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="DarkRiftAPI">
  <HintPath>C:/Users/Tohru/Documents/git/Capstone/Networking/Network/Assets/network/DarkRift/Plugins/DarkRiftAPI.dll</HintPath>

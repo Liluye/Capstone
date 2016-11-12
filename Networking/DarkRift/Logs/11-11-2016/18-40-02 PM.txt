@@ -1,0 +1,21 @@
+11/11/2016 18:40:02 PM	[Trace]	#### Server boot ####
+11/11/2016 18:40:02 PM	[Trace]	#### Server boot ####
+11/11/2016 18:40:02 PM	[Log]	Server mounted, listening on port 4296
+11/11/2016 18:40:02 PM	[Trace]	Found plugin: C:\Users\Tohru\Documents\git\Capstone\Networking\DarkRift\Plugins\ClientConnector.dll, type of ClientConnector.ClientConnector
+11/11/2016 18:40:02 PM	[Trace]	Found plugin: C:\Users\Tohru\Documents\git\Capstone\Networking\DarkRift\Plugins\MySQLConnector.dll, type of MySQLConnector.Connector
+11/11/2016 18:40:02 PM	[Trace]	Found a total of 2 plugins.
+11/11/2016 18:40:02 PM	[Log]	Loaded database connector: MySQLConnector Version: 1.0
+11/11/2016 18:40:02 PM	[Log]	Loaded plugin: ClientConnector plugin Version: 0.1
+11/11/2016 18:40:11 PM	[Log]	Connected: 127.0.0.1:57218
+11/11/2016 18:40:11 PM	[Log]	Received data from 1
+11/11/2016 18:40:11 PM	[Log]	Tag: 0
+11/11/2016 18:40:11 PM	[Log]	Subject: 0
+11/11/2016 18:40:11 PM	[Log]	Data: RequestData
+11/11/2016 18:40:11 PM	[Log]	itemResults: 0
+11/11/2016 18:40:11 PM	[Log]	0, -2.57, -9.72
+11/11/2016 18:40:11 PM	[Log]	Packet SENT!
+11/11/2016 18:40:25 PM	[Log]	Disconnected: 127.0.0.1:57218
+11/11/2016 18:48:40 PM	[Trace]	Executing command Stop
+11/11/2016 18:48:40 PM	[Log]	Shutting down server...
+11/11/2016 18:48:40 PM	[Trace]	Closing database
+11/11/2016 18:48:40 PM	[Trace]	#### Server stop ####

@@ -1,0 +1,75 @@
+11/11/2016 18:56:19 PM	[Trace]	#### Server boot ####
+11/11/2016 18:56:19 PM	[Trace]	#### Server boot ####
+11/11/2016 18:56:19 PM	[Log]	Server mounted, listening on port 4296
+11/11/2016 18:56:19 PM	[Trace]	Found plugin: C:\Users\Tohru\Documents\git\Capstone\Networking\DarkRift\Plugins\ClientConnector.dll, type of ClientConnector.ClientConnector
+11/11/2016 18:56:19 PM	[Trace]	Found plugin: C:\Users\Tohru\Documents\git\Capstone\Networking\DarkRift\Plugins\MySQLConnector.dll, type of MySQLConnector.Connector
+11/11/2016 18:56:19 PM	[Trace]	Found a total of 2 plugins.
+11/11/2016 18:56:19 PM	[Log]	Loaded database connector: MySQLConnector Version: 1.0
+11/11/2016 18:56:19 PM	[Log]	Loaded plugin: ClientConnector plugin Version: 0.1
+11/11/2016 18:57:07 PM	[Log]	Connected: 127.0.0.1:57429
+11/11/2016 18:57:07 PM	[Log]	Received data from 1
+11/11/2016 18:57:07 PM	[Log]	Tag: 0
+11/11/2016 18:57:07 PM	[Log]	Subject: 0
+11/11/2016 18:57:07 PM	[Log]	Data: RequestData
+11/11/2016 18:57:08 PM	[Log]	itemResults: 0
+11/11/2016 18:57:08 PM	[Log]	0, -2.57, -9.72
+11/11/2016 18:57:08 PM	[Log]	Packet SENT!
+11/11/2016 18:59:14 PM	[Log]	Disconnected: 127.0.0.1:57429
+11/11/2016 19:00:13 PM	[Log]	Connected: 127.0.0.1:57449
+11/11/2016 19:00:14 PM	[Log]	Received data from 1
+11/11/2016 19:00:14 PM	[Log]	Tag: 0
+11/11/2016 19:00:14 PM	[Log]	Subject: 0
+11/11/2016 19:00:14 PM	[Log]	Data: RequestData
+11/11/2016 19:00:14 PM	[Log]	itemResults: 0
+11/11/2016 19:00:14 PM	[Log]	0, -2.57, -9.72
+11/11/2016 19:00:14 PM	[Log]	Packet SENT!
+11/11/2016 19:00:24 PM	[Log]	Disconnected: 127.0.0.1:57449
+11/11/2016 19:00:36 PM	[Log]	Connected: 127.0.0.1:57459
+11/11/2016 19:00:36 PM	[Log]	Received data from 1
+11/11/2016 19:00:36 PM	[Log]	Tag: 0
+11/11/2016 19:00:36 PM	[Log]	Subject: 0
+11/11/2016 19:00:36 PM	[Log]	Data: RequestData
+11/11/2016 19:00:36 PM	[Log]	itemResults: 0
+11/11/2016 19:00:36 PM	[Log]	0, -2.57, -9.72
+11/11/2016 19:00:36 PM	[Log]	Packet SENT!
+11/11/2016 19:00:41 PM	[Log]	Disconnected: 127.0.0.1:57459
+11/11/2016 19:04:49 PM	[Log]	Connected: 127.0.0.1:57479
+11/11/2016 19:04:49 PM	[Log]	Received data from 1
+11/11/2016 19:04:49 PM	[Log]	Tag: 0
+11/11/2016 19:04:49 PM	[Log]	Subject: 0
+11/11/2016 19:04:49 PM	[Log]	Data: RequestData
+11/11/2016 19:04:49 PM	[Log]	itemResults: 0
+11/11/2016 19:04:49 PM	[Log]	0, 6.22, 5.09
+11/11/2016 19:04:49 PM	[Log]	Packet SENT!
+11/11/2016 19:04:49 PM	[Log]	itemResults: 0
+11/11/2016 19:04:49 PM	[Log]	0, -2.57, -9.72
+11/11/2016 19:04:49 PM	[Log]	Packet SENT!
+11/11/2016 19:08:02 PM	[Log]	Disconnected: 127.0.0.1:57479
+11/11/2016 19:12:45 PM	[Log]	Connected: 127.0.0.1:57523
+11/11/2016 19:12:45 PM	[Log]	Received data from 1
+11/11/2016 19:12:45 PM	[Log]	Tag: 0
+11/11/2016 19:12:45 PM	[Log]	Subject: 0
+11/11/2016 19:12:45 PM	[Log]	Data: RequestData
+11/11/2016 19:12:45 PM	[Log]	itemResults: 0
+11/11/2016 19:12:45 PM	[Log]	0, -2.57, -9.72
+11/11/2016 19:12:45 PM	[Log]	Packet SENT!
+11/11/2016 19:12:45 PM	[Log]	itemResults: 0
+11/11/2016 19:12:45 PM	[Log]	0, 6.22, 5.09
+11/11/2016 19:12:45 PM	[Log]	Packet SENT!
+11/11/2016 19:12:54 PM	[Log]	Disconnected: 127.0.0.1:57523
+11/11/2016 19:32:43 PM	[Log]	Connected: 127.0.0.1:57807
+11/11/2016 19:32:43 PM	[Log]	Received data from 1
+11/11/2016 19:32:43 PM	[Log]	Tag: 0
+11/11/2016 19:32:43 PM	[Log]	Subject: 0
+11/11/2016 19:32:43 PM	[Log]	Data: RequestData
+11/11/2016 19:32:43 PM	[Log]	itemResults: 0
+11/11/2016 19:32:43 PM	[Log]	0, 6.22, 5.09
+11/11/2016 19:32:43 PM	[Log]	Packet SENT!
+11/11/2016 19:32:43 PM	[Log]	itemResults: 0
+11/11/2016 19:32:43 PM	[Log]	0, -2.57, -9.72
+11/11/2016 19:32:43 PM	[Log]	Packet SENT!
+11/11/2016 19:33:52 PM	[Log]	Disconnected: 127.0.0.1:57807
+11/11/2016 19:37:05 PM	[Trace]	Executing command Stop
+11/11/2016 19:37:05 PM	[Log]	Shutting down server...
+11/11/2016 19:37:05 PM	[Trace]	Closing database
+11/11/2016 19:37:05 PM	[Trace]	#### Server stop ####
