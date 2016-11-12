@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     //0 down, 1 left, 2 up, 3 right
     int facingDirection = 0;
     
-	public GameObject boomerang, bomb, grapplingHook;
+	public GameObject boomerang, bomb, grapplingHook, sword;
     public GameObject itemNorth, itemWest, itemSouth, itemEast;
     private GameObject activeWeapon;
 	private Vector3 grappleLoc;
@@ -116,8 +116,7 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKey("space"))
         {
-            // player will punch
-            // if a weapon is equipped, player will attack with that weapon
+            useItem(100);
 
         }
         else if (Input.GetKey("e"))
@@ -211,22 +210,35 @@ public class Player : MonoBehaviour
     {
         if (!activeWeapon)
         {
-            if (item == 0)
+            switch (item)
             {
-                //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
-                activeWeapon = Instantiate(boomerang, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
-                activeWeapon.SendMessage("InitialDirection", facingDirection);
-            }
-            if (item == 1)
-            {
-                activeWeapon = Instantiate(bomb, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
-            }
+                case 0:
+                    {
+                        //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                        activeWeapon = Instantiate(boomerang, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                        activeWeapon.SendMessage("InitialDirection", facingDirection);
+                        break;
+                    }
+                case 1:
+                    {
+                        activeWeapon = Instantiate(bomb, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                        break;
+                    }
 
-            if (item == 2)
-            {
-                //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
-                activeWeapon = Instantiate(grapplingHook, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
-                activeWeapon.SendMessage("InitialDirection", facingDirection);
+                case 2:
+                    {
+                        //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                        activeWeapon = Instantiate(grapplingHook, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                        activeWeapon.SendMessage("InitialDirection", facingDirection);
+                        break;
+                    }
+
+                case 100:
+                    {
+                        activeWeapon = Instantiate(sword, transform.position, new Quaternion()) as GameObject;
+                        activeWeapon.SendMessage("InitialDirection", facingDirection);
+                        break;
+                    }
             }
         }
     }
