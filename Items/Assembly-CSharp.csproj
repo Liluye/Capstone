@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F61EFFB5-7181-1B5A-23EC-7490DD66BD47}</ProjectGuid>
+    <ProjectGuid>{71A245E7-3805-AA80-9D6D-8A4BE0FEAF74}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,7 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\camera\camera.cs" />
+     <Compile Include="Assets\SwordAction.cs" />
      <Compile Include="Assets\character\Player.cs" />
      <Compile Include="Assets\character\playerAnimation.cs" />
      <Compile Include="Assets\enemy\Enemy.cs" />
@@ -53,11 +53,10 @@
      <Compile Include="Assets\inventory\Script\Inventory.cs" />
      <Compile Include="Assets\inventory\Script\ItemData.cs" />
      <Compile Include="Assets\inventory\Script\ItemDatabase.cs" />
-     <Compile Include="Assets\items\scripts\SwordAction.cs" />
      <Compile Include="Assets\items\scripts\bombAction.cs" />
      <Compile Include="Assets\items\scripts\boomerangAction.cs" />
      <Compile Include="Assets\items\scripts\grapplingHookAction.cs" />
-     <Compile Include="Assets\items\scripts\noteAction.cs" />
+     <Compile Include="Assets\noteAction.cs" />
      <None Include="Assets\items\ReadMe.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
@@ -66,7 +65,7 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Items/Assets/inventory/Plugins/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -32,6 +32,12 @@ public class box : MonoBehaviour {
 			Destroy(des);
 		}
 	}
+	void OnCollisionEnter2D(Collision2D coll) 
+	{
+		if (coll.gameObject.tag == "GrapplingHook") {
+			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<BoxCollider2D>());
+		}
+	}
 	void OnCollisionStay2D(Collision2D coll)
 	{
 		// note: freeze Z rotation must be checked within Unity
@@ -52,9 +58,10 @@ public class box : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D coll) 
 	{
-		if (coll.gameObject.tag == "Player") {
+		if (this.tag == "box" && coll.gameObject.tag == "Player") {
 			GetComponent<Rigidbody2D>().isKinematic = true;
 			pushTime = 0;
 		}
+		
 	}
 }
