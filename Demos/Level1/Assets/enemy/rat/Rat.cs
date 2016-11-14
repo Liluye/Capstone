@@ -153,8 +153,13 @@ public class Rat : MonoBehaviour
     void OnCollisionStay2D(Collision2D coll)
     {
 
-            rndmMove = 100;
-            ratMove();
-
+        rndmMove = 100;
+        ratMove();
     }
+	
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+		if (coll.gameObject.tag == "Sword")
+			Destroy(gameObject);
+	}
 }
