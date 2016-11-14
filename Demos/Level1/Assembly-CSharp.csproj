@@ -49,6 +49,10 @@
      <Compile Include="Assets\character\Player.cs" />
      <Compile Include="Assets\character\playerAnimation.cs" />
      <Compile Include="Assets\enemy\Enemy.cs" />
+     <Compile Include="Assets\enemy\rat\Rat.cs" />
+     <Compile Include="Assets\enemy\skeleton\Fire.cs" />
+     <Compile Include="Assets\enemy\skeleton\Skeleton.cs" />
+     <Compile Include="Assets\enemy\zombie\Zombie.cs" />
      <Compile Include="Assets\environment\blocks\box.cs" />
      <Compile Include="Assets\inventory\Script\Inventory.cs" />
      <Compile Include="Assets\inventory\Script\ItemData.cs" />
@@ -66,7 +70,7 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

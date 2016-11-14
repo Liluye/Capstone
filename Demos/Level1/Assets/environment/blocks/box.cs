@@ -23,7 +23,7 @@ public class box : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D coll) {
-		if (this.name == "green" && coll.gameObject.tag == "box"){
+		if (this.name == "BoxSwitch" && coll.gameObject.tag == "box"){
 			GameObject des = GameObject.Find("disappear1");
 			Destroy(des);		
 		}

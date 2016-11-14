@@ -20,6 +20,14 @@ public class Player : MonoBehaviour
 	private Vector2 leftInit;
 	private Vector2 rightInit;
 	
+	// health icons, positions
+	private GameObject h1;
+	private GameObject h2;
+	private GameObject h3;
+	private Vector2 h1Init;
+	private Vector2 h2Init;
+	private Vector2 h3Init;
+	
     // character animations states
     // note: states added within unity and tied to animation
     const int STATE_IDLED = 0;
@@ -36,6 +44,9 @@ public class Player : MonoBehaviour
 
     // player health
     int health;
+	
+	// whether player is currently invincible
+	bool invulnerable = false;
 
 	// weapon and item could be two seperate objects
     // 0 = no item or weapon equipped
@@ -67,6 +78,14 @@ public class Player : MonoBehaviour
 		borders = GameObject.FindGameObjectsWithTag("border");
 		leftInit = borders[0].transform.position;
 		rightInit = borders[1].transform.position;
+		
+		// get health icons
+		h1 = GameObject.FindWithTag("health1");
+		h1Init = h1.transform.position;
+		h2 = GameObject.FindWithTag("health2");
+		h2Init = h2.transform.position;
+		h3 = GameObject.FindWithTag("health3");
+		h3Init = h3.transform.position;
 
         // set player's health
         health = 3;
@@ -85,7 +104,28 @@ public class Player : MonoBehaviour
 			Physics2D.IgnoreCollision(water, this.GetComponent<BoxCollider2D>(), false);
 			Physics2D.IgnoreCollision(water, this.GetComponent<CircleCollider2D>(), false);
 		}
-		
+		switch(health) {
+			case 3:
+				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = true;
+				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = true;
+				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = true;
+				break;
+			case 2:
+				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = true;
+				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = true;
+				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = false;
+				break;
+			case 1:
+				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = true;
+				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = false;
+				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = false;
+				break;
+			case 0 :
+				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = false;
+				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = false;
+				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = false;
+				break;
+		}
     }
 
     //Player movement, taken currently from arrow keys
@@ -255,13 +295,19 @@ public class Player : MonoBehaviour
             Camera.main.transform.Translate(0, 8, 0);
 			borders[0].transform.Translate(0, 8, 0);
 			borders[1].transform.Translate(0, 8, 0);
+			h1.transform.Translate(0, 8, 0);
+			h2.transform.Translate(0, 8, 0);
+			h3.transform.Translate(0, 8, 0);
         }
         if (dir.Equals("east"))
         {
             transform.Translate(1.75f, 0, 0);
             Camera.main.transform.Translate(8, 0, 0);
 			borders[0].transform.Translate(8, 0, 0);
-			borders[1].transform.Translate(8, 0, 0);	
+			borders[1].transform.Translate(8, 0, 0);
+			h1.transform.Translate(8, 0, 0);
+			h2.transform.Translate(8, 0, 0);
+			h3.transform.Translate(8, 0, 0);
         }
         if (dir.Equals("west"))
         {
@@ -269,6 +315,9 @@ public class Player : MonoBehaviour
             Camera.main.transform.Translate(-8, 0, 0);
 			borders[0].transform.Translate(-8, 0, 0);
 			borders[1].transform.Translate(-8, 0, 0);
+			h1.transform.Translate(-8, 0, 0);
+			h2.transform.Translate(-8, 0, 0);
+			h3.transform.Translate(-8, 0, 0);
         }
         if (dir.Equals("south"))
         {
@@ -276,6 +325,9 @@ public class Player : MonoBehaviour
             Camera.main.transform.Translate(0, -8, 0);
 			borders[0].transform.Translate(0, -8, 0);
 			borders[1].transform.Translate(0, -8, 0);
+			h1.transform.Translate(0, -8, 0);
+			h2.transform.Translate(0, -8, 0);
+			h3.transform.Translate(0, -8, 0);
         }
 
         // resets enemy position when player moves to a different room
@@ -298,6 +350,9 @@ public class Player : MonoBehaviour
 		Camera.main.transform.position = camInit;
 		borders[0].transform.position = leftInit;
 		borders[1].transform.position = rightInit;
+		h1.transform.position = h1Init;
+		h2.transform.position = h2Init;
+		h3.transform.position = h3Init;
 	}
 	
 	void OnCollisionEnter2D(Collision2D coll)
@@ -330,16 +385,20 @@ public class Player : MonoBehaviour
             ShiftRoom("west");
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
-        // reset the player's position if they collide with enemy
-        if (coll.gameObject.tag == "enemy" || coll.gameObject.tag == "fire")
-        {
-            health--;
-            if(health == 0)
-            {
-                Reset();
-            }
-        }
-    }
+		if (!invulnerable){
+			// reset the player's position if they collide with enemy
+			if (coll.gameObject.tag == "enemy" || coll.gameObject.tag == "fire")
+			{
+				health--;
+				if(health == 0)
+				{
+					Reset();
+				}
+				invulnerable = true;
+				Invoke("SetVulnerable", 3);
+			}
+		}
+	}
 	
 	void OnCollisionExit2D(Collision2D coll) 
 	{
@@ -404,4 +463,9 @@ public class Player : MonoBehaviour
                 return new Vector3(0,0,0);
         }
     }
+	
+	private void SetVulnerable() 
+	{
+		invulnerable = false;
+	}
 }
