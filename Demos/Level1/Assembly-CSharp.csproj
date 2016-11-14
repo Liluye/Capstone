@@ -70,7 +70,7 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/Brando/Documents/Capstone/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

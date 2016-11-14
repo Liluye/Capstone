@@ -15,7 +15,6 @@ public class box : MonoBehaviour {
 		if (Input.GetKey("r")) {
 			Reset();
 		}
-		this.GetComponent<SpriteRenderer>().enabled = true;
 	}
 	
 	void Reset() {

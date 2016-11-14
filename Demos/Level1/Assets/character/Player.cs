@@ -106,24 +106,24 @@ public class Player : MonoBehaviour
 		}
 		switch(health) {
 			case 3:
-				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = true;
-				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = true;
-				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = true;
+				h1.GetComponent<SpriteRenderer>().enabled = true;
+				h2.GetComponent<SpriteRenderer>().enabled = true;
+				h3.GetComponent<SpriteRenderer>().enabled = true;
 				break;
 			case 2:
-				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = true;
-				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = true;
-				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = false;
+				h1.GetComponent<SpriteRenderer>().enabled = true;
+				h2.GetComponent<SpriteRenderer>().enabled = true;
+				h3.GetComponent<SpriteRenderer>().enabled = false;
 				break;
 			case 1:
-				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = true;
-				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = false;
-				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = false;
+				h1.GetComponent<SpriteRenderer>().enabled = true;
+				h2.GetComponent<SpriteRenderer>().enabled = false;
+				h3.GetComponent<SpriteRenderer>().enabled = false;
 				break;
 			case 0 :
-				GameObject.FindWithTag("health1").GetComponent<SpriteRenderer>().enabled = false;
-				GameObject.FindWithTag("health2").GetComponent<SpriteRenderer>().enabled = false;
-				GameObject.FindWithTag("health3").GetComponent<SpriteRenderer>().enabled = false;
+				h1.GetComponent<SpriteRenderer>().enabled = false;
+				h2.GetComponent<SpriteRenderer>().enabled = false;
+				h3.GetComponent<SpriteRenderer>().enabled = false;
 				break;
 		}
     }
@@ -131,9 +131,12 @@ public class Player : MonoBehaviour
     //Player movement, taken currently from arrow keys
     void Move()
     {
-        if (grappling)
+        if (grapplingHookActive)
         {
-            Grapple();
+            if (grappling)
+            {
+                Grapple();
+            }
         }
 		else if (Input.GetKey("w"))
         {
@@ -386,7 +389,7 @@ public class Player : MonoBehaviour
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
 		if (!invulnerable){
-			// reset the player's position if they collide with enemy
+			// reset the player's position if they lose all health
 			if (coll.gameObject.tag == "enemy" || coll.gameObject.tag == "fire")
 			{
 				health--;
@@ -395,7 +398,7 @@ public class Player : MonoBehaviour
 					Reset();
 				}
 				invulnerable = true;
-				Invoke("SetVulnerable", 3);
+				Invoke("SetVulnerable", 1.5f);
 			}
 		}
 	}
