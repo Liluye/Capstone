@@ -26,3 +26,5 @@ C:\Users\Tohru\Documents\git\Capstone\Networking\DataPacket\DataPacket\bin\Debug
 C:\Users\Tohru\Documents\git\Capstone\Networking\DataPacket\DataPacket\obj\Debug\DataPacket.csprojResolveAssemblyReference.cache
 C:\Users\Tohru\Documents\git\Capstone\Networking\DataPacket\DataPacket\obj\Debug\DataPacket.dll
 C:\Users\Tohru\Documents\git\Capstone\Networking\DataPacket\DataPacket\obj\Debug\DataPacket.pdb
+C:\Users\Tohru\Documents\git\Capstone\Networking\DataPacket\DataPacket\bin\Debug\UnityEngine.dll
+C:\Users\Tohru\Documents\git\Capstone\Networking\DataPacket\DataPacket\bin\Debug\UnityEngine.xml

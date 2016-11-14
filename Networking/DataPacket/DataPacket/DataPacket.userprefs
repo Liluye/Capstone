@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="DataPacket.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="DataPacket.cs">
     <Files>
-      <File FileName="DataPacket.cs" Line="19" Column="16" />
+      <File FileName="DataPacket.cs" Line="25" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
