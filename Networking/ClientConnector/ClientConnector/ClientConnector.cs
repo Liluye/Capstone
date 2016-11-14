@@ -98,17 +98,18 @@ namespace ClientConnector{
 				packet = (DataPacket) msg.data;
 				//if the packet is an item put in item table
 				if(packet.isItem == 1){
-					query = "INSERT INTO item (type, x, y)" +
+					query = "INSERT INTO item (type, locationX, locationY)" +
 						"VALUES (" + (int)packet.itemNum + ", " + packet.x + ", " + packet.y + ");";
+					Interface.Log ("adding item to database");
+					DarkRiftServer.database.ExecuteQuery (query);
 					//if the packet is a note put in note table
 				}else if (packet.isItem == 0){
-					query = "INSERT INTO note (message, x, y)" +
+					query = "INSERT INTO note (message, locationX, locationY)" +
 						"VALUES (" + DarkRiftServer.database.EscapeString(packet.note) + ", " + 
 						packet.x + ", " + packet.y + ");";
 				}else{
 					Interface.LogError ("ERROR: there is a problem with the packet could not be added to DB.");
 				}
-
 			}
 		}
 	}

@@ -1,34 +1,13 @@
 [
 	{
 		"id": 0,
-		"title": "Bomb",
-		"description": "Blow up blocks",
-		"stackable": true,
-		"slug": "bomb"
-	},
-	{
-		"id": 1,
-		"title": "Boomerang",
-		"description": "Attack enemies",
-		"stackable": true,
-		"slug": "boomerang"
-	},
-	{
-		"id": 2,
-		"title": "Grappling Hook",
-		"description": "Hit that switch",
-		"stackable": true,
-		"slug": "Grappling hook"
-	},
-	{
-		"id": 3,
 		"title": "Healing Potion",
 		"description": "Use this to restore health",
 		"stackable": true,
 		"slug": "healthPotion"
 	},
 	{
-		"id": 4,
+		"id": 1,
 		"title": "Steel Gloves",
 		"description": "Use these to move heavy items",
 		"stackable": false,

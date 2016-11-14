@@ -5,17 +5,15 @@ public class SpawnItem : MonoBehaviour {
 
 	public GameObject itemObject;
 
-	public void spawning(){
-		GameObject go = GameObject.Find ("Main Camera");
-		NetworkManager nm = go.GetComponent<NetworkManager> ();
+	public void spawning(int itemNum, Vector2 location){
+		ItemDatabase idb = itemObject.GetComponent<ItemDatabase> ();
 
-		ItemDatabase idb = itemObject.AddComponent<ItemDatabase> ();
-		Item itemToSpawn = idb.FetchItemById (nm.itemNum);
+		Item itemToSpawn = idb.FetchItemById (itemNum);
 		GameObject itemobj = Instantiate (itemObject);
 		itemobj.GetComponent<ItemData> ().item = itemToSpawn;
-		itemobj.transform.position = nm.location;
+		itemobj.transform.position = location;
 		SpriteRenderer renderer = itemobj.AddComponent<SpriteRenderer> ();
-		Debug.Log ("Sprite: " + itemToSpawn.Title);
+		Debug.Log ("spawning sprite: " + itemToSpawn.Title);
 		renderer.sprite = itemToSpawn.Sprite;
 		itemobj.name = itemToSpawn.Title;
 	}
