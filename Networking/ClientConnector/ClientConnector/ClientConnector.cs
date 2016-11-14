@@ -12,7 +12,11 @@ using DataPacketLib;
 namespace ClientConnector{
 
 	public class ClientConnector : Plugin {
-
+		
+		/*
+		 * The following declarations are required for plugin
+		 * identification by the DarkRift server.
+		 */
 		public override string name {
 			get {
 				return "ClientConnector plugin";
@@ -46,14 +50,24 @@ namespace ClientConnector{
 
 
 		public ClientConnector() {
+			//Set the onData event to call the OnDataReived function
+			//ConnectionService handles all connections to the server.
 			ConnectionService.onData += OnDataReceived;
 		}
 
+		/*
+		 * This function handles all data events on the server. In this game the
+		 * server does more than just pass information between clients so it needs
+		 * to be handled by a plugin.
+		 */
 		public void OnDataReceived(ConnectionService con, ref NetworkMessage msg){
 			DataPacket packet;
 			string query;
 
+			//Logging to make sure the packets are arriving with the right data.
 			Interface.Log("Received data from " + msg.senderID.ToString ());
+			//data arrives encoded and must be run through this function before it can be
+			//accessed.
 			msg.DecodeData ();
 			Interface.Log ("Tag: " + msg.tag);
 			Interface.Log ("Subject: " + msg.subject);
@@ -61,15 +75,16 @@ namespace ClientConnector{
 
 			//if the msg is "RequestData" then query server and send data
 			if(msg.data.Equals ("RequestData")){
+				//Item query to get at most 5 random records from the item table
 				query = "SELECT * FROM item ORDER BY RAND() LIMIT 5;";
 				DatabaseRow [] itemResults = DarkRiftServer.database.ExecuteQuery (query);
+				//Note query to get at most 5 random records from the note table.
 				query = "SELECT * FROM note ORDER BY RAND() LIMIT 5;";
 				DatabaseRow [] noteResults = DarkRiftServer.database.ExecuteQuery (query);
 
 				//cycle through array and send packet for each item
 				for(int i = 0; i < itemResults.Length; i++){
 					if(itemResults[i] != null){
-						Interface.Log ("itemResults: " + itemResults[i]["type"]);
 						packet = new DataPacket(Convert.ToByte(itemResults[i]["type"]), (float)itemResults[i]["locationX"],
 							(float)itemResults[i]["locationY"]);
 						Interface.Log (packet.itemNum + ", " + packet.x + ", " + packet.y);
@@ -90,10 +105,13 @@ namespace ClientConnector{
 					}
 				}
 
+				//Once all the data is sent to the client indicate that it is finished
 				con.SendReply (msg.tag, msg.subject, "Done");
 			}
 
 			//if the msg is a dataPacket from client put it into the database
+			//The only time the client will send DataPackets is when the level is finished so the data
+			//must be for the database.
 			if(msg.data.GetType().Equals(typeof(DataPacket))){
 				packet = (DataPacket) msg.data;
 				//if the packet is an item put in item table
