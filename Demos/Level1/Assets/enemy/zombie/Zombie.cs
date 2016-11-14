@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour
+public class Zombie : MonoBehaviour
 {
 
     Animator animator;
@@ -58,44 +58,9 @@ public class Enemy : MonoBehaviour
 
     void Move()
     {
-        // if enemy is a skeleton
-        // move to face in the direction of the player
-        if (enemy == GameObject.Find("enemy1"))
-        {
-            skeletonMove();
-        }
-        // if enemy is a zombie
-        // chase the player
-        else if (enemy == GameObject.Find("enemy2"))
-        {
-            zombieMove();
-        }
-        // if enemy is a rat
-        // move in a randomly created direction/movement
-        else if (enemy == GameObject.Find("enemy3"))
-        {
-            ratMove();
-        }
-    }
 
-    void skeletonMove()
-    {
-        if (target.position.x >= transform.position.x && target.position.y < transform.position.y + 1 && target.position.y > transform.position.y - 1)
-        {
-            changeState(STATE_IDLER);
-        }
-        else if (target.position.y < transform.position.y && target.position.x < transform.position.x + 1 && target.position.x > transform.position.x - 1)
-        {
-            changeState(STATE_IDLED);
-        }
-        else if (target.position.y >= transform.position.y && target.position.x < transform.position.x + 1 && target.position.x > transform.position.x - 1)
-        {
-            changeState(STATE_IDLEU);
-        }
-        else if (target.position.x < transform.position.x && target.position.y < transform.position.y + 1 && target.position.y > transform.position.y - 1)
-        {
-            changeState(STATE_IDLEL);
-        }
+        zombieMove();
+
     }
 
     void zombieMove()
@@ -146,54 +111,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void ratMove()
-    {
-        int movement = Random.Range(4, 8);
-        if (rndmMove > 75)
-        {
-            switch (movement)
-            {
-                case STATE_WALKD:
-                    changeState(STATE_WALKD);
-                    transform.Translate(0, -speed * Time.deltaTime, 0);
-                    break;
-                case STATE_WALKU:
-                    changeState(STATE_WALKU);
-                    transform.Translate(0, speed * Time.deltaTime, 0);
-                    break;
-                case STATE_WALKR:
-                    changeState(STATE_WALKR);
-                    transform.Translate(speed * Time.deltaTime, 0, 0);
-                    break;
-                case STATE_WALKL:
-                    changeState(STATE_WALKL);
-                    transform.Translate(-speed * Time.deltaTime, 0, 0);
-                    break;
-            }
-            rndmMove = 0;
-        }
-        else
-        {
-            switch (currentAnimationState)
-            {
-                case STATE_WALKD:
-                    transform.Translate(0, -speed * Time.deltaTime, 0);
-                    break;
-                case STATE_WALKU:
-                    transform.Translate(0, speed * Time.deltaTime, 0);
-                    break;
-                case STATE_WALKR:
-                    transform.Translate(speed * Time.deltaTime, 0, 0);
-                    break;
-                case STATE_WALKL:
-                    transform.Translate(-speed * Time.deltaTime, 0, 0);
-                    break;
-            }
-            rndmMove++;
-        }
-    }
-
-
     void changeState(int state)
     {
         // note: Has Exit Time must not be checked or animation will not loop
@@ -241,17 +158,9 @@ public class Enemy : MonoBehaviour
         if (coll.gameObject.tag == "northDoor" ||
             coll.gameObject.tag == "southDoor" ||
             coll.gameObject.tag == "westDoor" ||
-            coll.gameObject.tag == "eastDoor" &&
-            enemy != GameObject.Find("enemy3"))
+            coll.gameObject.tag == "eastDoor")
         {
             Reset();
-        } 
-
-        // if a rat runs into something, change direction
-        if (enemy == GameObject.Find("enemy3"))
-        {
-            rndmMove = 100;
-            ratMove();
         }
     }
 }

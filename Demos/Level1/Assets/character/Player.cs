@@ -260,9 +260,14 @@ public class Player : MonoBehaviour
 
         // resets enemy position when player moves to a different room
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
+        GameObject[] fires = GameObject.FindGameObjectsWithTag("fire");
         foreach(GameObject enemy in enemies)
         {
             enemy.SendMessage("Reset");
+        }
+        foreach(GameObject fire in fires)
+        {
+            fire.SendMessage("Reset");
         }
 		//init = this.transform.position;
     }
@@ -304,7 +309,7 @@ public class Player : MonoBehaviour
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
         // reset the player's position if they collide with enemy
-        if (coll.gameObject.tag == "enemy")
+        if (coll.gameObject.tag == "enemy" || coll.gameObject.tag == "fire")
         {
             health--;
             if(health == 0)

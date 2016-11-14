@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour
+public class Rat : MonoBehaviour
 {
 
     Animator animator;
@@ -58,92 +58,7 @@ public class Enemy : MonoBehaviour
 
     void Move()
     {
-        // if enemy is a skeleton
-        // move to face in the direction of the player
-        if (enemy == GameObject.Find("enemy1"))
-        {
-            skeletonMove();
-        }
-        // if enemy is a zombie
-        // chase the player
-        else if (enemy == GameObject.Find("enemy2"))
-        {
-            zombieMove();
-        }
-        // if enemy is a rat
-        // move in a randomly created direction/movement
-        else if (enemy == GameObject.Find("enemy3"))
-        {
-            ratMove();
-        }
-    }
-
-    void skeletonMove()
-    {
-        if (target.position.x >= transform.position.x && target.position.y < transform.position.y + 1 && target.position.y > transform.position.y - 1)
-        {
-            changeState(STATE_IDLER);
-        }
-        else if (target.position.y < transform.position.y && target.position.x < transform.position.x + 1 && target.position.x > transform.position.x - 1)
-        {
-            changeState(STATE_IDLED);
-        }
-        else if (target.position.y >= transform.position.y && target.position.x < transform.position.x + 1 && target.position.x > transform.position.x - 1)
-        {
-            changeState(STATE_IDLEU);
-        }
-        else if (target.position.x < transform.position.x && target.position.y < transform.position.y + 1 && target.position.y > transform.position.y - 1)
-        {
-            changeState(STATE_IDLEL);
-        }
-    }
-
-    void zombieMove()
-    {
-        // initial position of the enemy
-        Vector2 initPos = transform.position;
-        // move the enemy toward the player
-        transform.position += (target.position - transform.position).normalized * speed / 4 * Time.deltaTime;
-        // new position of the enemy
-        Vector2 newPos = transform.position;
-
-        // turn in the correct general direction of the enemy movement
-        if (initPos.y < newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
-        {
-            changeState(STATE_WALKU);
-
-        }
-        else if (initPos.y > newPos.y && (initPos.y - newPos.y) > (initPos.x - newPos.x))
-        {
-            changeState(STATE_WALKD);
-        }
-        else if (initPos.x > newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
-        {
-            changeState(STATE_WALKL);
-        }
-        else if (initPos.x < newPos.x && (initPos.y - newPos.y) < (initPos.x - newPos.x))
-        {
-            changeState(STATE_WALKR);
-        }
-        else
-        {
-            if (currentAnimationState == STATE_WALKD)
-            {
-                changeState(STATE_IDLED);
-            }
-            else if (currentAnimationState == STATE_WALKU)
-            {
-                changeState(STATE_IDLEU);
-            }
-            else if (currentAnimationState == STATE_WALKR)
-            {
-                changeState(STATE_IDLER);
-            }
-            else if (currentAnimationState == STATE_WALKL)
-            {
-                changeState(STATE_IDLEL);
-            }
-        }
+        ratMove();
     }
 
     void ratMove()
@@ -237,21 +152,9 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D coll)
     {
-        // if the enemy tries to leave the room, reset their position
-        if (coll.gameObject.tag == "northDoor" ||
-            coll.gameObject.tag == "southDoor" ||
-            coll.gameObject.tag == "westDoor" ||
-            coll.gameObject.tag == "eastDoor" &&
-            enemy != GameObject.Find("enemy3"))
-        {
-            Reset();
-        } 
 
-        // if a rat runs into something, change direction
-        if (enemy == GameObject.Find("enemy3"))
-        {
             rndmMove = 100;
             ratMove();
-        }
+
     }
 }
