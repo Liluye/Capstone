@@ -12,16 +12,17 @@ using DataPacketLib;
 */
 public class NetworkManager : MonoBehaviour
 {
-	//Using local network for now.
-	public string IP = "127.0.0.1";
+	//Reset router to use static ip and port forwarding for server
 	public int clientID;
+	string IP = "68.37.92.209";
+	int port = 4296;
 
 	private List<DataPacket> itemData = new List<DataPacket> ();
 	private List<DataPacket> noteData = new List<DataPacket> ();
 
 	void Start(){
-		//connect to the DarkRift server at IP
-		DarkRiftAPI.Connect(IP);
+		//connect to the DarkRift server at IP and port
+		DarkRiftAPI.Connect(IP, port);
 
 		//assign onDataRecieved function to the onData event so it
 		//runs every time data is recieved from the server.
@@ -78,33 +79,49 @@ public class NetworkManager : MonoBehaviour
 	void OnApplicationQuit(){
 
 		//connect to the server
-		DarkRiftAPI.Connect (IP);
+		DarkRiftAPI.Connect (IP, port);
 
 		List<GameObject> goList = new List<GameObject> ();
-		List<DataPacket> packetList = new List<DataPacket> ();
+		bool skip = false;
 
 		//grab all the GameObjects in the level
 		GameObject[] temp = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
 
 		//find the GameObjects that represent items and put them in the goList
 		foreach (GameObject go in temp){
-			
-			//TODO this way of selecting items may end up with inventory items as well!!!
+
+			//if the gameObject has both ItemData and a SpriteRenderer then it's an item on the floor 
+			//inventory doesn't use the SpriteRenderer
 			if(go.GetComponent<ItemData>() != null && go.GetComponent<SpriteRenderer>() != null){
+				//compare to the items in the itemData list that were sent from the server
+				foreach(DataPacket item in itemData){
+					//if the position and id are the same as item sent from database then duplicate, don't send back
+					if (item.x == go.transform.position.x && item.y == go.transform.position.y
+						&& item.itemNum == go.GetComponent<ItemData>().item.ID) {
+						//set skip to true and break out of item comparison
+						skip = true;
+						break;
+					}
+				}
+				//if skip is true don't put in list for database, and check next gameobject
+				if (skip) {
+					skip = false;
+					continue;
+				}
 				goList.Add(go);
 				Debug.Log ("putting in LIST: " + go.name);
 			}
 		}
+
 		//for every item in the goList, get the item data and location
 		foreach(GameObject go in goList){
 			ItemData idata = go.GetComponent<ItemData>();
 			if (idata == null) {
 				Debug.Log ("ERROR!!! idata is null");
 			}
-			Vector2 loc = go.transform.position;
 			Debug.Log ("item going to database: " + idata.item.Title);
 			//create a new DataPacket with the item data
-			DataPacket dp = new DataPacket ((byte)idata.item.ID, loc.x, loc.y);
+			DataPacket dp = new DataPacket ((byte)idata.item.ID, go.transform.position.x, go.transform.position.y);
 			//send the item data to the server
 			DarkRiftAPI.SendMessageToServer (1, (ushort)clientID, dp);
 		}

@@ -73,16 +73,16 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Networking/Network/Assets/inventory/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Networking/Network/Assets/inventory/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="DarkRiftAPI">
- <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Networking/Network/Assets/network/DarkRift/Plugins/DarkRiftAPI.dll</HintPath>
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Networking/Network/Assets/network/DarkRift/Plugins/DarkRiftAPI.dll</HintPath>
  </Reference>
  <Reference Include="Transmission">
- <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Networking/Network/Assets/network/DarkRift/Plugins/Transmission.dll</HintPath>
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Networking/Network/Assets/network/DarkRift/Plugins/Transmission.dll</HintPath>
  </Reference>
  <Reference Include="DataPacket">
- <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/Networking/Network/Assets/network/scripts/DataPacket.dll</HintPath>
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Networking/Network/Assets/network/scripts/DataPacket.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
