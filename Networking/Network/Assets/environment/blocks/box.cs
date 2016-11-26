@@ -23,13 +23,19 @@ public class box : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D coll) {
-		if (this.name == "green" && coll.gameObject.tag == "box"){
+		if (this.name == "BoxSwitch" && coll.gameObject.tag == "box"){
 			GameObject des = GameObject.Find("disappear1");
 			Destroy(des);		
 		}
 		if (this.name == "bSwitch" && coll.gameObject.tag == "Boomerang") {
 			GameObject des = GameObject.Find("disappear2");
 			Destroy(des);
+		}
+	}
+	void OnCollisionEnter2D(Collision2D coll) 
+	{
+		if (coll.gameObject.tag == "GrapplingHook") {
+			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<BoxCollider2D>());
 		}
 	}
 	void OnCollisionStay2D(Collision2D coll)
@@ -52,9 +58,10 @@ public class box : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D coll) 
 	{
-		if (coll.gameObject.tag == "Player") {
+		if (this.tag == "box" && coll.gameObject.tag == "Player") {
 			GetComponent<Rigidbody2D>().isKinematic = true;
 			pushTime = 0;
 		}
+		
 	}
 }

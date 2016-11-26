@@ -241,7 +241,8 @@ public class Enemy : MonoBehaviour
         if (coll.gameObject.tag == "northDoor" ||
             coll.gameObject.tag == "southDoor" ||
             coll.gameObject.tag == "westDoor" ||
-            coll.gameObject.tag == "eastDoor")
+            coll.gameObject.tag == "eastDoor" &&
+            enemy != GameObject.Find("enemy3"))
         {
             Reset();
         } 

@@ -20,6 +20,14 @@ public class Player : MonoBehaviour
 	private Vector2 leftInit;
 	private Vector2 rightInit;
 	
+	// health icons, positions
+	private GameObject h1;
+	private GameObject h2;
+	private GameObject h3;
+	private Vector2 h1Init;
+	private Vector2 h2Init;
+	private Vector2 h3Init;
+	
     // character animations states
     // note: states added within unity and tied to animation
     const int STATE_IDLED = 0;
@@ -36,6 +44,9 @@ public class Player : MonoBehaviour
 
     // player health
     int health;
+	
+	// whether player is currently invincible
+	bool invulnerable = false;
 
 	// weapon and item could be two seperate objects
     // 0 = no item or weapon equipped
@@ -45,11 +56,13 @@ public class Player : MonoBehaviour
     //0 down, 1 left, 2 up, 3 right
     int facingDirection = 0;
     
-	public GameObject boomerang, bomb, grapplingHook;
+	public GameObject boomerang, bomb, grapplingHook, sword;
     public GameObject itemNorth, itemWest, itemSouth, itemEast;
     private GameObject activeWeapon;
 	private Vector3 grappleLoc;
     private bool grappling;
+	private bool grapplingHookActive;
+	private Collider2D water;
 
     // Use this for initialization
     void Start()
@@ -65,25 +78,65 @@ public class Player : MonoBehaviour
 		borders = GameObject.FindGameObjectsWithTag("border");
 		leftInit = borders[0].transform.position;
 		rightInit = borders[1].transform.position;
+		
+		// get health icons
+		h1 = GameObject.FindWithTag("health1");
+		h1Init = h1.transform.position;
+		h2 = GameObject.FindWithTag("health2");
+		h2Init = h2.transform.position;
+		h3 = GameObject.FindWithTag("health3");
+		h3Init = h3.transform.position;
 
         // set player's health
         health = 3;
+		
+		//Find the river in the level
+		water = GameObject.FindWithTag("water").GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
     void FixedUpdate()
     {
-        Move();
+		Move();
 		UpdateWeapons();
+		if (!grappling) {
+			Physics2D.IgnoreCollision(water, this.GetComponent<BoxCollider2D>(), false);
+			Physics2D.IgnoreCollision(water, this.GetComponent<CircleCollider2D>(), false);
+		}
+		switch(health) {
+			case 3:
+				h1.GetComponent<SpriteRenderer>().enabled = true;
+				h2.GetComponent<SpriteRenderer>().enabled = true;
+				h3.GetComponent<SpriteRenderer>().enabled = true;
+				break;
+			case 2:
+				h1.GetComponent<SpriteRenderer>().enabled = true;
+				h2.GetComponent<SpriteRenderer>().enabled = true;
+				h3.GetComponent<SpriteRenderer>().enabled = false;
+				break;
+			case 1:
+				h1.GetComponent<SpriteRenderer>().enabled = true;
+				h2.GetComponent<SpriteRenderer>().enabled = false;
+				h3.GetComponent<SpriteRenderer>().enabled = false;
+				break;
+			case 0 :
+				h1.GetComponent<SpriteRenderer>().enabled = false;
+				h2.GetComponent<SpriteRenderer>().enabled = false;
+				h3.GetComponent<SpriteRenderer>().enabled = false;
+				break;
+		}
     }
 
     //Player movement, taken currently from arrow keys
     void Move()
     {
-        if (grappling)
+        if (grapplingHookActive)
         {
-            Grapple();
+            if (grappling)
+            {
+                Grapple();
+            }
         }
 		else if (Input.GetKey("w"))
         {
@@ -112,9 +165,7 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKey("space"))
         {
-            // player will punch
-            // if a weapon is equipped, player will attack with that weapon
-
+            useItem(100);
         }
         else if (Input.GetKey("e"))
         {
@@ -204,22 +255,35 @@ public class Player : MonoBehaviour
     {
         if (!activeWeapon)
         {
-            if (item == 0)
+            switch (item)
             {
-                //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
-                activeWeapon = Instantiate(boomerang, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
-                activeWeapon.SendMessage("InitialDirection", facingDirection);
-            }
-            if (item == 1)
-            {
-                activeWeapon = Instantiate(bomb, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
-            }
+                case 0:
+                    {
+                        //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                        activeWeapon = Instantiate(boomerang, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                        activeWeapon.SendMessage("InitialDirection", facingDirection);
+                        break;
+                    }
+                case 1:
+                    {
+                        activeWeapon = Instantiate(bomb, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                        break;
+                    }
 
-            if (item == 2)
-            {
-                //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
-                activeWeapon = Instantiate(grapplingHook, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
-                activeWeapon.SendMessage("InitialDirection", facingDirection);
+                case 2:
+                    {
+                        //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                        activeWeapon = Instantiate(grapplingHook, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
+                        activeWeapon.SendMessage("InitialDirection", facingDirection);
+                        break;
+                    }
+
+                case 100:
+                    {
+                        activeWeapon = Instantiate(sword, transform.position, new Quaternion()) as GameObject;
+                        activeWeapon.SendMessage("InitialDirection", facingDirection);
+                        break;
+                    }
             }
         }
     }
@@ -234,13 +298,19 @@ public class Player : MonoBehaviour
             Camera.main.transform.Translate(0, 8, 0);
 			borders[0].transform.Translate(0, 8, 0);
 			borders[1].transform.Translate(0, 8, 0);
+			h1.transform.Translate(0, 8, 0);
+			h2.transform.Translate(0, 8, 0);
+			h3.transform.Translate(0, 8, 0);
         }
         if (dir.Equals("east"))
         {
             transform.Translate(1.75f, 0, 0);
             Camera.main.transform.Translate(8, 0, 0);
 			borders[0].transform.Translate(8, 0, 0);
-			borders[1].transform.Translate(8, 0, 0);	
+			borders[1].transform.Translate(8, 0, 0);
+			h1.transform.Translate(8, 0, 0);
+			h2.transform.Translate(8, 0, 0);
+			h3.transform.Translate(8, 0, 0);
         }
         if (dir.Equals("west"))
         {
@@ -248,6 +318,9 @@ public class Player : MonoBehaviour
             Camera.main.transform.Translate(-8, 0, 0);
 			borders[0].transform.Translate(-8, 0, 0);
 			borders[1].transform.Translate(-8, 0, 0);
+			h1.transform.Translate(-8, 0, 0);
+			h2.transform.Translate(-8, 0, 0);
+			h3.transform.Translate(-8, 0, 0);
         }
         if (dir.Equals("south"))
         {
@@ -255,13 +328,21 @@ public class Player : MonoBehaviour
             Camera.main.transform.Translate(0, -8, 0);
 			borders[0].transform.Translate(0, -8, 0);
 			borders[1].transform.Translate(0, -8, 0);
+			h1.transform.Translate(0, -8, 0);
+			h2.transform.Translate(0, -8, 0);
+			h3.transform.Translate(0, -8, 0);
         }
 
         // resets enemy position when player moves to a different room
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
+        GameObject[] fires = GameObject.FindGameObjectsWithTag("fire");
         foreach(GameObject enemy in enemies)
         {
             enemy.SendMessage("Reset");
+        }
+        foreach(GameObject fire in fires)
+        {
+            fire.SendMessage("Reset");
         }
 		//init = this.transform.position;
     }
@@ -272,18 +353,32 @@ public class Player : MonoBehaviour
 		Camera.main.transform.position = camInit;
 		borders[0].transform.position = leftInit;
 		borders[1].transform.position = rightInit;
+		h1.transform.position = h1Init;
+		h2.transform.position = h2Init;
+		h3.transform.position = h3Init;
 	}
-
+	
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+		if (coll.gameObject.tag == "water" && grappling) {
+			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<BoxCollider2D>());
+			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<CircleCollider2D>());
+		}
+	}
+	
     void OnCollisionStay2D(Collision2D coll)
     {
-        if (grappling)
+		if (grappling)
         {
             if (activeWeapon != null)
             {
                 activeWeapon.SendMessage("BreakGrapple");
                 grappling = false;
+				Physics2D.IgnoreCollision(water, this.GetComponent<BoxCollider2D>(), false);
+				Physics2D.IgnoreCollision(water, this.GetComponent<CircleCollider2D>(), false);
             }
         }
+
 		// note: freeze Z rotation must be checked within Unity
         if (coll.gameObject.tag == "northDoor")
             ShiftRoom("north");
@@ -293,20 +388,24 @@ public class Player : MonoBehaviour
             ShiftRoom("west");
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
-        // reset the player's position if they collide with enemy
-        if (coll.gameObject.tag == "enemy")
-        {
-            health--;
-            if(health == 0)
-            {
-                Reset();
-            }
-        }
-    }
+		if (!invulnerable){
+			// reset the player's position if they lose all health
+			if (coll.gameObject.tag == "enemy" || coll.gameObject.tag == "fire")
+			{
+				health--;
+				if(health == 0)
+				{
+					Reset();
+				}
+				invulnerable = true;
+				Invoke("SetVulnerable", 1.5f);
+			}
+		}
+	}
 	
-	void OnCollisionExit2D() 
+	void OnCollisionExit2D(Collision2D coll) 
 	{
-
+		
 	}
 	
     private void UpdateWeapons()
@@ -320,6 +419,7 @@ public class Player : MonoBehaviour
 
             if (activeWeapon.gameObject.tag == "GrapplingHook")
             {
+                grapplingHookActive = true;
                 grapplingHookAction gha = activeWeapon.GetComponent<grapplingHookAction>();
                 if (gha.getGrapple())
                 {
@@ -331,6 +431,10 @@ public class Player : MonoBehaviour
 
                 }
             }
+        }
+		else
+        {
+            grapplingHookActive = false;
         }
     }
 	
@@ -362,4 +466,9 @@ public class Player : MonoBehaviour
                 return new Vector3(0,0,0);
         }
     }
+	
+	private void SetVulnerable() 
+	{
+		invulnerable = false;
+	}
 }

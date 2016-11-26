@@ -22,6 +22,10 @@ public class bombAction : MonoBehaviour {
     {
         float timeSinceInitialized = Time.timeSinceLevelLoad - initializedAt;
         int nextSprite = (int)(timeSinceInitialized * framesPerSecond);
+		if (nextSprite == 8) {
+			AudioSource audio = GetComponent<AudioSource> ();
+			audio.Play ();
+		}
         if (nextSprite == sprites.Length)
         {
             Explode();

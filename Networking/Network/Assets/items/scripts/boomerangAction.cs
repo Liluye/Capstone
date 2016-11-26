@@ -56,7 +56,7 @@ public class boomerangAction : MonoBehaviour {
         nextSprite %= sprites.Length;
         spriteRenderer.sprite = sprites[nextSprite];
         //Linear interpolate between current position and destination
-        transform.position = Vector3.Lerp(transform.position, destinationLoc, Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, destinationLoc, Time.deltaTime * speed);
     }
 
     void OnCollisionStay2D(Collision2D col)

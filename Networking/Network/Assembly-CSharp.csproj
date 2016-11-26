@@ -45,16 +45,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\camera\camera.cs" />
      <Compile Include="Assets\character\Player.cs" />
      <Compile Include="Assets\character\playerAnimation.cs" />
      <Compile Include="Assets\enemy\Enemy.cs" />
+     <Compile Include="Assets\enemy\rat\Rat.cs" />
+     <Compile Include="Assets\enemy\skeleton\Fire.cs" />
+     <Compile Include="Assets\enemy\skeleton\Skeleton.cs" />
+     <Compile Include="Assets\enemy\zombie\Zombie.cs" />
      <Compile Include="Assets\environment\blocks\box.cs" />
      <Compile Include="Assets\inventory\Script\Inventory.cs" />
      <Compile Include="Assets\inventory\Script\ItemData.cs" />
      <Compile Include="Assets\inventory\Script\ItemDatabase.cs" />
+     <Compile Include="Assets\items\scripts\SwordAction.cs" />
      <Compile Include="Assets\items\scripts\bombAction.cs" />
      <Compile Include="Assets\items\scripts\boomerangAction.cs" />
      <Compile Include="Assets\items\scripts\grapplingHookAction.cs" />
+     <Compile Include="Assets\items\scripts\noteAction.cs" />
      <Compile Include="Assets\network\DarkRift\Plugins\DarkRiftReceiver.cs" />
      <Compile Include="Assets\network\scripts\NetworkManager.cs" />
      <Compile Include="Assets\network\scripts\SpawnItem.cs" />
