@@ -8,9 +8,23 @@
 	},
 	{
 		"id": 1,
-		"title": "Steel Gloves",
-		"description": "Use these to move heavy items",
+		"title": "Bomb",
+		"description": "Use to blow up obstructions",
 		"stackable": false,
-		"slug": "steel_gloves"
-	}
+		"slug": "bomb"
+	},
+	{
+		"id": 2,
+		"title": "Boomerang",
+		"description": "This always comes back to you",
+		"stackable": false,
+		"slug": "boomerang"
+	},
+	{
+		"id": 3,
+		"title": "Grappling Hook",
+		"description": "This makes it possible to swing across a chasm",
+		"stackable": false,
+		"slug": "grappling_hook"
+	} 
 ]
