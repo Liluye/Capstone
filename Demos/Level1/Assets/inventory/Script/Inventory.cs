@@ -29,11 +29,9 @@ public class Inventory : MonoBehaviour {
 			slots [i].transform.SetParent (slotPanel.transform);
 		}
 			
-		AddItem (0);
-		AddItem (0);
-		AddItem (0);
-		AddItem (0);
-
+		AddItem (3);
+		AddItem (1);
+		AddItem (2);
 
 		//Debug.Log (items [1].Title);
 	}
