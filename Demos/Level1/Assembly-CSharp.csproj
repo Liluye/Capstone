@@ -57,6 +57,7 @@
      <Compile Include="Assets\inventory\Script\Inventory.cs" />
      <Compile Include="Assets\inventory\Script\ItemData.cs" />
      <Compile Include="Assets\inventory\Script\ItemDatabase.cs" />
+     <Compile Include="Assets\inventory\Script\Slot.cs" />
      <Compile Include="Assets\items\scripts\SwordAction.cs" />
      <Compile Include="Assets\items\scripts\bombAction.cs" />
      <Compile Include="Assets\items\scripts\boomerangAction.cs" />
