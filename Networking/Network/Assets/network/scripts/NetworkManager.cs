@@ -17,8 +17,11 @@ public class NetworkManager : MonoBehaviour
 	string IP = "68.37.92.209";
 	int port = 4296;
 
+	//lists of DataPackets from DB
 	private List<DataPacket> itemData = new List<DataPacket> ();
 	private List<DataPacket> noteData = new List<DataPacket> ();
+	//list of DataPackets to be sent to DB
+	private List<DataPacket> notes = new List<DataPacket> ();
 
 	void Start(){
 		//connect to the DarkRift server at IP and port
@@ -109,7 +112,7 @@ public class NetworkManager : MonoBehaviour
 					continue;
 				}
 				goList.Add(go);
-				Debug.Log ("putting in LIST: " + go.name);
+				//Debug.Log ("putting in LIST: " + go.name);
 			}
 		}
 
@@ -126,12 +129,21 @@ public class NetworkManager : MonoBehaviour
 			DarkRiftAPI.SendMessageToServer (1, (ushort)clientID, dp);
 		}
 
-		//TODO need equivalent code to handle finding and sending notes
+		//notes list filled as notes are written by function addNote, just send them to DB.
+		foreach (DataPacket note in notes) {
+			Debug.Log ("note going to database: " + note.note);
+			DarkRiftAPI.SendMessageToServer (2, (ushort)clientID, note);
+		}
 
 		//disconnect from server
 		DarkRiftAPI.Disconnect();
 	}
 
+	//Create new DataPacket for note and add to notes list
+	public void addNote (string note, Vector2 location){
+		DataPacket dp = new DataPacket (note, location.x, location.y);
+		notes.Add (dp);
+	}
 
 
 
