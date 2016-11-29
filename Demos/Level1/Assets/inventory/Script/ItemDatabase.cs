@@ -4,6 +4,11 @@ using LitJson;
 using System.Collections.Generic;
 using System.IO;
 
+/*
+ * This class is to used to build the item database
+ * and store it in a list
+ */
+
 public class ItemDatabase : MonoBehaviour {
 	private List<Item> database = new List<Item>();
 	private JsonData itemData;
@@ -12,7 +17,7 @@ public class ItemDatabase : MonoBehaviour {
 	{
 		itemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/inventory/StreamingAssets/Items.Json"));
 		ConstructItemDatabase ();
-		Debug.Log (FetchItemById(0).Title);
+		//Debug.Log (FetchItemById(0).Title);
 
 	}
 
@@ -33,6 +38,10 @@ public class ItemDatabase : MonoBehaviour {
 		}
 	}
 }
+
+/*
+ * This class holds the data for an item
+ */
 
 public class Item
 {

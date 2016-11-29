@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ * This script builds the inventory 
+ */
+
 public class Inventory : MonoBehaviour {
 
 	GameObject inventoryPanel;
@@ -22,6 +26,8 @@ public class Inventory : MonoBehaviour {
 		slotAmount = 3;
 		inventoryPanel = GameObject.Find ("InventoryPanel");
 		slotPanel = inventoryPanel.transform.FindChild ("SlotPanel").gameObject;
+
+		// Adds the number of slots dynamically by changing the slotAmount value
 		for (int i = 0; i < slotAmount; i++) 
 		{
 			items.Add (new Item());
@@ -37,9 +43,12 @@ public class Inventory : MonoBehaviour {
 		//Debug.Log (items [1].Title);
 	}
 
+	//Method to add item to the inventory
 	public void AddItem(int id)
 	{
 		Item itemToAdd = database.FetchItemById (id);
+
+		//Deals with stackable items
 		if (itemToAdd.Stackable && CheckIfItemInInventory (itemToAdd)) {
 			for (int i = 0; i < items.Count; i++) {
 				if (items [i].ID == id) {
@@ -49,7 +58,10 @@ public class Inventory : MonoBehaviour {
 					break;
 				}
 			}
-		} else {
+		} 
+
+		//Deals with non stackable items
+		else {
 			for (int i = 0; i < items.Count; i++) {
 				if (items [i].ID == -1) 
 				{
