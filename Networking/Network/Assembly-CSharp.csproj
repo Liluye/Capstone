@@ -65,9 +65,11 @@
      <Compile Include="Assets\network\DarkRift\Plugins\DarkRiftReceiver.cs" />
      <Compile Include="Assets\network\scripts\NetworkManager.cs" />
      <Compile Include="Assets\network\scripts\SpawnItem.cs" />
+     <Compile Include="Assets\network\scripts\SpawnNote.cs" />
      <Compile Include="Assets\notes\scripts\closeButton.cs" />
      <Compile Include="Assets\notes\scripts\noteButton.cs" />
      <Compile Include="Assets\notes\scripts\notePanel.cs" />
+     <Compile Include="Assets\notes\scripts\pickupNote.cs" />
      <Compile Include="Assets\notes\scripts\saveButton.cs" />
      <None Include="Assets\network\ChangeLog.txt" />
      <None Include="Assets\network\DarkRift\Plugins\Readme.txt" />

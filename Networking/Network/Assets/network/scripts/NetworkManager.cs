@@ -55,12 +55,14 @@ public class NetworkManager : MonoBehaviour
 			DataPacket packet = (DataPacket) data;
 
 			//sort the DataPackets by item and note, the spawning methods will be different
-			if (packet.isItem == 1) {
+			if (tag == 1) {
 				Debug.Log ("Message " + tag + ": " + packet.itemNum);
 				itemData.Add (packet);
-			} else {
+			} else if (tag == 2) {
 				Debug.Log ("Message " + tag + ": " + packet.note);
 				noteData.Add (packet);
+			} else {
+				Debug.LogError ("There was an error with the packet tag");
 			}
 		}
 
@@ -71,10 +73,14 @@ public class NetworkManager : MonoBehaviour
 			//call SpawnItem script for each item
 			foreach (DataPacket packet in itemData) {
 				GameObject.Find ("spawner").GetComponent<SpawnItem> ()
-					.spawning (packet.itemNum, new Vector2 (packet.x, packet.y));
+					.spawnItem (packet.itemNum, new Vector2 (packet.x, packet.y));
 			}
 
-			//TODO need eqivalent script to spawn notes
+			//call SpawnNote script for each note
+			foreach (DataPacket packet in noteData){
+				GameObject.Find ("spawner").GetComponent<SpawnNote> ()
+					.spawnNote (packet.note, new Vector2 (packet.x, packet.y));
+			}
 		}
 	}
 
@@ -130,9 +136,11 @@ public class NetworkManager : MonoBehaviour
 		}
 
 		//notes list filled as notes are written by function addNote, just send them to DB.
-		foreach (DataPacket note in notes) {
-			Debug.Log ("note going to database: " + note.note);
-			DarkRiftAPI.SendMessageToServer (2, (ushort)clientID, note);
+		foreach (DataPacket packet in notes) {
+			Debug.Log ("note going to database: " + packet.note);
+			//Temporarily sending the note packets as a string, for some reason won't send the DataPacket as a note
+			//but can send DataPacket as a note from server to client
+			DarkRiftAPI.SendMessageToServer (2, (ushort)clientID, packet.note + "|" + packet.x + "|" + packet.y);
 		}
 
 		//disconnect from server

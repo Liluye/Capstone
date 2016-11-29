@@ -74,12 +74,12 @@ namespace ClientConnector{
 			Interface.Log ("Data: " + msg.data);
 
 			//if the msg is "RequestData" then query server and send data
-			if(msg.data.Equals ("RequestData")){
+			if(msg.tag == 0){
 				//Item query to get at most 5 random records from the item table
-				query = "SELECT * FROM item ORDER BY RAND() LIMIT 5;";
+				query = "SELECT * FROM item ORDER BY RAND() LIMIT 3;";
 				DatabaseRow [] itemResults = DarkRiftServer.database.ExecuteQuery (query);
 				//Note query to get at most 5 random records from the note table.
-				query = "SELECT * FROM note ORDER BY RAND() LIMIT 5;";
+				query = "SELECT * FROM note ORDER BY RAND() LIMIT 3;";
 				DatabaseRow [] noteResults = DarkRiftServer.database.ExecuteQuery (query);
 
 				//cycle through array and send packet for each item
@@ -88,7 +88,7 @@ namespace ClientConnector{
 						packet = new DataPacket(Convert.ToByte(itemResults[i]["type"]), (float)itemResults[i]["locationX"],
 							(float)itemResults[i]["locationY"]);
 						Interface.Log (packet.itemNum + ", " + packet.x + ", " + packet.y);
-						if (con.SendReply (msg.tag, msg.subject, packet)) {
+						if (con.SendReply (1, msg.subject, packet)) {
 							Interface.Log ("Packet SENT!");
 						} else {
 							Interface.LogError("ERROR: Packet did not send.");
@@ -101,33 +101,40 @@ namespace ClientConnector{
 					if(noteResults[i] != null){
 						packet = new DataPacket((string)noteResults[i]["message"], (float)noteResults[i]["locationX"],
 							(float)noteResults[i]["locationY"]);
-						con.SendReply (msg.tag, msg.subject, packet);
+						Interface.Log (packet.note + ", " + packet.x + ", " + packet.y);
+						if (con.SendReply (2, msg.subject, packet)) {
+							Interface.Log ("Packet SENT!");
+						} else {
+							Interface.LogError("ERROR: Packet did not send.");
+						}
 					}
 				}
 
 				//Once all the data is sent to the client indicate that it is finished
-				con.SendReply (msg.tag, msg.subject, "Done");
-			}
+				con.SendReply (0, msg.subject, "Done");
+			
 
 			//if the msg is a dataPacket from client put it into the database
 			//The only time the client will send DataPackets is when the level is finished so the data
 			//must be for the database.
-			if(msg.data.GetType().Equals(typeof(DataPacket))){
-				packet = (DataPacket) msg.data;
-				//if the packet is an item put in item table
-				if(packet.isItem == 1){
-					query = "INSERT INTO item (type, locationX, locationY)" +
-						"VALUES (" + (int)packet.itemNum + ", " + packet.x + ", " + packet.y + ");";
-					Interface.Log ("adding item to database");
-					DarkRiftServer.database.ExecuteQuery (query);
-					//if the packet is a note put in note table
-				}else if (packet.isItem == 0){
-					query = "INSERT INTO note (message, locationX, locationY)" +
-						"VALUES (" + DarkRiftServer.database.EscapeString(packet.note) + ", " + 
-						packet.x + ", " + packet.y + ");";
-				}else{
-					Interface.LogError ("ERROR: there is a problem with the packet could not be added to DB.");
-				}
+			} else if (msg.tag == 1) {
+				packet = (DataPacket)msg.data;
+				query = "INSERT INTO item (type, locationX, locationY)" +
+				"VALUES (" + (int)packet.itemNum + ", " + packet.x + ", " + packet.y + ");";
+				Interface.Log ("adding item to database");
+				DarkRiftServer.database.ExecuteQuery (query);
+
+			} else if (msg.tag == 2) {
+				//packet = (DataPacket)msg.data;
+				string notepacket = (string)msg.data;
+				string[] packetdata = notepacket.Split ('|');
+				query = "INSERT INTO note (message, locationX, locationY)" +
+					"VALUES (\"" + DarkRiftServer.database.EscapeString (packetdata[0]) + "\", " +
+					float.Parse(packetdata[1]) + ", " + float.Parse(packetdata[2]) + ");";
+				Interface.Log ("adding note to database");
+				DarkRiftServer.database.ExecuteQuery (query);
+			} else {
+				Interface.LogError ("ERROR: there is a problem with the packet could not be added to DB.");
 			}
 		}
 	}

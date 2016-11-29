@@ -41,6 +41,9 @@
       <HintPath>..\..\DataPacket\DataPacket\bin\Debug\DataPacket.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="NotePacket">
+      <HintPath>..\..\NotePacket\NotePacket\bin\Debug\NotePacket.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
