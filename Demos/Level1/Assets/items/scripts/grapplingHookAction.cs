@@ -45,7 +45,6 @@ public class grapplingHookAction : MonoBehaviour
                 if (Vector3.Distance(pointAlongLine, startLoc) < 0.3)
                     Destroy(gameObject);
                 pointAlongLine = x * Vector3.Normalize(startLoc - destinationLoc) + destinationLoc;
-                Debug.Log(pointAlongLine);
 
             }
             else
@@ -61,7 +60,6 @@ public class grapplingHookAction : MonoBehaviour
         {
             if (grapple)
             {
-                Debug.Log(Vector3.Distance(destinationLoc, startLoc));
                 if (Vector3.Distance(destinationLoc, startLoc) < 0.4)
                     Destroy(gameObject);
                 

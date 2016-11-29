@@ -71,6 +71,7 @@
     <Compile Include="Assets\character\playerAnimation.cs" />
     <Compile Include="Assets\enemy\Enemy.cs" />
     <Compile Include="Assets\environment\blocks\box.cs" />
+    <Compile Include="Assets\hpScript.cs" />
     <Compile Include="Assets\inventory\Script\Inventory.cs" />
     <Compile Include="Assets\inventory\Script\ItemData.cs" />
     <Compile Include="Assets\inventory\Script\ItemDatabase.cs" />

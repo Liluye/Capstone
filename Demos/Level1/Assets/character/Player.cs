@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
     private bool grappling;
 	private bool grapplingHookActive;
 	private Collider2D water;
+    private Rigidbody2D rb;
 
     // Use this for initialization
     void Start()
@@ -92,6 +93,30 @@ public class Player : MonoBehaviour
 		
 		//Find the river in the level
 		water = GameObject.FindWithTag("water").GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyUp("b"))
+        {
+            // player will use currently equipped item
+            if (currentItem == 0)
+            {
+                currentItem = 1;
+                Debug.Log("Item set to bomb");
+            }
+            else if (currentItem == 1)
+            {
+                currentItem = 2;
+                Debug.Log("Item set to grappling hook");
+            }
+            else if (currentItem == 2)
+            {
+                currentItem = 0;
+                Debug.Log("Item set to boomerang");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -173,25 +198,6 @@ public class Player : MonoBehaviour
             useItem(currentItem);
         }
 		//Hardcoded bomb drop key for now
-        else if (Input.GetKeyUp("b"))
-        {
-            // player will use currently equipped item
-            if (currentItem == 0)
-            {
-                currentItem = 1;
-                Debug.Log("Item set to bomb");
-            }
-            else if (currentItem == 1)
-            {
-                currentItem = 2;
-                Debug.Log("Item set to grappling hook");
-            }
-            else if (currentItem == 2)
-            {
-                currentItem = 0;
-                Debug.Log("Item set to boomerang");
-            }
-        }
         else if (Input.GetKey("r"))
 		{
 			// return player to start position in room
@@ -421,6 +427,7 @@ public class Player : MonoBehaviour
             {
                 grapplingHookActive = true;
                 grapplingHookAction gha = activeWeapon.GetComponent<grapplingHookAction>();
+                rb.isKinematic = true;
                 if (gha.getGrapple())
                 {
                     if (!grappling)
@@ -428,13 +435,13 @@ public class Player : MonoBehaviour
                         grappleLoc = gha.getGrappleLocation();
                     }
                     grappling = true;
-
                 }
             }
         }
 		else
         {
             grapplingHookActive = false;
+            rb.isKinematic = false;
         }
     }
 	
