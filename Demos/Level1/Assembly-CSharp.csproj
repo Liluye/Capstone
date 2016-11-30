@@ -63,7 +63,20 @@
      <Compile Include="Assets\items\scripts\boomerangAction.cs" />
      <Compile Include="Assets\items\scripts\grapplingHookAction.cs" />
      <Compile Include="Assets\items\scripts\noteAction.cs" />
+     <Compile Include="Assets\network\DarkRift\Plugins\DarkRiftReceiver.cs" />
+     <Compile Include="Assets\network\scripts\NetworkManager.cs" />
+     <Compile Include="Assets\network\scripts\SpawnItem.cs" />
+     <Compile Include="Assets\network\scripts\SpawnNote.cs" />
+     <Compile Include="Assets\notes\scripts\closeButton.cs" />
+     <Compile Include="Assets\notes\scripts\noteButton.cs" />
+     <Compile Include="Assets\notes\scripts\notePanel.cs" />
+     <Compile Include="Assets\notes\scripts\pickupNote.cs" />
+     <Compile Include="Assets\notes\scripts\saveButton.cs" />
+     <None Include="Assets\network\ChangeLog.txt" />
+     <None Include="Assets\network\DarkRift\Plugins\Readme.txt" />
      <None Include="Assets\items\ReadMe.txt" />
+     <None Include="Assets\network\DarkRift\Plugins\DarkRiftAPI.xml" />
+     <None Include="Assets\network\Readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -71,7 +84,16 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/admin/Documents/github/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
+ </Reference>
+ <Reference Include="DarkRiftAPI">
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/network/DarkRift/Plugins/DarkRiftAPI.dll</HintPath>
+ </Reference>
+ <Reference Include="Transmission">
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/network/DarkRift/Plugins/Transmission.dll</HintPath>
+ </Reference>
+ <Reference Include="DataPacket">
+ <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/network/scripts/DataPacket.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
