@@ -491,6 +491,7 @@ public class Player : MonoBehaviour
 		else
         {
             grapplingHookActive = false;
+            grappling = false;
             rb.isKinematic = false;
         }
     }
