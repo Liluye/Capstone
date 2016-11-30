@@ -47,7 +47,7 @@ public class Zombie : MonoBehaviour
 	 ******************************************************************/
     void Start()
     {
-        // define animator attached to character
+        // define animator attached to enemy
         animator = this.GetComponent<Animator>();
 
         // define the enemy game object

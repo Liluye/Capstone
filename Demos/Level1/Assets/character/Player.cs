@@ -1,35 +1,46 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the movement of the Player.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour
 {
 
+    /** the animator connected to the player sprite */
     Animator animator;
 
-    // travel 2.5 grid squares per second
+    /** the speed at which the player travels */
     float speed = 2.5f;
 
-	// start position
-	private Vector2 init;
+    /** starting position of the player sprite */
+    private Vector2 init;
 	
-	// camera start
+	/** starting position of the camera */
 	private Vector3 camInit;
 
-	// border position
+	/** game object for map borders */
 	private GameObject[] borders;
+
+    /** location of map borders */
 	private Vector2 leftInit;
 	private Vector2 rightInit;
 	
-	// health icons, positions
+	/** game objects for the health icons */
 	private GameObject h1;
 	private GameObject h2;
 	private GameObject h3;
+
+    /** positions of the health icons */
 	private Vector2 h1Init;
 	private Vector2 h2Init;
 	private Vector2 h3Init;
-	
-    // character animations states
-    // note: states added within unity and tied to animation
+
+    /** player animation states */
     const int STATE_IDLED = 0;
     const int STATE_IDLEU = 1;
     const int STATE_IDLER = 2;
@@ -39,25 +50,26 @@ public class Player : MonoBehaviour
     const int STATE_WALKR = 6;
     const int STATE_WALKL = 7;
 
-    // character starts out in idle state
+    /** current state of the animation (starts idle down) */
     int currentAnimationState = STATE_IDLED;
 
-    // player health
+    /** player health */
     int health;
 	
-	// whether player is currently invincible
+	/** determines current invulnerability */
 	bool invulnerable = false;
 
-	// weapon and item could be two seperate objects
-    // 0 = no item or weapon equipped
+	/** the item currently equipped by the player */
     int currentItem = 0;
-    int currentWeapon = 0;
-	
-    //0 down, 1 left, 2 up, 3 right
+
+    /** current direction (0 down, 1 left, 2 up, 3 right) */
     int facingDirection = 0;
-    
-	public GameObject boomerang, bomb, grapplingHook, sword;
+
+    /** game objects associated with items */
+    public GameObject boomerang, bomb, grapplingHook, sword;
     public GameObject itemNorth, itemWest, itemSouth, itemEast;
+
+    /** the weapon currently equipped */
     private GameObject activeWeapon;
 	private Vector3 grappleLoc;
     private bool grappling;
@@ -65,14 +77,18 @@ public class Player : MonoBehaviour
 	private Collider2D water;
     private Rigidbody2D rb;
 
-    // Use this for initialization
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
     void Start()
     {
-		// game start position for reset
-		init = transform.position;
+        // get initial position of player
+        init = transform.position;
+
+        // get the start position for camera
 		camInit = Camera.main.transform.position;
 		
-		// define animator attached to character
+		// define animator attached to player
         animator = this.GetComponent<Animator>();
 		
 		// get borders so they can be moved
@@ -96,6 +112,9 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    /*******************************************************************
+	 * Method called once per frame to update items
+	 ******************************************************************/
     void Update()
     {
         if (Input.GetKeyUp("b"))
@@ -119,8 +138,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
+    /*******************************************************************
+	 * Method called once per frame to update sprite
+	 ******************************************************************/
     void FixedUpdate()
     {
 		Move();
@@ -153,7 +173,11 @@ public class Player : MonoBehaviour
 		}
     }
 
-    //Player movement, taken currently from arrow keys
+    /*******************************************************************
+	 * Method that moves the sprite
+     * Takes input from the keyboard to move, use items, or
+     * interact with the environment
+	 ******************************************************************/
     void Move()
     {
         if (grapplingHookActive)
@@ -221,6 +245,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    /*******************************************************************
+    * Changes the animation state of the sprite
+    * @param state integer corresponding to the new animation state
+    ******************************************************************/
     void changeState(int state)
     {
         // note: Has Exit Time must not be checked or animation will not loop
@@ -257,6 +285,10 @@ public class Player : MonoBehaviour
         currentAnimationState = state;
     }
 
+    /*******************************************************************
+    * Assigns the current weapon
+    * @param item integer corresponding to the item being assigned
+    ******************************************************************/
     void useItem(int item)
     {
         if (!activeWeapon)
@@ -294,8 +326,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Moves both player and main camera into adjacent room
-	// Sets new reset position
+    /*******************************************************************
+    * Moves both player and main camera into adjacent room
+    * Sets new reset position
+    * @param dir String corresponding to which direction the player 
+    * is moving into a new room
+    ******************************************************************/
     void ShiftRoom(string dir)
     {
 		if (dir.Equals("north"))
@@ -352,8 +388,12 @@ public class Player : MonoBehaviour
         }
 		//init = this.transform.position;
     }
-	
-	void Reset() {
+
+    /*******************************************************************
+	 * Resets the player back to its original position, resets health,
+     * and moves camera, map borders, and health icons
+	 ******************************************************************/
+    void Reset() {
 		transform.position = init;
         health = 3;
 		Camera.main.transform.position = camInit;
@@ -371,7 +411,12 @@ public class Player : MonoBehaviour
 			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<CircleCollider2D>());
 		}
 	}
-	
+
+    /*******************************************************************
+	 * Sent each frame where a collider on another object 
+     * is touching this object's collider
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
     void OnCollisionStay2D(Collision2D coll)
     {
 		if (grappling)
@@ -408,8 +453,13 @@ public class Player : MonoBehaviour
 			}
 		}
 	}
-	
-	void OnCollisionExit2D(Collision2D coll) 
+
+    /*******************************************************************
+	 * Sent when a collider on another object stops touching 
+     * this object's collider
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
+    void OnCollisionExit2D(Collision2D coll) 
 	{
 		
 	}
