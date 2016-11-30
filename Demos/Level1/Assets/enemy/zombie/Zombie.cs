@@ -1,16 +1,23 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the movement of the Zombie enemy.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class Zombie : MonoBehaviour
 {
 
+    /** the animator connected to the zombie sprite */
     Animator animator;
 
-    //travel 2.5 grid squares per second
+    /** the speed at which the enemy travels */
     float speed = 2.5f;
 
-    // character animations states
-    // note: states added within unity and tied to animation
+    /** enemy animation states */
     const int STATE_IDLED = 0;
     const int STATE_IDLEU = 1;
     const int STATE_IDLER = 2;
@@ -20,55 +27,71 @@ public class Zombie : MonoBehaviour
     const int STATE_WALKR = 6;
     const int STATE_WALKL = 7;
 
-    // character starts out in idle state
+    /** current state of the animation (starts idle down) */
     int currentAnimationState = STATE_IDLED;
 
-    // start position
+    /** starting position of the enemy sprite */
     private Vector2 init;
 
+    /** the GameObject associated with the enemy */
     private GameObject enemy;
-    private int rndmMove = 0;
-    private GameObject play;
-    private Transform target;
-    private Animation playerAnim;
 
-    // Use this for initialization
+    /** the GameObject associated with the player */
+    private GameObject play;
+
+    /** the Transform (position) associated with the player */
+    private Transform target;
+
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
     void Start()
     {
         // define animator attached to character
         animator = this.GetComponent<Animator>();
 
+        // define the enemy game object
         enemy = this.gameObject;
 
         // define the player
         play = GameObject.FindGameObjectWithTag("Player");
+
         // get player position
         target = play.transform;
 
-        // game start position for reset
+        // get initial position of enemy
         init = transform.position;
     }
 
-    // Update is called once per frame
-    // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
+    /*******************************************************************
+	 * Method called once per frame to update sprite
+	 ******************************************************************/
     void FixedUpdate()
     {
         Move();
     }
 
+    /*******************************************************************
+	 * Method that moves the sprite
+     * Calls zombieMove() for specific zombie movement
+	 ******************************************************************/
     void Move()
     {
-
         zombieMove();
-
     }
 
+    /*******************************************************************
+	 * Moves the zombie toward the player and changes the direction
+     * it faces to the general direction of the player
+	 ******************************************************************/
     void zombieMove()
     {
         // initial position of the enemy
         Vector2 initPos = transform.position;
+
         // move the enemy toward the player
         transform.position += (target.position - transform.position).normalized * speed / 4 * Time.deltaTime;
+
         // new position of the enemy
         Vector2 newPos = transform.position;
 
@@ -111,9 +134,13 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    /*******************************************************************
+	 * Changes the animation state of the sprite
+     * @param state integer corresponding to the new animation state
+	 ******************************************************************/
     void changeState(int state)
     {
-        // note: Has Exit Time must not be checked or animation will not loop
+
         if (currentAnimationState == state)
             return;
 
@@ -144,14 +171,24 @@ public class Zombie : MonoBehaviour
                 animator.SetInteger("state", STATE_WALKL);
                 break;
         }
+
         currentAnimationState = state;
     }
 
+    /*******************************************************************
+	 * Resets the zombie back to its original position
+	 ******************************************************************/
     void Reset()
     {
         transform.position = init;
     }
 
+    /*******************************************************************
+	 * Sent each frame where a collider on another object 
+     * is touching this object's collider
+     * On collision with a door, the sprite will call Reset()
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
     void OnCollisionStay2D(Collision2D coll)
     {
         // if the enemy tries to leave the room, reset their position
