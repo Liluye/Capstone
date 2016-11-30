@@ -111,4 +111,17 @@ public class Fire : MonoBehaviour {
         // update the player's current position
         playerPos = target.position;
     }
+
+    /*******************************************************************
+	 * Sent when an incoming collider makes contact with 
+     * this object's collider
+     * If a sword hits the fire, destory it
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Sword")
+            Destroy(gameObject);
+    }
+
 }

@@ -200,4 +200,16 @@ public class Zombie : MonoBehaviour
             Reset();
         }
     }
+
+    /*******************************************************************
+	 * Sent when an incoming collider makes contact with 
+     * this object's collider
+     * If a sword hits the zombie, destory it
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Sword")
+            Destroy(gameObject);
+    }
 }
