@@ -529,4 +529,9 @@ public class Player : MonoBehaviour
 	{
 		invulnerable = false;
 	}
+
+    public void SetItem(int item)
+    {
+        currentItem = item;
+    }
 }
