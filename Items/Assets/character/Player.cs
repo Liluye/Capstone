@@ -45,12 +45,14 @@ public class Player : MonoBehaviour
     //0 down, 1 left, 2 up, 3 right
     int facingDirection = 0;
     
-	public GameObject boomerang, bomb, grapplingHook, sword;
+	public GameObject boomerang, bomb, grapplingHook, sword, bonusCharacter;
     public GameObject itemNorth, itemWest, itemSouth, itemEast;
     private GameObject activeWeapon;
+    private GameObject activeBonusChar;
 	private Vector3 grappleLoc;
     private bool grappling;
     private bool grapplingHookActive;
+    private bool warped = false;
 
     // Use this for initialization
     void Start()
@@ -75,7 +77,8 @@ public class Player : MonoBehaviour
     // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
     void FixedUpdate()
     {
-        Move();
+        if (!warped)
+            Move();
 		UpdateWeapons();
     }
 
@@ -275,7 +278,15 @@ public class Player : MonoBehaviour
 			borders[0].transform.Translate(0, -8, 0);
 			borders[1].transform.Translate(0, -8, 0);
         }
-
+        else if (dir.Equals("secret"))
+        {
+            Camera.main.transform.Translate(-8, -8, 0);
+            borders[0].transform.Translate(-8, -8, 0);
+            borders[1].transform.Translate(-8, -8, 0);
+            warped = true;
+            GetComponent<Collider2D>().enabled = false;
+            activeBonusChar = Instantiate(bonusCharacter, new Vector3(-19.16f, -12.29f, 0), new Quaternion()) as GameObject;
+        }
         // resets enemy position when player moves to a different room
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
         foreach(GameObject enemy in enemies)
@@ -312,6 +323,8 @@ public class Player : MonoBehaviour
             ShiftRoom("west");
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
+        if (coll.gameObject.tag == "secretEnt" && !warped)
+            ShiftRoom("secret");
         // reset the player's position if they collide with enemy
         if (coll.gameObject.tag == "enemy")
         {
@@ -384,6 +397,39 @@ public class Player : MonoBehaviour
             default:
                 //something went wrong, do nothing
                 return new Vector3(0,0,0);
+        }
+    }
+
+    public void Warp(string pipeNum)
+    {
+        warped = false;
+        GetComponent<Collider2D>().enabled = true;
+        switch (pipeNum)
+        {
+            case "pipe2":
+                transform.position = new Vector3(-8.5f, -2.25f, 0);
+                Camera.main.transform.position = camInit;
+                Camera.main.transform.Translate(0, 8, 0);
+                borders[0].transform.Translate(0, 8, 0);
+                borders[1].transform.Translate(0, 8, 0);
+                break;
+
+            case "pipe3":
+                transform.position = new Vector3(-8.5f, 5.5f, 0);
+                Camera.main.transform.position = camInit;
+                Camera.main.transform.Translate(0, 16, 0);
+                borders[0].transform.Translate(0, 16, 0);
+                borders[1].transform.Translate(0, 16, 0);
+                break;
+
+            case "pipe4":
+                transform.position = new Vector3(-2.5f, 7.8f, 0);
+                Camera.main.transform.position = camInit;
+                Camera.main.transform.Translate(8, 16, 0);
+                borders[0].transform.Translate(8, 16, 0);
+                borders[1].transform.Translate(8, 16, 0);
+                break;
+
         }
     }
 }

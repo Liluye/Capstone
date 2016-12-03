@@ -17,6 +17,7 @@ public class BonusPlayer : MonoBehaviour
 
     // border position
     private GameObject[] borders;
+    private GameObject character;
     private Vector2 leftInit;
     private Vector2 rightInit;
 
@@ -113,29 +114,9 @@ public class BonusPlayer : MonoBehaviour
             }
         }
 
-        if (Input.GetKey("space"))
+        if (Input.GetKey("w"))
         {
-            //if (grounded)
-            // {
-            transform.Translate(0, speed * Time.deltaTime, 0);
-            /*
-             jumping = true;
-             maxHeight = gameObject.transform.position.y + 2;
-         }
-         else
-         {
-             transform.Translate(0, speed * Time.deltaTime, 0);
-         }
-     }
-
-     if (jumping)
-     {
-         if (gameObject.transform.position.y >= maxHeight)
-         {
-             jumping = false;
-         }
-     }
-     */
+            transform.Translate(0, speed * Time.deltaTime * 1.2f, 0);
         }
     }
 
@@ -215,7 +196,7 @@ public class BonusPlayer : MonoBehaviour
         {
             enemy.SendMessage("Reset");
         }
-        //init = this.transform.position;
+
     }
 
     void Reset()
@@ -229,11 +210,28 @@ public class BonusPlayer : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D coll)
     {
+        if (Input.GetKey("s"))
+        {
+            BonusWarp(coll);
+        }
 
     }
 
     void OnCollisionExit2D()
     {
 
+    }
+
+    private void BonusWarp(Collision2D coll)
+    {
+        if (coll.collider.tag == "pipe2" ||
+            coll.collider.tag == "pipe3" ||
+            coll.collider.tag == "pipe4")
+        {
+            character = GameObject.FindGameObjectWithTag("Player");
+            character.SendMessage("Warp", coll.collider.tag);
+            Destroy(gameObject);
+        }
+      
     }
 }
