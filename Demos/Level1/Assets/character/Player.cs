@@ -66,16 +66,18 @@ public class Player : MonoBehaviour
     int facingDirection = 0;
 
     /** game objects associated with items */
-    public GameObject boomerang, bomb, grapplingHook, sword;
+    public GameObject boomerang, bomb, grapplingHook, sword, bonusCharacter;
     public GameObject itemNorth, itemWest, itemSouth, itemEast;
 
     /** the weapon currently equipped */
     private GameObject activeWeapon;
+    private GameObject activeBonusChar;
 	private Vector3 grappleLoc;
     private bool grappling;
 	private bool grapplingHookActive;
 	private Collider2D water;
     private Rigidbody2D rb;
+    private bool warped = false;
 
     /*******************************************************************
 	 * Method used for initialization
@@ -143,7 +145,8 @@ public class Player : MonoBehaviour
 	 ******************************************************************/
     void FixedUpdate()
     {
-		Move();
+        if (!warped)
+            Move();
 		UpdateWeapons();
 		if (!grappling) {
 			Physics2D.IgnoreCollision(water, this.GetComponent<BoxCollider2D>(), false);
@@ -221,7 +224,7 @@ public class Player : MonoBehaviour
             // player will use currently equipped item
             useItem(currentItem);
         }
-		//Hardcoded bomb drop key for now
+        
         else if (Input.GetKey("r"))
 		{
 			// return player to start position in room
@@ -374,6 +377,20 @@ public class Player : MonoBehaviour
 			h2.transform.Translate(0, -8, 0);
 			h3.transform.Translate(0, -8, 0);
         }
+        
+        else if (dir.Equals("secret"))		
+        {		
+            Camera.main.transform.Translate(-8, -8, 0);		
+            borders[0].transform.Translate(-8, -8, 0);		
+            borders[1].transform.Translate(-8, -8, 0);	
+            h1.transform.Translate(-8, -8, 0);
+			h2.transform.Translate(-8, -8, 0);
+			h3.transform.Translate(-8, -8, 0);            
+            warped = true;		
+            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<CircleCollider2D>().enabled = false;
+            activeBonusChar = Instantiate(bonusCharacter, new Vector3(-19.16f, -12.29f, 0), new Quaternion()) as GameObject;		
+        }
 
         // resets enemy position when player moves to a different room
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
@@ -402,6 +419,8 @@ public class Player : MonoBehaviour
 		h1.transform.position = h1Init;
 		h2.transform.position = h2Init;
 		h3.transform.position = h3Init;
+        if (activeWeapon != null)
+            Destroy(activeWeapon);
 	}
 	
 	void OnCollisionEnter2D(Collision2D coll)
@@ -439,6 +458,8 @@ public class Player : MonoBehaviour
             ShiftRoom("west");
         if (coll.gameObject.tag == "southDoor")
             ShiftRoom("south");
+        if (coll.gameObject.tag == "secretEnt" && !warped)
+            ShiftRoom("secret");
 		if (!invulnerable){
 			// reset the player's position if they lose all health
 			if (coll.gameObject.tag == "enemy" || coll.gameObject.tag == "fire")
@@ -533,5 +554,39 @@ public class Player : MonoBehaviour
     public void SetItem(int item)
     {
         currentItem = item;
+    }
+    
+    public void Warp(string pipeNum)
+    {
+        warped = false;
+        GetComponent<BoxCollider2D>().enabled = true;
+        GetComponent<CircleCollider2D>().enabled = true;
+        switch (pipeNum)
+        {
+            case "pipe2":
+                transform.position = new Vector3(-8.5f, -2.25f, 0);
+                Camera.main.transform.position = camInit;
+                Camera.main.transform.Translate(0, 8, 0);
+                borders[0].transform.Translate(0, 8, 0);
+                borders[1].transform.Translate(0, 8, 0);
+                break;
+
+            case "pipe3":
+                transform.position = new Vector3(-8.5f, 5.5f, 0);
+                Camera.main.transform.position = camInit;
+                Camera.main.transform.Translate(0, 16, 0);
+                borders[0].transform.Translate(0, 16, 0);
+                borders[1].transform.Translate(0, 16, 0);
+                break;
+
+            case "pipe4":
+                transform.position = new Vector3(-2.5f, 7.8f, 0);
+                Camera.main.transform.position = camInit;
+                Camera.main.transform.Translate(8, 16, 0);
+                borders[0].transform.Translate(8, 16, 0);
+                borders[1].transform.Translate(8, 16, 0);
+                break;
+
+        }
     }
 }

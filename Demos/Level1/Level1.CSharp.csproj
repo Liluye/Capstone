@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\camera\camera.cs" />
+    <Compile Include="Assets\character\BonusPlayer.cs" />
     <Compile Include="Assets\character\Player.cs" />
     <Compile Include="Assets\character\playerAnimation.cs" />
     <Compile Include="Assets\enemy\Enemy.cs" />
