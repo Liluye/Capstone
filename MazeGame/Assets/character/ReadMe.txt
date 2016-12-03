@@ -1,1 +1,0 @@
-This is is where we put all scripts and assets for characters.
