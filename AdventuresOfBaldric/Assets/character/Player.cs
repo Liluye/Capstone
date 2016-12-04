@@ -145,13 +145,19 @@ public class Player : MonoBehaviour
 	 ******************************************************************/
     void FixedUpdate()
     {
+
         if (!warped)
             Move();
+
 		UpdateWeapons();
+
+        // water collision is active while not grappling
 		if (!grappling) {
 			Physics2D.IgnoreCollision(water, this.GetComponent<BoxCollider2D>(), false);
 			Physics2D.IgnoreCollision(water, this.GetComponent<CircleCollider2D>(), false);
 		}
+
+        // check current health and update health sprites
 		switch(health) {
 			case 3:
 				h1.GetComponent<SpriteRenderer>().enabled = true;
@@ -180,9 +186,11 @@ public class Player : MonoBehaviour
 	 * Method that moves the sprite
      * Takes input from the keyboard to move, use items, or
      * interact with the environment
+     * Game uses WASD for directional movement
 	 ******************************************************************/
     void Move()
     {
+        // continue to grapple if still grappling
         if (grapplingHookActive)
         {
             if (grappling)
@@ -217,6 +225,7 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKey("space"))
         {
+            // player will swing their sword
             useItem(100);
         }
         else if (Input.GetKey("e"))
@@ -254,7 +263,7 @@ public class Player : MonoBehaviour
     ******************************************************************/
     void changeState(int state)
     {
-        // note: Has Exit Time must not be checked or animation will not loop
+
         if (currentAnimationState == state)
             return;
 
@@ -300,7 +309,7 @@ public class Player : MonoBehaviour
             {
                 case 0:
                     {
-                        //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                        // inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
                         activeWeapon = Instantiate(boomerang, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
                         activeWeapon.SendMessage("InitialDirection", facingDirection);
                         break;
@@ -313,7 +322,7 @@ public class Player : MonoBehaviour
 
                 case 2:
                     {
-                        //Inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
+                        // inititialize based off facing direction: 0 down, 1 left, 2 up, 3 right
                         activeWeapon = Instantiate(grapplingHook, SpawnItemLocation(facingDirection), new Quaternion()) as GameObject;
                         activeWeapon.SendMessage("InitialDirection", facingDirection);
                         break;
@@ -422,8 +431,14 @@ public class Player : MonoBehaviour
         if (activeWeapon != null)
             Destroy(activeWeapon);
 	}
-	
-	void OnCollisionEnter2D(Collision2D coll)
+
+    /*******************************************************************
+	 * Sent when an incoming collider makes contact with 
+     * this object's collider
+     * Ignore collisions with water
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
+    void OnCollisionEnter2D(Collision2D coll)
 	{
 		if (coll.gameObject.tag == "water" && grappling) {
 			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<BoxCollider2D>());
@@ -438,6 +453,8 @@ public class Player : MonoBehaviour
 	 ******************************************************************/
     void OnCollisionStay2D(Collision2D coll)
     {
+        // if the player is grappling and collides with something,
+        // break the grapple
 		if (grappling)
         {
             if (activeWeapon != null)
@@ -449,7 +466,7 @@ public class Player : MonoBehaviour
             }
         }
 
-		// note: freeze Z rotation must be checked within Unity
+        // move the current room
         if (coll.gameObject.tag == "northDoor")
             ShiftRoom("north");
         if (coll.gameObject.tag == "eastDoor")
@@ -460,6 +477,7 @@ public class Player : MonoBehaviour
             ShiftRoom("south");
         if (coll.gameObject.tag == "secretEnt" && !warped)
             ShiftRoom("secret");
+
 		if (!invulnerable){
 			// reset the player's position if they lose all health
 			if (coll.gameObject.tag == "enemy" || coll.gameObject.tag == "fire")
@@ -484,16 +502,23 @@ public class Player : MonoBehaviour
 	{
 		
 	}
-	
+
+    /*******************************************************************
+	 * Updated the current weapon being used
+	 ******************************************************************/
     private void UpdateWeapons()
     {
         if (activeWeapon != null)
         {
+            // if the current item being used is a boomerang,
+            // update the location of the sprite
             if (activeWeapon.gameObject.tag == "Boomerang")
             {
                 activeWeapon.SendMessage("UpdateLocation", transform.position);
             }
 
+            // if the current item being used is the grappling hook,
+            // update the grapple action
             if (activeWeapon.gameObject.tag == "GrapplingHook")
             {
                 grapplingHookActive = true;
@@ -516,7 +541,10 @@ public class Player : MonoBehaviour
             rb.isKinematic = false;
         }
     }
-	
+
+    /*******************************************************************
+	 * Updates the player's position while using a grappling hook
+	 ******************************************************************/
     private void Grapple()
     {
         if (activeWeapon != null)
@@ -527,7 +555,12 @@ public class Player : MonoBehaviour
             grappling = false;
         }
     }
-	
+
+    /*******************************************************************
+	 * Returns the position of the item
+     * @param direction Integer for item direction
+     * @return Vector3 item position
+	 ******************************************************************/
     private Vector3 SpawnItemLocation(int direction)
     {
         switch (direction)
@@ -541,21 +574,33 @@ public class Player : MonoBehaviour
             case 3:
                 return itemEast.transform.position;
             default:
-                //something went wrong, do nothing
+                // something went wrong, do nothing
                 return new Vector3(0,0,0);
         }
     }
-	
-	private void SetVulnerable() 
+
+    /*******************************************************************
+	 * Sets vulnerability/invulnerability for player
+	 ******************************************************************/
+    private void SetVulnerable() 
 	{
 		invulnerable = false;
 	}
 
+    /*******************************************************************
+	 * Sets the current item being used
+     * @param item Integer associted with an item
+	 ******************************************************************/
     public void SetItem(int item)
     {
         currentItem = item;
     }
-    
+
+    /*******************************************************************
+	 * Warps the player to a new location based on which pipe they
+     * go into
+     * @param pipeNum String associated with a pipe
+	 ******************************************************************/
     public void Warp(string pipeNum)
     {
         warped = false;

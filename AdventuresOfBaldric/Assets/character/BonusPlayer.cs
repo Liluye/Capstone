@@ -1,28 +1,39 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the movement of the BONUS Player.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class BonusPlayer : MonoBehaviour
 {
 
+    /** the animator connected to the player sprite */
     Animator animator;
 
-    // travel 2.5 grid squares per second
+    /** the speed at which the player travels */
     float speed = 2.5f;
 
-    // start position
+    /** starting position of the player sprite */
     private Vector2 init;
 
-    // camera start
+    /** starting position of the camera */
     private Vector3 camInit;
 
-    // border position
+    /** game object for map borders */
     private GameObject[] borders;
+
+    /** game object for the character */
     private GameObject character;
+
+    /** start positions for left and right sides */
     private Vector2 leftInit;
     private Vector2 rightInit;
 
-    // character animations states
-    // note: states added within unity and tied to animation
+    /** player animation states */
     const int STATE_IDLED = 0;
     const int STATE_IDLEU = 1;
     const int STATE_IDLER = 2;
@@ -31,21 +42,29 @@ public class BonusPlayer : MonoBehaviour
     const int STATE_WALKU = 5;
     const int STATE_WALKR = 6;
     const int STATE_WALKL = 7;
+
+    /** RigidBody associated with the player */
     private Rigidbody2D rb;
+
+    /** maximum height of the player */
     private float maxHeight = 0;
+
+    /** bools associated with player positions */
     private bool jumping = false;
     private bool grounded = true;
 
-    // character starts out in idle state
+    /** current state of the animation (starts idle down) */
     int currentAnimationState = STATE_IDLED;
 
-    // player health
+    /** player health */
     int health;
 
-    //0 down, 1 left, 2 up, 3 right
+    /** current direction (0 down, 1 left, 2 up, 3 right) */
     int facingDirection = 0;
 
-    // Use this for initialization
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
     void Start()
     {
         // game start position for reset
@@ -65,14 +84,19 @@ public class BonusPlayer : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    // note: FixedUpdate instead of Update keeps sprite from jittering on collisions
+    /*******************************************************************
+	 * Method called once per frame to update sprite
+	 ******************************************************************/
     void FixedUpdate()
     {
         Move();
     }
 
-    //Player movement, taken currently from arrow keys
+    /*******************************************************************
+	 * Method that moves the sprite
+     * Takes input from the keyboard to move, use items, or
+     * interact with the environment
+	 ******************************************************************/
     void Move()
     {
         if (Input.GetKey("a"))
@@ -120,9 +144,13 @@ public class BonusPlayer : MonoBehaviour
         }
     }
 
+    /*******************************************************************
+    * Changes the animation state of the sprite
+    * @param state integer corresponding to the new animation state
+    ******************************************************************/
     void changeState(int state)
     {
-        // note: Has Exit Time must not be checked or animation will not loop
+
         if (currentAnimationState == state)
             return;
 
@@ -157,8 +185,12 @@ public class BonusPlayer : MonoBehaviour
     }
 
 
-    // Moves both player and main camera into adjacent room
-    // Sets new reset position
+    /*******************************************************************
+    * Moves both player and main camera into adjacent room
+    * Sets new reset position
+    * @param dir String corresponding to which direction the player 
+    * is moving into a new room
+    ******************************************************************/
     void ShiftRoom(string dir)
     {
         if (dir.Equals("north"))
@@ -199,6 +231,10 @@ public class BonusPlayer : MonoBehaviour
 
     }
 
+    /*******************************************************************
+	 * Resets the player back to its original position, resets health,
+     * and moves camera, map borders, and health icons
+	 ******************************************************************/
     void Reset()
     {
         transform.position = init;
@@ -208,6 +244,11 @@ public class BonusPlayer : MonoBehaviour
         borders[1].transform.position = rightInit;
     }
 
+    /*******************************************************************
+	 * Sent each frame where a collider on another object 
+     * is touching this object's collider
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
     void OnCollisionStay2D(Collision2D coll)
     {
         if (Input.GetKey("s"))
@@ -217,11 +258,21 @@ public class BonusPlayer : MonoBehaviour
 
     }
 
+    /*******************************************************************
+	 * Sent when a collider on another object stops touching 
+     * this object's collider
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
     void OnCollisionExit2D()
     {
 
     }
 
+    /*******************************************************************
+	 * Warps the player to a new location based on which pipe they
+     * go into
+     * @param coll Collision2D associated with a pipe
+	 ******************************************************************/
     private void BonusWarp(Collision2D coll)
     {
         if (coll.collider.tag == "pipe2" ||

@@ -1,19 +1,30 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the player animation.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class playerController : MonoBehaviour
 {
+    /** the animator connected to the player sprite */
+    private Animator animator;
 
-	private Animator animator;
-
-	// Use this for initialization
-	void Start()
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
+    void Start()
 	{
 		animator = this.GetComponent<Animator>();
 	}
 
-	// Update is called once per frame
-	void Update()
+    /*******************************************************************
+	 * Method called once per frame to update movement and direction
+	 ******************************************************************/
+    void Update()
 	{
 
 		var vertical = Input.GetAxis("Vertical");

@@ -1,15 +1,26 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the camera.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class camera : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
+    void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    /*******************************************************************
+	 * Called once per frame to update camera
+	 ******************************************************************/
+    void Update () {
 	
 	}
 }
