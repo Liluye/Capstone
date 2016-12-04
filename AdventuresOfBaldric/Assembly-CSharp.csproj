@@ -55,6 +55,7 @@
      <Compile Include="Assets\enemy\skeleton\Skeleton.cs" />
      <Compile Include="Assets\enemy\zombie\Zombie.cs" />
      <Compile Include="Assets\environment\blocks\box.cs" />
+     <Compile Include="Assets\environment\blocks\switch.cs" />
      <Compile Include="Assets\inventory\Script\Inventory.cs" />
      <Compile Include="Assets\inventory\Script\ItemData.cs" />
      <Compile Include="Assets\inventory\Script\ItemDatabase.cs" />

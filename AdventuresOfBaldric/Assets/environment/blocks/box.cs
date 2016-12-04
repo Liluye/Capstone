@@ -15,6 +15,12 @@ public class box : MonoBehaviour {
 
     /** starting position of the box */
     private Vector2 init;
+	
+	/** sprite to change to for boomerang switch */
+	public Sprite switched;
+	
+	/** this object's sprite renderer */
+	private SpriteRenderer self;
 
     /*******************************************************************
 	 * Method used for initialization
@@ -24,6 +30,11 @@ public class box : MonoBehaviour {
         // get initial position of box
         init = transform.position;
 
+		/* get this object's sprite renderer if this object is
+		a boomerang switch */
+		if (this.name == "bSwitch") {
+			self = GetComponent<SpriteRenderer>();
+		}
 	}
 
     /*******************************************************************
@@ -53,16 +64,19 @@ public class box : MonoBehaviour {
 	 ******************************************************************/
     void OnTriggerStay2D(Collider2D coll) {
 
-        // destroy the object associated with this switch and box
+        /* For block switches. Destroy the object associated with this 
+		switch and box */
 		if (this.name == "BoxSwitch" && coll.gameObject.tag == "box"){
 			GameObject des = GameObject.Find("disappear1");
 			Destroy(des);		
 		}
 
-        // destroy the object associated with this switch and boomerang
+        /* For boomerang switches. Destroy the object associated with 
+		this switch and boomerang and then change the current sprite */
         if (this.name == "bSwitch" && coll.gameObject.tag == "Boomerang") {
 			GameObject des = GameObject.Find("disappear2");
 			Destroy(des);
+			self.sprite = switched;
 		}
 
 	}
