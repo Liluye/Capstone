@@ -1,25 +1,51 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the behavior of the grappling hook.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class grapplingHookAction : MonoBehaviour
 {
+    /** the renderer connected to the grappling hook chain */
     private LineRenderer lineRenderer;
+
+    /** count to determine grappling hook usage time */
     private float count;
+
+    /** distance the hook is stretched to */
     private float distance;
+
+    /** state of the grappling hook being used */
     private bool grapple;
+
+    /** collider for the boxes to hook to */
     private BoxCollider2D boxCollider;
+
+    /** speed at which the cahin is drawn */
     public float lineDrawSpeed = 6f;
+
+    /** state of the grappling hook being sent or returning */
     private bool returning = false;
+
+    /** location along the hook chain */
     private Vector3 pointAlongLine;
+
+    /** initial location of the grappling hook */
     private Vector3 startLoc;
+
+    /** location of where the grappling hook is being shot */
     private Vector3 destinationLoc;
 
-    //public Transform origin;
-    //public Transform destination;
-
-    // Use this for initialization
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
     void Start()
     {
+
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.sortingOrder = 10;
@@ -28,9 +54,12 @@ public class grapplingHookAction : MonoBehaviour
         distance = 3;
         boxCollider = GetComponent<BoxCollider2D>();
         boxCollider.transform.position = transform.position;
+
     }
 
-    // Update is called once per frame
+    /*******************************************************************
+	 * Method called once per frame to update sprite
+	 ******************************************************************/
     void Update()
     {
         
@@ -73,12 +102,16 @@ public class grapplingHookAction : MonoBehaviour
         }
     }
 
-    //Function that allows the player object to set an initial direction
+    /*******************************************************************
+	 * Move the direction of the grappling hook
+     * @param dir Integer direction to move the grappling hook
+	 ******************************************************************/
     public void InitialDirection(int dir)
     {
         destinationLoc.x = transform.position.x;
         destinationLoc.y = transform.position.y;
-        //0 down, 1 left, 2 up, 3 right
+
+        // 0 down, 1 left, 2 up, 3 right
         switch (dir)
         {
             case 0:
@@ -94,13 +127,19 @@ public class grapplingHookAction : MonoBehaviour
                 destinationLoc.x = transform.position.x + 3;
                 break;
             default:
-                //something went wrong, do nothing!
+                // something went wrong, do nothing!
                 break;
         }
     }
+
+    /*******************************************************************
+	 * Sent each frame where a collider on another object 
+     * is touching this object's collider
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
     void OnCollisionStay2D(Collision2D col)
     {
-        //Grappling Hook has attached to a point
+        // grappling hook has attached to a point
         if (col.gameObject.tag == "post")
         {
             grapple = true;
@@ -121,23 +160,35 @@ public class grapplingHookAction : MonoBehaviour
         }
     }
 
+    /*******************************************************************
+	 * Method that gets the current grappling state
+	 ******************************************************************/
     public bool getGrapple()
     {
         return grapple;
     }
 
+    /*******************************************************************
+	 * Method that gets the current grappling location
+	 ******************************************************************/
     public Vector3 getGrappleLocation()
     {
         return transform.position;
     }
-    
+
+    /*******************************************************************
+	 * Method that gets the current player location
+	 ******************************************************************/
     public void playerLocation(Vector3 playerLoc)
     {
         startLoc = playerLoc;
         lineRenderer.SetPosition(0, playerLoc);
         distance = Vector3.Distance(playerLoc, destinationLoc);
     }
-    
+
+    /*******************************************************************
+	 * Method that ends the current grapple
+	 ******************************************************************/
     public void BreakGrapple()
     {
         Destroy(gameObject);

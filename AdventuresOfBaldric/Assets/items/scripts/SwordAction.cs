@@ -1,24 +1,42 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the behavior of the sword.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class SwordAction : MonoBehaviour {
 
+    /** the renderer connected to the item sprite */
     private SpriteRenderer spriteRenderer;
+
+    /** time the item was initialized */
     float initializedAt;
-    //private Vector3 position = new Vector3(0,0,0);
+    
+    /** count to determine sword usage time */
     private int count = 0;
+
+    /** speed at which the sword moves */
     public int speed;
 
-    // Use this for initialization
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
     void Start () {
+
         spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
         initializedAt = Time.timeSinceLevelLoad;
-        //position = transform.position;
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-        //float timeSinceInitialized = Time.timeSinceLevelLoad - initializedAt;
+
+    /*******************************************************************
+	 * Method called once per frame to update sprite
+	 ******************************************************************/
+    void Update () {
+        
         if (count < 90)
         {
             transform.Rotate(Vector3.forward * speed);
@@ -30,6 +48,10 @@ public class SwordAction : MonoBehaviour {
         }
     }
 
+    /*******************************************************************
+	 * Move the direction of the sword
+     * @param dir Integer direction to move the sword
+	 ******************************************************************/
     public void InitialDirection(int dir)
     {
         //0 down, 1 left, 2 up, 3 right
@@ -54,6 +76,6 @@ public class SwordAction : MonoBehaviour {
                 //something went wrong, do nothing!
                 break;
         }
-        //transform.position = position;
+
     }
 }

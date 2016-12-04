@@ -1,17 +1,42 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to control the behavior of the boomerang.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 public class boomerangAction : MonoBehaviour {
+
+    /** the renderer connected to the item sprite */
     private SpriteRenderer spriteRenderer;
+
+    /** initial location of the boomerang */
     private Vector3 startLoc = new Vector3(0, 0, 0);
+
+    /** location of where the boomerang is being thrown */
     private Vector3 destinationLoc;
+
+    /** array for boomerang sprites */
     public Sprite[] sprites;
+
+    /** number of fps for the boomerang to animate */
     public float framesPerSecond;
+
+    /** speed at which the boomerang moves */
     public float speed;
+
+    /** state of the boomerang being sent or returning */
     private bool returning = false;
+
+    /** time the item was initialized */
     private float initializedAt;
 
-    // Use this for initialization
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
     void Start()
     {
         spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
@@ -19,13 +44,19 @@ public class boomerangAction : MonoBehaviour {
         initializedAt = Time.timeSinceLevelLoad;
     }
 
-    //Function that allows the player object to set an initial direction
+    /*******************************************************************
+	 * Move the direction of the boomerang
+     * @param dir Integer direction to move the boomerang
+	 ******************************************************************/
     public void InitialDirection(int dir)
     {
         setInitialDestination(dir);
     }
 
-    //unction that allows the player object to set a return location
+    /*******************************************************************
+	 * Method that allows the player object to set a return location
+     * @param loc Vector3 location from the player object
+	 ******************************************************************/
     public void UpdateLocation(Vector3 loc)
     {
         if (returning)
@@ -34,46 +65,59 @@ public class boomerangAction : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
+    /*******************************************************************
+	 * Method called once per frame to update sprite
+	 ******************************************************************/
     void Update()
     {
         float timeSinceInitialized = Time.timeSinceLevelLoad - initializedAt;
         Vector3 currentPosition = transform.position;
 
-        //When boomerang reaches its destination
+        // when boomerang reaches its destination
         if (Vector3.SqrMagnitude(currentPosition - destinationLoc) < 0.2)
         {
-            //If object hits its return location destroy it
+            // if object hits its return location destroy it
             if (returning)
                 Destroy(gameObject);
             else
-                //Have it to return to player
+                // have it to return to player
                 boomerangReturn();
         }
 
-        //Update sprite image
+        // update sprite image
         int nextSprite = (int)(timeSinceInitialized * framesPerSecond);
         nextSprite %= sprites.Length;
         spriteRenderer.sprite = sprites[nextSprite];
-        //Linear interpolate between current position and destination
+
+        // linear interpolate between current position and destination
         transform.position = Vector3.Lerp(transform.position, destinationLoc, Time.deltaTime * speed);
     }
 
+    /*******************************************************************
+	 * Sent each frame where a collider on another object 
+     * is touching this object's collider
+     * @param coll the Collision2D data associated with this collision
+	 ******************************************************************/
     void OnCollisionStay2D(Collision2D col)
     {
-        //Boomerang has returned to player, destroy it
+        // boomerang has returned to player, destroy it
         if (col.gameObject.tag == "Player")
         {
             Destroy(gameObject);
         }
-        //Booomerang has collided with something else, have it return to player
+        // boomerang has collided with something else, have it return to player
         boomerangReturn();
     }
 
+    /*******************************************************************
+	 * Sets the initial direction of the boomerang
+     * @param direction Integer direction to move the boomerang
+	 ******************************************************************/
     private void setInitialDestination(int direction)
     {
         destinationLoc.x = transform.position.x;
         destinationLoc.y = transform.position.y;
+
         //0 down, 1 left, 2 up, 3 right
         switch (direction)
         {
@@ -90,11 +134,14 @@ public class boomerangAction : MonoBehaviour {
                 destinationLoc.x = transform.position.x + 4;
                 break;
             default:
-                //something went wrong, do nothing!
+                // something went wrong, do nothing!
                 break;
         }
     }
 
+    /*******************************************************************
+	 * Sends the boomerang back to the player
+	 ******************************************************************/
     private void boomerangReturn()
     {
         destinationLoc = startLoc;
