@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F61EFFB5-7181-1B5A-23EC-7490DD66BD47}</ProjectGuid>
+    <ProjectGuid>{84447623-3863-D71E-92A7-FDC185E475C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\camera\camera.cs" />
+     <Compile Include="Assets\character\BonusPlayer.cs" />
      <Compile Include="Assets\character\Player.cs" />
      <Compile Include="Assets\character\playerAnimation.cs" />
      <Compile Include="Assets\enemy\Enemy.cs" />
@@ -84,16 +85,16 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/inventory/Plugins/LitJson.dll</HintPath>
+ <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/AdventuresOfBaldric/Assets/inventory/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="DarkRiftAPI">
- <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/network/DarkRift/Plugins/DarkRiftAPI.dll</HintPath>
+ <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/AdventuresOfBaldric/Assets/network/DarkRift/Plugins/DarkRiftAPI.dll</HintPath>
  </Reference>
  <Reference Include="Transmission">
- <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/network/DarkRift/Plugins/Transmission.dll</HintPath>
+ <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/AdventuresOfBaldric/Assets/network/DarkRift/Plugins/Transmission.dll</HintPath>
  </Reference>
  <Reference Include="DataPacket">
- <HintPath>C:/Users/Tohru/Documents/git/Capstone/Demos/Level1/Assets/network/scripts/DataPacket.dll</HintPath>
+ <HintPath>C:/Users/aweso_000/Documents/capstone/repo/Capstone/AdventuresOfBaldric/Assets/network/scripts/DataPacket.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
