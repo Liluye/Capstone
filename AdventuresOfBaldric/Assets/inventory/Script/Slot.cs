@@ -1,23 +1,37 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to keep track of the slots and handling dragging
+and dropping items.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 
-/*
- *	This class to to keep track of the slots 
- *	it handles dragging and dropping items
- */
-
 public class Slot : MonoBehaviour, IDropHandler {
 
+    /** the player's current inventory */
 	private Inventory inv;
+
+    /** active slot id */
 	public int id;
+
+    /** the image of the item */
     private Image image;
+
+    /** game objects associated with the player */
     private GameObject player;
 
-	void Start()
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
+    void Start()
 	{
+        // determine coloring of the slots
 		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
         image = GetComponent<Image>();
         if (id == 0) {
@@ -31,11 +45,16 @@ public class Slot : MonoBehaviour, IDropHandler {
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-	public void OnDrop (PointerEventData eventData)
+    /*******************************************************************
+	 * Method to handle dropping items
+     * @param eventData PointerEventData collected from the mouse 
+     * pointer
+	 ******************************************************************/
+    public void OnDrop (PointerEventData eventData)
 	{
 		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData> ();
 
-        //Handles the item if it is dropped in an empty slot
+        // handles the item if it is dropped in an empty slot
         if (inv.items [id].ID == -1) 
 		{
 			inv.items [droppedItem.slot] = new Item ();
@@ -43,7 +62,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 			droppedItem.slot = id;
         }
 
-		//Handles the item if it is dropped in a slot that has an item already in it
+		// handles the item if it is dropped in a slot that has an item already in it
 		else 
 		{
 			Transform item = this.transform.GetChild (0);
@@ -62,6 +81,10 @@ public class Slot : MonoBehaviour, IDropHandler {
         
     }
 
+    /*******************************************************************
+	 * Method used to change the current item
+     * @param itemName String containing the item's name
+	 ******************************************************************/
     private void changeItem(String itemName)
     {
         switch(itemName)
@@ -80,7 +103,8 @@ public class Slot : MonoBehaviour, IDropHandler {
 
             case "boomerang":
                 {
-                    //Extra param is required when passing the value 0 through SendMessage function
+                    // extra param is required when passing the value 0 
+                    // through SendMessage function
                     player.SendMessage("SetItem", 0, SendMessageOptions.RequireReceiver);
                     break;
                 }

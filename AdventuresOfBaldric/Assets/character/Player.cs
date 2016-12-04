@@ -71,12 +71,26 @@ public class Player : MonoBehaviour
 
     /** the weapon currently equipped */
     private GameObject activeWeapon;
+
+    /** the secret player */
     private GameObject activeBonusChar;
+
+    /** where the player is grappling */
 	private Vector3 grappleLoc;
+
+    /** whether or not the player is grappling */
     private bool grappling;
+
+    /** whether or not the grappling hook is active */
 	private bool grapplingHookActive;
+
+    /** collider for water */
 	private Collider2D water;
+
+    /** rigidbody for the player */
     private Rigidbody2D rb;
+
+    /** whether the player has been warped or not */
     private bool warped = false;
 
     /*******************************************************************

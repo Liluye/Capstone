@@ -1,25 +1,45 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to build the inventory.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-/*
- * This script builds the inventory 
- */
-
 public class Inventory : MonoBehaviour {
 
+    /** GameObject for the inventory panel */
 	GameObject inventoryPanel;
-	GameObject slotPanel;
-	ItemDatabase database;
-	public GameObject inventorySlot;
-	public GameObject inventoryItem;
 
+    /** GameObject for the slots in the inventory */
+	GameObject slotPanel;
+
+    /** the database containing the inventory */
+	ItemDatabase database;
+
+    /** GameObject for a single slot */
+	public GameObject inventorySlot;
+
+    /** GameObject for a single item */
+    public GameObject inventoryItem;
+
+    /** the number of slots in the inventory */
 	int slotAmount;
+
+    /** list of items in the inventory */
 	public List<Item> items = new List<Item> ();
+
+    /** list of slots */
 	public List<GameObject> slots = new List<GameObject> ();
 
-	void Start()
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
+    void Start()
 	{
 		database = GetComponent<ItemDatabase> ();
 
@@ -27,7 +47,7 @@ public class Inventory : MonoBehaviour {
 		inventoryPanel = GameObject.Find ("InventoryPanel");
 		slotPanel = inventoryPanel.transform.FindChild ("SlotPanel").gameObject;
 
-		// Adds the number of slots dynamically by changing the slotAmount value
+		// adds the number of slots dynamically by changing the slotAmount value
 		for (int i = 0; i < slotAmount; i++) 
 		{
 			items.Add (new Item());
@@ -44,12 +64,15 @@ public class Inventory : MonoBehaviour {
 		//Debug.Log (items [1].Title);
 	}
 
-	//Method to add item to the inventory
-	public void AddItem(int id)
+    /*******************************************************************
+	 * Method to add an item to the inventory
+     * @param id Integer for the item ID in the database
+	 ******************************************************************/
+    public void AddItem(int id)
 	{
 		Item itemToAdd = database.FetchItemById (id);
 
-		//Deals with stackable items
+		// deals with stackable items
 		if (itemToAdd.Stackable && CheckIfItemInInventory (itemToAdd)) {
 			for (int i = 0; i < items.Count; i++) {
 				if (items [i].ID == id) {
@@ -61,7 +84,7 @@ public class Inventory : MonoBehaviour {
 			}
 		} 
 
-		//Deals with non stackable items
+		// deals with non stackable items
 		else {
 			for (int i = 0; i < items.Count; i++) {
 				if (items [i].ID == -1) 
@@ -81,7 +104,11 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
-	bool CheckIfItemInInventory(Item item)
+    /*******************************************************************
+	 * Method to check if an item is in the inventory
+     * @param item Item to search for
+	 ******************************************************************/
+    bool CheckIfItemInInventory(Item item)
 	{
 		for (int i = 0; i < items.Count; i++) 
 		{
