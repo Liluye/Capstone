@@ -1,29 +1,52 @@
-﻿using UnityEngine;
+﻿/*****************************************************************
+Script to determine what the note button does.
+
+@author The Adventures of Baldric
+@version Fall 2016
+*****************************************************************/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
 public class noteButton : MonoBehaviour {
 
-	public Button button;
+    /** note button */
+    public Button button;
 
-	//add click listener to button
-	void Start () {
-		Button btn = button.GetComponent<Button>();
+    /*******************************************************************
+	 * Method used for initialization
+	 ******************************************************************/
+    void Start () {
+
+        // add click listener to button
+        Button btn = button.GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnClick);
+
 	}
 
-	//when button is click spawn panel prefab
-	void TaskOnClick(){
-		//If there isn't already a writeNotePanel open, create panel
-		if (GameObject.Find ("writeNotePanel(Clone)") == null) {
-			//pause game action
+    /*******************************************************************
+	 * Method to determine what to do on click
+	 ******************************************************************/
+    void TaskOnClick() {
+
+        // when button is click spawn panel prefab
+        // if there isn't already a writeNotePanel open, create panel
+        if (GameObject.Find ("writeNotePanel(Clone)") == null) {
+
+			// pause game action
 			Time.timeScale = 0.0f;
 			GameObject.Find ("Canvas").GetComponent<notePanel> ().activateWritePanel ();
+
 		}
+
 	}
 
-	//Change the note count
-	public void decrementCount () {
+    /*******************************************************************
+	 * Method to change the note count when a note is used.
+	 ******************************************************************/
+    public void decrementCount () {
+
 		string text = button.GetComponentInChildren<Text> ().text;
 		int count = int.Parse (text);
 		if (count > 0) {
@@ -33,6 +56,7 @@ public class noteButton : MonoBehaviour {
 		if (count <= 0) {
 			button.interactable = false;
 		}
+
 	}
 
 }
