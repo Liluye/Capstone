@@ -360,6 +360,7 @@ public class Player : MonoBehaviour
     ******************************************************************/
     void ShiftRoom(string dir)
     {
+        Destroy(activeWeapon);
 		if (dir.Equals("north"))
         {
             this.transform.Translate(0, 1.75f, 0);

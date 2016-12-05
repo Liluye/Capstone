@@ -102,6 +102,7 @@
     <Compile Include="Assets\notes\scripts\notePanel.cs" />
     <Compile Include="Assets\notes\scripts\pickupNote.cs" />
     <Compile Include="Assets\notes\scripts\saveButton.cs" />
+    <Compile Include="Assets\treasureChest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\items\ReadMe.txt" />

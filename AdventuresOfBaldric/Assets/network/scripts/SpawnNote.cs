@@ -28,5 +28,7 @@ public class SpawnNote : MonoBehaviour {
 		noteobj.GetComponent<BoxCollider2D> ().isTrigger = true;
 		noteobj.AddComponent<pickupNote> ();
 		noteobj.GetComponent<pickupNote> ().setNote (note);
+        noteobj.GetComponent<SpriteRenderer>().sortingOrder = 4;
+        
 	}
 }

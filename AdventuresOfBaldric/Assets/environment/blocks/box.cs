@@ -32,7 +32,7 @@ public class box : MonoBehaviour {
 
 		/* get this object's sprite renderer if this object is
 		a boomerang switch */
-		if (this.name == "bSwitch") {
+		if (this.name == "bSwitch" || this.name == "bSwitch2") {
 			self = GetComponent<SpriteRenderer>();
 		}
 	}
@@ -79,7 +79,14 @@ public class box : MonoBehaviour {
 			self.sprite = switched;
 		}
 
-	}
+        if (this.name == "bSwitch2" && coll.gameObject.tag == "Boomerang")
+        {
+            GameObject des = GameObject.Find("disappear3");
+            Destroy(des);
+            self.sprite = switched;
+        }
+
+    }
 
     /*******************************************************************
 	 * Sent when an incoming collider makes contact with 
@@ -94,8 +101,12 @@ public class box : MonoBehaviour {
 		if (coll.gameObject.tag == "GrapplingHook") {
 			Physics2D.IgnoreCollision(coll.collider, this.GetComponent<BoxCollider2D>());
 		}
+        if (coll.gameObject.tag == "Boomerang")
+        {
+            Physics2D.IgnoreCollision(coll.collider, this.GetComponent<BoxCollider2D>());
+        }
 
-	}
+    }
 
     /*******************************************************************
 	 * Sent each frame where a collider on another object 

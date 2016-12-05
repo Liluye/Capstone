@@ -78,16 +78,16 @@ public class boomerangAction : MonoBehaviour {
         switch (direction)
         {
             case 0:
-                destinationLoc.y = transform.position.y - 4;
+                destinationLoc.y = transform.position.y - 4.5f;
                 break;
             case 1:
-                destinationLoc.x = transform.position.x - 4;
+                destinationLoc.x = transform.position.x - 4.5f;
                 break;
             case 2:
-                destinationLoc.y = transform.position.y + 4;
+                destinationLoc.y = transform.position.y + 4.5f;
                 break;
             case 3:
-                destinationLoc.x = transform.position.x + 4;
+                destinationLoc.x = transform.position.x + 4.5f;
                 break;
             default:
                 //something went wrong, do nothing!
