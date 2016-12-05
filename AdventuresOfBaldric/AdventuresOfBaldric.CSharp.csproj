@@ -92,7 +92,6 @@
     <Compile Include="Assets\items\scripts\bombAction.cs" />
     <Compile Include="Assets\items\scripts\boomerangAction.cs" />
     <Compile Include="Assets\items\scripts\grapplingHookAction.cs" />
-    <Compile Include="Assets\items\scripts\noteAction.cs" />
     <Compile Include="Assets\network\DarkRift\Plugins\DarkRiftReceiver.cs" />
     <Compile Include="Assets\network\scripts\NetworkManager.cs" />
     <Compile Include="Assets\network\scripts\SpawnItem.cs" />
